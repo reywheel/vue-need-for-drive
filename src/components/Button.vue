@@ -5,9 +5,9 @@
     :disabled="disabled"
     @click.prevent="clickHandler"
   >
-    <span class="button__text" :class="{ 'button__text--hide': loading }">{{
-      text
-    }}</span>
+    <span class="button__text" :class="{ 'button__text--hide': loading }">
+      <slot />
+    </span>
     <i
       class="button__loader-wrapper"
       :class="{ 'button__loader-wrapper--hide': !loading }"
@@ -34,10 +34,6 @@
 export default {
   name: "Button",
   props: {
-    text: {
-      type: String,
-      required: true
-    },
     loading: {
       type: Boolean,
       default: false
