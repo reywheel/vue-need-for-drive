@@ -32,7 +32,7 @@
           />
         </svg>
       </div>
-      <div class="main__lang-selector">Eng</div>
+      <AppLangSelector :text="this.lang" @click="toggleLang" />
     </div>
     <div class="main__content">
       <div class="main__content-header">
@@ -94,19 +94,21 @@
 
 <script>
 import AppButton from "@/components/Button";
+import AppLangSelector from "@/components/LangSelector";
 import { Slider, SliderItem } from "vue-easy-slider";
 
 export default {
   name: "Main",
   components: {
     AppButton,
+    AppLangSelector,
     Slider,
     SliderItem
   },
   data() {
     return {
-      isLoading: false,
       currentSlideIndex: 0,
+      lang: "Рус",
       sliderItems: [
         {
           title: "Бесплатный парковка",
@@ -129,13 +131,14 @@ export default {
     };
   },
   methods: {
-    toggleIsLoading() {
-      this.isLoading = !this.isLoading;
-    },
     changeCurrentSlideIndex(newIndex) {
       if (newIndex > this.sliderItems.length - 1) newIndex = 0;
       if (newIndex < 0) newIndex = this.sliderItems.length - 1;
       this.currentSlideIndex = newIndex;
+    },
+    toggleLang() {
+      if (this.lang === "Eng") this.lang = "Рус";
+      else this.lang = "Eng";
     }
   }
 };
@@ -151,19 +154,16 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   height: 100%;
   max-width: 64px;
   width: 100%;
-  padding: 32px 16px;
+  padding: 32px 8px;
   background-color: #151b1f;
 }
 
 .main__burger {
   cursor: pointer;
-}
-
-.main__lang-selector {
-  color: $accent;
 }
 
 .main__content {
