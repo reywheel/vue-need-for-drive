@@ -31,16 +31,27 @@
           />
         </svg>
       </div>
-      <AppLangSelector :text="this.lang" @click="toggleLang" />
+      <AppLangSwitcher :text="this.lang" @click="toggleLang" />
     </div>
     <div class="main__content">
       <div class="main__content-header">
         <router-link :to="{ name: 'main' }" v-slot="{ href }" custom>
           <a :href="href" class="main__logo">Need for drive</a>
         </router-link>
-        <div class="main__location">
-          <span class="main__location-text">Ульяновск</span>
+        <div
+          class="main__location"
+          v-if="!isLocationSelectorShow"
+          @click="toggleLocationSelectorVisibility"
+        >
+          <span class="main__location-text">{{ currentLocation }}</span>
         </div>
+        <AppSelector
+          v-else
+          v-model.trim="currentLocation"
+          :list="locationList"
+          @close="toggleLocationSelectorVisibility"
+          placeholder="Начните вводить пункт ..."
+        />
       </div>
       <div class="main__content-center">
         <h1 class="main__title">Каршеринг <span>Need for drive</span></h1>
@@ -168,14 +179,16 @@
 
 <script>
 import AppButton from "@/components/Button";
-import AppLangSelector from "@/components/LangSelector";
+import AppLangSwitcher from "@/components/LangSwitcher";
+import AppSelector from "@/components/Selector";
 import { Slider, SliderItem } from "vue-easy-slider";
 
 export default {
   name: "Main",
   components: {
     AppButton,
-    AppLangSelector,
+    AppLangSwitcher,
+    AppSelector,
     Slider,
     SliderItem
   },
@@ -183,6 +196,16 @@ export default {
     return {
       currentSlideIndex: 0,
       isMenuOpen: false,
+      isLocationSelectorShow: false,
+      currentLocation: "Краснодар",
+      locationList: [
+        "Ульяновск",
+        "Самара",
+        "Москва",
+        "Краснодар",
+        "Сочи",
+        "Новгород"
+      ],
       lang: "Рус",
       sliderItems: [
         {
@@ -217,6 +240,9 @@ export default {
     },
     toggleMenuVisibility() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    toggleLocationSelectorVisibility() {
+      this.isLocationSelectorShow = !this.isLocationSelectorShow;
     }
   }
 };
