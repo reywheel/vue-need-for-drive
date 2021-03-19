@@ -2,42 +2,33 @@
   <div class="main">
     <div class="main__sidebar">
       <div @click="toggleMenuVisibility" class="main__burger">
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 32 32"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M4 16H28"
-            stroke="white"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M4 8H28"
-            stroke="white"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M4 24H28"
-            stroke="white"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
       <AppLangSwitcher :text="this.lang" @click="toggleLang" />
     </div>
     <div class="main__content">
       <div class="main__content-header">
-        <router-link :to="{ name: 'main' }" v-slot="{ href }" custom>
-          <a :href="href" class="main__logo">Need for drive</a>
-        </router-link>
+        <div class="main__content-header-top">
+          <div
+            @click="toggleMenuVisibility"
+            class="main__burger main__content-burger"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <router-link
+            :to="{ name: 'main' }"
+            v-slot="{ href, navigate }"
+            custom
+          >
+            <a :href="href" class="main__logo" @click.prevent="navigate"
+              >Need for drive</a
+            >
+          </router-link>
+        </div>
         <div
           class="main__location"
           v-if="!isLocationSelectorShow"
@@ -56,11 +47,16 @@
       <div class="main__content-center">
         <h1 class="main__title">Каршеринг <span>Need for drive</span></h1>
         <p class="main__description">Поминутная аренда авто твоего города</p>
-        <AppButton>Забронировать</AppButton>
+        <AppButton class="main__button">Забронировать</AppButton>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
-        <a href="tel:84952342244" class="main__phone">8 (495) 234-22-44</a>
+        <AppLink
+          class="main__phone"
+          href="tel:84952342244"
+          :type="windowWidth > 600 ? 'black' : 'green'"
+          >8 (495) 234-22-44
+        </AppLink>
       </div>
     </div>
     <div class="main__slider">
@@ -69,6 +65,7 @@
         height="100%"
         :speed="1000"
         :interval="5000"
+        :autoplay="false"
         :indicators="false"
         :control-btn="false"
         v-model="currentSlideIndex"
@@ -77,7 +74,9 @@
           <div class="main__slider-item">
             <h3 class="slider__item-title">{{ item.title }}</h3>
             <p class="slider__item-description">{{ item.description }}</p>
-            <button class="slider__item-button">Подробнее</button>
+            <AppButton class="slider__item-button" :gradient="item.gradient"
+              >Подробнее</AppButton
+            >
           </div>
         </slider-item>
       </slider>
@@ -173,6 +172,11 @@
           </svg>
         </a>
       </div>
+      <AppLangSwitcher
+        :text="this.lang"
+        @click="toggleLang"
+        class="main__menu-lang-switcher"
+      />
     </div>
   </div>
 </template>
@@ -181,7 +185,10 @@
 import AppButton from "@/components/Button";
 import AppLangSwitcher from "@/components/LangSwitcher";
 import AppSelector from "@/components/Selector";
+import AppLink from "@/components/Link";
 import { Slider, SliderItem } from "vue-easy-slider";
+import { getterTypes, mutationTypes } from "@/store/app";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Main",
@@ -189,6 +196,7 @@ export default {
     AppButton,
     AppLangSwitcher,
     AppSelector,
+    AppLink,
     Slider,
     SliderItem
   },
@@ -197,36 +205,64 @@ export default {
       currentSlideIndex: 0,
       isMenuOpen: false,
       isLocationSelectorShow: false,
-      currentLocation: "Краснодар",
-      locationList: [
-        "Ульяновск",
-        "Самара",
-        "Москва",
-        "Краснодар",
-        "Сочи",
-        "Новгород"
-      ],
-      lang: "Рус",
       sliderItems: [
         {
-          title: "Бесплатный парковка",
+          title: "Бесплатная парковка",
           description:
-            "Оставляйте машину на платных городских парковках и разрешенных местах, не нарушая ПДД, а также в аэропортах."
+            "Оставляйте машину на платных городских парковках и разрешенных местах, не нарушая ПДД, а также в аэропортах.",
+          gradient: {
+            from: "#13493F",
+            to: "#0C7B1B"
+          }
         },
         {
           title: "Страховка",
-          description: "Полная страховка страховка автомобиля"
+          description: "Полная страховка страховка автомобиля",
+          gradient: {
+            from: "#132949",
+            to: "#0C7B67"
+          }
         },
         {
           title: "Бензин",
-          description: "Полный бак на любой заправке города за наш счёт"
+          description: "Полный бак на любой заправке города за наш счёт",
+          gradient: {
+            from: "#493013",
+            to: "#7B0C3B"
+          }
         },
         {
           title: "Обслуживание",
-          description: "Автомобиль проходит еженедельное ТО"
+          description: "Автомобиль проходит еженедельное ТО",
+          gradient: {
+            from: "#281349",
+            to: "#720C7B"
+          }
         }
       ]
     };
+  },
+  computed: {
+    ...mapGetters({
+      locationList: getterTypes.locationList,
+      windowWidth: getterTypes.windowWidth
+    }),
+    currentLocation: {
+      get() {
+        return this.$store.getters[getterTypes.location];
+      },
+      set(newLocation) {
+        this.$store.commit(mutationTypes.setLocation, newLocation);
+      }
+    },
+    lang: {
+      get() {
+        return this.$store.getters[getterTypes.lang];
+      },
+      set(newLang) {
+        this.$store.commit(mutationTypes.setLang, newLang);
+      }
+    }
   },
   methods: {
     changeCurrentSlideIndex(newIndex) {
@@ -262,12 +298,27 @@ export default {
   height: 100%;
   max-width: 64px;
   width: 100%;
-  padding: 32px 8px;
+  padding: 32px 8px 16px;
   background-color: #151b1f;
 }
 
 .main__burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
+
+  span {
+    display: inline-block;
+    width: 27px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: #ffffff;
+
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
 }
 
 .main__content {
@@ -315,11 +366,16 @@ export default {
   color: #999999;
 }
 
+.main__content-burger {
+  display: none;
+}
+
 .main__content-center {
   flex-grow: 1;
   display: flex;
+  padding: 163px 0;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 
@@ -333,6 +389,7 @@ export default {
 
   span {
     color: #0ec261;
+    display: block;
   }
 }
 
@@ -356,14 +413,6 @@ export default {
   color: #999999;
 }
 
-.main__phone {
-  font-size: 13px;
-
-  line-height: 15px;
-  color: #121212;
-  text-decoration: none;
-}
-
 .main__slider {
   width: 100%;
   position: relative;
@@ -372,7 +421,11 @@ export default {
 .main__slider-item {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
   height: 100%;
-  padding: 237px 96px 0;
+  padding: 237px 96px 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .slider-item {
@@ -415,39 +468,8 @@ export default {
   max-width: 495px;
 }
 
-.slider__item-button {
-  background: linear-gradient(90deg, #13493f 0%, #0c7b1b 100%);
+.main__slider-item .slider__item-button {
   border-radius: 4px;
-  border: none;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #eeeeee;
-  padding: 13px 36px;
-  cursor: pointer;
-
-  &:hover {
-    background: linear-gradient(90deg, #195f53 0%, #0fa024 100%);
-  }
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.slider-item:nth-child(2) .slider__item-button {
-  background: linear-gradient(90deg, #132949 0%, #0c7b67 100%);
-}
-
-.slider-item:nth-child(3) .slider__item-button {
-  background: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
-}
-
-.slider-item:nth-child(4) .slider__item-button {
-  background: linear-gradient(90deg, #281349 0%, #720c7b 100%);
 }
 
 .main__slider-arrow {
@@ -554,8 +576,8 @@ export default {
 
 .main__menu-close-btn {
   position: absolute;
-  left: 17px;
-  top: 28px;
+  left: 16px;
+  top: 32px;
   width: 32px;
   height: 32px;
   background-color: transparent;
@@ -572,7 +594,6 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  z-index: 104;
   margin-bottom: 44px;
   max-width: 500px;
 }
@@ -611,6 +632,183 @@ export default {
 
   &:hover {
     color: $accent;
+  }
+}
+
+.main__menu-lang-switcher {
+  display: none;
+  z-index: 0;
+}
+
+//---------------- 1024px ----------------
+
+@media (max-width: 1024px) {
+  .main__content {
+    width: 54%;
+    padding: 32px;
+  }
+
+  .main__slider-arrow {
+    width: 32px;
+  }
+
+  .main__slider-item {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  .slider__item-title {
+    font-size: 32px;
+    line-height: 37px;
+  }
+
+  .slider__item-description {
+    font-size: 22px;
+    line-height: 100%;
+  }
+
+  .main__menu {
+    padding-left: 97px;
+
+    &::before {
+      width: calc(54% + 64px);
+    }
+  }
+
+  .main__menu-close-btn {
+    left: 17px;
+    top: 28px;
+  }
+}
+
+//---------------- 768px ----------------
+
+@media (max-width: 768px) {
+  .main__sidebar {
+    max-width: 86px;
+  }
+
+  .main__burger {
+    span {
+      width: 35px;
+    }
+  }
+
+  .main__content {
+    width: calc(100% - 86px);
+  }
+
+  .main__slider {
+    display: none;
+  }
+
+  .main__menu {
+    padding: 97px;
+
+    &::before {
+      width: 100%;
+    }
+  }
+
+  .main__menu-link {
+    font-size: 28px;
+    line-height: 33px;
+  }
+}
+
+//---------------- 600px ----------------
+
+@media (max-width: 600px) {
+  .main__sidebar {
+    display: none;
+  }
+
+  .main__content {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .main__content-center {
+    padding: 33px 0;
+  }
+
+  .main__burger {
+    display: flex;
+
+    span {
+      background-color: #121212;
+      width: 21px;
+    }
+  }
+
+  .main__title {
+    font-size: 32px;
+    line-height: 100%;
+    margin-bottom: 16px;
+
+    span {
+      margin-top: 6px;
+    }
+  }
+
+  .main__description {
+    font-size: 18px;
+    line-height: 21px;
+    margin-bottom: 32px;
+  }
+
+  .main__content-header {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .main__content-header-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .main__button {
+    width: calc(100% + 32px);
+    border-radius: 0;
+    margin: 0 -16px;
+  }
+
+  .main__content-footer {
+    flex-direction: column-reverse;
+    padding: 16px;
+    align-items: flex-end;
+    background-color: #151b1f;
+    margin: -16px;
+    margin-top: 0;
+  }
+
+  .main__phone {
+    margin-bottom: 8px;
+  }
+
+  .main__menu-link {
+    font-size: 22px;
+    line-height: 26px;
+  }
+
+  .main__menu {
+    padding: 80px 28px;
+    justify-content: flex-start;
+  }
+
+  .main__menu-close-btn {
+    left: 20px;
+    top: 20px;
+  }
+
+  .main__menu-lang-switcher {
+    display: flex;
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
   }
 }
 </style>
