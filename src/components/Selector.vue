@@ -159,7 +159,7 @@ export default {
   right: 0;
   background: #ffffff;
   border: 1px solid #eeeeee;
-  border-right: none;
+  border-top: none;
   padding: 11px 7px;
   overflow-y: auto;
   transition: opacity 0.3s;
@@ -179,7 +179,6 @@ export default {
     background-color: #999999;
     border: 2px solid transparent;
     border-radius: 4px;
-    max-width: 2px;
     background-clip: content-box;
   }
 
