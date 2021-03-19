@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import chroma from "chroma-js";
+
 export default {
   name: "Button",
   props: {
@@ -41,12 +43,44 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    gradient: {
+      type: Object,
+      default: function() {
+        return {
+          from: "#0ec261",
+          to: "#039f67"
+        };
+      }
     }
   },
   methods: {
     clickHandler() {
       this.$emit("click");
+    },
+    setGradientVariables() {
+      this.$el.style.setProperty("--gradient-from", `${this.gradient.from}`);
+      this.$el.style.setProperty("--gradient-to", `${this.gradient.to}`);
+      this.$el.style.setProperty(
+        "--gradient-from-darken-10",
+        `${chroma(this.gradient.from).darken()}`
+      );
+      this.$el.style.setProperty(
+        "--gradient-to-darken-10",
+        `${chroma(this.gradient.to).darken()}`
+      );
+      this.$el.style.setProperty(
+        "--gradient-from-darken-20",
+        `${chroma(this.gradient.from).darken(2)}`
+      );
+      this.$el.style.setProperty(
+        "--gradient-to-darken-20",
+        `${chroma(this.gradient.to).darken(2)}`
+      );
     }
+  },
+  mounted() {
+    this.setGradientVariables();
   }
 };
 </script>
@@ -54,24 +88,40 @@ export default {
 <style scoped lang="scss">
 .button {
   position: relative;
-  padding: 15px 49px 11px;
-  background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+  padding: 15px 49px 13px;
+  background: linear-gradient(
+    90deg,
+    var(--gradient-from) 2.61%,
+    var(--gradient-to) 112.6%
+  );
   background-blend-mode: darken;
   border-radius: 8px;
   border: none;
   cursor: pointer;
 
   &:not(.button--disabled):hover {
-    background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    background: linear-gradient(
+      90deg,
+      var(--gradient-from-darken-10) 2.61%,
+      var(--gradient-to-darken-10) 112.6%
+    );
   }
 
   &:not(.button--disabled):focus {
-    background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    background: linear-gradient(
+      90deg,
+      var(--gradient-from-darken-10) 2.61%,
+      var(--gradient-to-darken-10) 112.6%
+    );
     outline: none;
   }
 
   &:not(.button--disabled):active {
-    background: linear-gradient(90deg, #076432 2.61%, #013c27 112.6%);
+    background: linear-gradient(
+      90deg,
+      var(--gradient-from-darken-20) 2.61%,
+      var(--gradient-to-darken-20) 112.6%
+    );
   }
 
   &--disabled {
