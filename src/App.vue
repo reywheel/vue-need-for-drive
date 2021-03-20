@@ -39,6 +39,7 @@ export default {
 *:before,
 *:after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {

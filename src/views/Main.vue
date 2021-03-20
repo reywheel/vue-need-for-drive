@@ -1,24 +1,16 @@
 <template>
   <div class="main">
-    <div class="main__sidebar">
-      <div @click="toggleMenuVisibility" class="main__burger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <AppLangSwitcher :text="this.lang" @click="toggleLang" />
-    </div>
+    <AppSidebar @burgerClick="toggleMenuVisibility" />
     <div class="main__content">
       <div class="main__content-header">
         <div class="main__content-header-top">
-          <div
+          <AppBurger
+            class="main__content-burger"
+            :is-active="menuIsOpen"
+            :width="22"
             @click="toggleMenuVisibility"
-            class="main__burger main__content-burger"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+            :style="{ 'z-index': menuIsOpen ? 104 : null }"
+          />
           <router-link
             :to="{ name: 'main' }"
             v-slot="{ href, navigate }"
@@ -75,8 +67,8 @@
             <h3 class="slider__item-title">{{ item.title }}</h3>
             <p class="slider__item-description">{{ item.description }}</p>
             <AppButton class="slider__item-button" :gradient="item.gradient"
-              >Подробнее</AppButton
-            >
+              >Подробнее
+            </AppButton>
           </div>
         </slider-item>
       </slider>
@@ -98,11 +90,7 @@
         ></div>
       </div>
     </div>
-    <div class="main__menu" :class="{ 'main__menu--visible': isMenuOpen }">
-      <button
-        @click="toggleMenuVisibility"
-        class="main__menu-close-btn"
-      ></button>
+    <div class="main__menu" :class="{ 'main__menu--visible': menuIsOpen }">
       <ul class="main__menu-list">
         <li class="main__menu-item">
           <a href="#" class="main__menu-link">Парковка</a>
@@ -172,11 +160,7 @@
           </svg>
         </a>
       </div>
-      <AppLangSwitcher
-        :text="this.lang"
-        @click="toggleLang"
-        class="main__menu-lang-switcher"
-      />
+      <AppLangSwitcher class="main__menu-lang-switcher" />
     </div>
   </div>
 </template>
@@ -186,6 +170,8 @@ import AppButton from "@/components/Button";
 import AppLangSwitcher from "@/components/LangSwitcher";
 import AppSelector from "@/components/Selector";
 import AppLink from "@/components/Link";
+import AppSidebar from "@/components/Sidebar";
+import AppBurger from "@/components/Burger";
 import { Slider, SliderItem } from "vue-easy-slider";
 import { getterTypes, mutationTypes } from "@/store/app";
 import { mapGetters } from "vuex";
@@ -197,13 +183,14 @@ export default {
     AppLangSwitcher,
     AppSelector,
     AppLink,
+    AppSidebar,
+    AppBurger,
     Slider,
     SliderItem
   },
   data() {
     return {
       currentSlideIndex: 0,
-      isMenuOpen: false,
       isLocationSelectorShow: false,
       sliderItems: [
         {
@@ -245,7 +232,8 @@ export default {
   computed: {
     ...mapGetters({
       locationList: getterTypes.locationList,
-      windowWidth: getterTypes.windowWidth
+      windowWidth: getterTypes.windowWidth,
+      menuIsOpen: getterTypes.menuIsOpen
     }),
     currentLocation: {
       get() {
@@ -253,14 +241,6 @@ export default {
       },
       set(newLocation) {
         this.$store.commit(mutationTypes.setLocation, newLocation);
-      }
-    },
-    lang: {
-      get() {
-        return this.$store.getters[getterTypes.lang];
-      },
-      set(newLang) {
-        this.$store.commit(mutationTypes.setLang, newLang);
       }
     }
   },
@@ -270,12 +250,8 @@ export default {
       if (newIndex < 0) newIndex = this.sliderItems.length - 1;
       this.currentSlideIndex = newIndex;
     },
-    toggleLang() {
-      if (this.lang === "Eng") this.lang = "Рус";
-      else this.lang = "Eng";
-    },
     toggleMenuVisibility() {
-      this.isMenuOpen = !this.isMenuOpen;
+      this.$store.commit(mutationTypes.toggleMenuVisibility);
     },
     toggleLocationSelectorVisibility() {
       this.isLocationSelectorShow = !this.isLocationSelectorShow;
@@ -288,37 +264,6 @@ export default {
 .main {
   display: flex;
   height: 100%;
-}
-
-.main__sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  max-width: 64px;
-  width: 100%;
-  padding: 32px 8px 16px;
-  background-color: #151b1f;
-}
-
-.main__burger {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-
-  span {
-    display: inline-block;
-    width: 27px;
-    height: 3px;
-    border-radius: 2px;
-    background-color: #ffffff;
-
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
-  }
 }
 
 .main__content {
@@ -684,16 +629,6 @@ export default {
 //---------------- 768px ----------------
 
 @media (max-width: 768px) {
-  .main__sidebar {
-    max-width: 86px;
-  }
-
-  .main__burger {
-    span {
-      width: 35px;
-    }
-  }
-
   .main__content {
     width: calc(100% - 86px);
   }
@@ -719,10 +654,6 @@ export default {
 //---------------- 600px ----------------
 
 @media (max-width: 600px) {
-  .main__sidebar {
-    display: none;
-  }
-
   .main__content {
     width: 100%;
     padding: 16px;
@@ -730,15 +661,6 @@ export default {
 
   .main__content-center {
     padding: 33px 0;
-  }
-
-  .main__burger {
-    display: flex;
-
-    span {
-      background-color: #121212;
-      width: 21px;
-    }
   }
 
   .main__title {
@@ -768,6 +690,15 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
+  }
+
+  .main__content-burger {
+    display: flex;
+
+    span {
+      background-color: #121212;
+      width: 21px;
+    }
   }
 
   .main__button {

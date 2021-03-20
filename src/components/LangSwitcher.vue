@@ -1,19 +1,26 @@
 <template>
-  <div class="selector" @click="clickHandler">{{ text }}</div>
+  <div class="selector" @click="toggleLang">{{ lang }}</div>
 </template>
 
 <script>
+import { getterTypes, mutationTypes } from "@/store/app";
+
 export default {
   name: "LangSelector",
-  props: {
-    text: {
-      type: String,
-      required: true
+  computed: {
+    lang: {
+      get() {
+        return this.$store.getters[getterTypes.lang];
+      },
+      set(newLang) {
+        this.$store.commit(mutationTypes.setLang, newLang);
+      }
     }
   },
   methods: {
-    clickHandler() {
-      this.$emit("click");
+    toggleLang() {
+      if (this.lang === "Eng") this.lang = "Рус";
+      else this.lang = "Eng";
     }
   }
 };

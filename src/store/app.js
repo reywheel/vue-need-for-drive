@@ -2,13 +2,15 @@ export const getterTypes = {
   lang: "[app] lang",
   location: "[app] location",
   windowWidth: "[app] window width",
-  locationList: "[app] location list"
+  locationList: "[app] location list",
+  menuIsOpen: "[app] menu is open"
 };
 
 export const mutationTypes = {
   setLang: "[app] set lang",
   setLocation: "[app] set location",
-  setWindowWidth: "[app] set window width"
+  setWindowWidth: "[app] set window width",
+  toggleMenuVisibility: "[app] toggle menu visibility"
 };
 
 const state = {
@@ -22,14 +24,16 @@ const state = {
     "Сочи",
     "Новгород"
   ],
-  windowWidth: null
+  windowWidth: null,
+  menuIsOpen: false
 };
 
 const getters = {
   [getterTypes.lang]: state => state.lang,
   [getterTypes.location]: state => state.location,
   [getterTypes.windowWidth]: state => state.windowWidth,
-  [getterTypes.locationList]: state => state.locationList
+  [getterTypes.locationList]: state => state.locationList,
+  [getterTypes.menuIsOpen]: state => state.menuIsOpen
 };
 
 const mutations = {
@@ -41,6 +45,9 @@ const mutations = {
   },
   [mutationTypes.setWindowWidth](state, windowWidth) {
     state.windowWidth = windowWidth;
+  },
+  [mutationTypes.toggleMenuVisibility](state) {
+    state.menuIsOpen = !state.menuIsOpen;
   }
 };
 
