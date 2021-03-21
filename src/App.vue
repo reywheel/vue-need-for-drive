@@ -1,14 +1,18 @@
 <template>
   <div id="app">
-    <router-view />
+    <component :is="layoutName" />
   </div>
 </template>
 
 <script>
 import { mutationTypes } from "@/store/app";
+import DefaultLayout from "@/layouts/DefaultLayout";
 
 export default {
   name: "App",
+  components: {
+    DefaultLayout
+  },
   methods: {
     setViewHeightVariable() {
       let vh = window.innerHeight * 0.01;
@@ -17,6 +21,13 @@ export default {
     setWindowWidth() {
       let width = window.innerWidth;
       this.$store.commit(mutationTypes.setWindowWidth, width);
+    }
+  },
+  computed: {
+    // Построение имени компонента лэйаута по данным из мета поля роута
+    layoutName() {
+      const layoutName = this.$route.meta.layout || "default";
+      return layoutName[0].toUpperCase() + layoutName.slice(1) + "Layout";
     }
   },
   mounted() {
