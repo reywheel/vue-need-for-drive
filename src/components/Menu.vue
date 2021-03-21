@@ -115,7 +115,7 @@ export default {
     top: 0;
     bottom: 0;
     left: 0;
-    width: calc(48% + 64px);
+    width: calc((100% - 64px) * 0.48 + 64px);
     background: #111518;
   }
 
@@ -198,7 +198,7 @@ export default {
     padding-left: 97px;
 
     &::before {
-      width: calc(54% + 64px);
+      width: calc((100% - 64px) * 0.54 + 64px);
     }
   }
 
