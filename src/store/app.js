@@ -3,7 +3,8 @@ export const getterTypes = {
   location: "[app] location",
   windowWidth: "[app] window width",
   locationList: "[app] location list",
-  menuIsOpen: "[app] menu is open"
+  menuIsOpen: "[app] menu is open",
+  pickPointsList: "[app] pick points list"
 };
 
 export const mutationTypes = {
@@ -24,6 +25,14 @@ const state = {
     "Сочи",
     "Новгород"
   ],
+  pickPointsList: [
+    "Ульяновск",
+    "Самара",
+    "Москва",
+    "Краснодар",
+    "Сочи",
+    "Новгород"
+  ],
   windowWidth: null,
   menuIsOpen: false
 };
@@ -33,7 +42,8 @@ const getters = {
   [getterTypes.location]: state => state.location,
   [getterTypes.windowWidth]: state => state.windowWidth,
   [getterTypes.locationList]: state => state.locationList,
-  [getterTypes.menuIsOpen]: state => state.menuIsOpen
+  [getterTypes.menuIsOpen]: state => state.menuIsOpen,
+  [getterTypes.pickPointsList]: state => state.pickPointsList
 };
 
 const mutations = {
