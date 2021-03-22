@@ -31,7 +31,8 @@
           v-else
           v-model.trim="currentLocation"
           :list="locationList"
-          @close="toggleLocationSelectorVisibility"
+          v-click-outside="toggleLocationSelectorVisibility"
+          @select="toggleLocationSelectorVisibility"
           placeholder="Начните вводить город..."
         />
       </div>
@@ -95,6 +96,7 @@ import AppBurger from "@/components/Burger";
 import AppMenu from "@/components/Menu";
 import { getterTypes, mutationTypes } from "@/store/app";
 import { mapGetters } from "vuex";
+import vClickOutside from "v-click-outside";
 
 export default {
   name: "Main",
@@ -104,6 +106,9 @@ export default {
     AppLink,
     AppBurger,
     AppMenu
+  },
+  directives: {
+    vClickOutside
   },
   data() {
     return {
