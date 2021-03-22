@@ -1,5 +1,5 @@
 <template>
-  <div class="input__wrapper" v-click-outside="closeListWithoutSaveValue">
+  <div class="input__wrapper" v-click-outside="closeList">
     <input
       type="text"
       class="input"
@@ -22,7 +22,7 @@
         fill="currentColor"
       />
     </svg>
-    <ul class="input__list" :class="{ 'input__list--visible': value }">
+    <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
       <template v-if="filteredList.length">
         <li
           v-for="(item, index) of filteredList"
@@ -64,6 +64,8 @@ export default {
   },
   data() {
     return {
+      isListOpen: false,
+      isSelected: false,
       initialValue: null
     };
   },
@@ -83,22 +85,26 @@ export default {
       }
     }
   },
+  watch: {
+    value(newValue) {
+      if (!this.isSelected) this.isListOpen = newValue.length > 1;
+    }
+  },
   methods: {
     inputHandler($event) {
+      this.isSelected = false;
       this.$emit("input", $event.target.value);
     },
     clearValue() {
       this.$emit("input", null);
     },
     selectHandler(index) {
+      this.isSelected = true;
       this.$emit("input", this.filteredList[index]);
-    },
-    closeListWithoutSaveValue() {
-      this.$emit("input", this.initialValue);
-      this.$emit("close");
+      this.$emit("select");
     },
     closeList() {
-      this.$emit("close");
+      this.isListOpen = false;
     }
   },
   created() {
@@ -165,6 +171,7 @@ export default {
   transition: opacity 0.3s;
   opacity: 0;
   pointer-events: none;
+  z-index: 1;
 
   &::-webkit-scrollbar {
     width: 6px;
