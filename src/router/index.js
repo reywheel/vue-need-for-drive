@@ -9,6 +9,18 @@ const routes = [
     path: "/",
     name: "main",
     component: Main
+  },
+  {
+    path: "/order",
+    name: "order",
+    component: () => import("@/views/OrderPage"),
+    children: [
+      {
+        path: "1",
+        name: "orderStepOne",
+        component: () => import("@/components/orderSteps/StepOne")
+      }
+    ]
   }
 ];
 
