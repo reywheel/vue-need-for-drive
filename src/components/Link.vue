@@ -1,9 +1,5 @@
 <template>
-  <a
-    :href="href"
-    class="link"
-    :class="{ 'link--disabled': disabled, ['link--' + type]: true }"
-  >
+  <a :href="href" class="link" :class="{ 'link--disabled': disabled }">
     <slot />
   </a>
 </template>
@@ -15,10 +11,6 @@ export default {
     href: {
       type: String,
       required: true
-    },
-    type: {
-      type: String,
-      default: "black"
     },
     disabled: {
       type: Boolean,
@@ -35,41 +27,14 @@ export default {
   font-size: 13px;
   line-height: 15px;
   transition: color 0.3s;
+  color: #121212;
 
-  &--black {
-    color: #121212;
-
-    &:hover {
-      color: $accent;
-    }
-
-    &:active {
-      color: $accent;
-    }
-  }
-
-  &--white {
-    color: #eeeeee;
-
-    &:hover {
-      color: $accent;
-    }
-
-    &:active {
-      color: $accent;
-    }
-  }
-
-  &--green {
+  &:hover {
     color: $accent;
+  }
 
-    &:hover {
-      color: #eeeeee;
-    }
-
-    &:active {
-      color: #ffffff;
-    }
+  &:active {
+    color: $accent;
   }
 
   &--disabled {

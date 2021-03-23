@@ -14,6 +14,7 @@
             :to="{ name: 'main' }"
             v-slot="{ href, navigate }"
             custom
+            tag="a"
           >
             <a :href="href" class="main__logo" @click.prevent="navigate"
               >Need for drive</a
@@ -42,11 +43,8 @@
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
-        <AppLink
-          class="main__phone"
-          href="tel:84952342244"
-          :type="windowWidth > 600 ? 'black' : 'green'"
-          >8 (495) 234-22-44
+        <AppLink class="main__phone" href="tel:84952342244">
+          8 (495) 234-22-44
         </AppLink>
       </div>
     </div>
@@ -570,7 +568,12 @@ export default {
   }
 
   .main__phone {
+    color: $accent;
     margin-bottom: 8px;
+
+    &:hover {
+      color: $light-grey;
+    }
   }
 
   .main__menu-link {
