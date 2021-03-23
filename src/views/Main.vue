@@ -8,7 +8,7 @@
             :is-active="menuIsOpen"
             :width="22"
             @click="toggleMenuVisibility"
-            :style="{ 'z-index': menuIsOpen ? 104 : null }"
+            :class="{ 'main__content-burger--active': menuIsOpen }"
           />
           <router-link
             :to="{ name: 'main' }"
@@ -249,6 +249,10 @@ export default {
 
 .main__content-burger {
   display: none;
+
+  &--active {
+    z-index: 104;
+  }
 }
 
 .main__content-center {

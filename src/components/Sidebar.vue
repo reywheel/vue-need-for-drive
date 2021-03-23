@@ -1,10 +1,11 @@
 <template>
-  <div class="main__sidebar">
+  <div class="sidebar">
     <app-burger
       @click="burgerClickHandler"
       color="#FFFFFF"
+      class="sidebar__burger"
+      :class="{ 'sidebar__burger--active': menuIsOpen }"
       :is-active="menuIsOpen"
-      :style="{ 'z-index': menuIsOpen ? 104 : null }"
       :width="windowWidth < 768 ? 35 : undefined"
     />
     <app-lang-switcher />
@@ -38,7 +39,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.main__sidebar {
+.sidebar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -50,14 +51,20 @@ export default {
   background-color: #151b1f;
 }
 
+.sidebar__burger {
+  &--active {
+    z-index: 104;
+  }
+}
+
 @media (max-width: 768px) {
-  .main__sidebar {
+  .sidebar {
     max-width: 86px;
   }
 }
 
 @media (max-width: 600px) {
-  .main__sidebar {
+  .sidebar {
     display: none;
   }
 }
