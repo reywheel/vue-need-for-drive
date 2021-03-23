@@ -69,7 +69,7 @@
         </svg>
       </a>
     </div>
-    <AppLangSwitcher class="menu-lang-switcher" />
+    <app-lang-switcher class="menu-lang-switcher" />
   </div>
 </template>
 

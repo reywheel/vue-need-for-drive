@@ -3,7 +3,7 @@
     <div class="main__content">
       <div class="main__content-header">
         <div class="main__content-header-top">
-          <AppBurger
+          <app-burger
             class="main__content-burger"
             :is-active="menuIsOpen"
             :width="22"
@@ -28,7 +28,7 @@
         >
           <span class="main__location-text">{{ currentLocation }}</span>
         </div>
-        <AppSelector
+        <app-selector
           v-else
           v-model.trim="currentLocation"
           :list="locationList"
@@ -40,13 +40,13 @@
       <div class="main__content-center">
         <h1 class="main__title">Каршеринг <span>Need for drive</span></h1>
         <p class="main__description">Поминутная аренда авто твоего города</p>
-        <AppButton class="main__button">Забронировать</AppButton>
+        <app-button class="main__button">Забронировать</app-button>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
-        <AppLink class="main__phone" href="tel:84952342244">
+        <app-link class="main__phone" href="tel:84952342244">
           8 (495) 234-22-44
-        </AppLink>
+        </app-link>
       </div>
     </div>
     <div
@@ -59,9 +59,9 @@
         <div class="main__slider-item" v-show="currentSlideIndex === index">
           <h3 class="slider__item-title">{{ item.title }}</h3>
           <p class="slider__item-description">{{ item.description }}</p>
-          <AppButton class="slider__item-button" :gradient="item.gradient"
+          <app-button class="slider__item-button" :gradient="item.gradient"
             >Подробнее
-          </AppButton>
+          </app-button>
         </div>
       </transition>
       <button
@@ -82,7 +82,7 @@
         ></div>
       </div>
     </div>
-    <AppMenu />
+    <app-menu />
   </div>
 </template>
 

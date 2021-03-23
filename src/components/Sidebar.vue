@@ -1,13 +1,13 @@
 <template>
   <div class="main__sidebar">
-    <AppBurger
+    <app-burger
       @click="burgerClickHandler"
       color="#FFFFFF"
       :is-active="menuIsOpen"
       :style="{ 'z-index': menuIsOpen ? 104 : null }"
       :width="windowWidth < 768 ? 35 : undefined"
     />
-    <AppLangSwitcher />
+    <app-lang-switcher />
   </div>
 </template>
 
