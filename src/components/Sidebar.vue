@@ -2,11 +2,9 @@
   <div class="sidebar">
     <app-burger
       @click="burgerClickHandler"
-      color="#FFFFFF"
       class="sidebar__burger"
       :class="{ 'sidebar__burger--active': menuIsOpen }"
       :is-active="menuIsOpen"
-      :width="windowWidth < 768 ? 35 : undefined"
     />
     <app-lang-switcher />
   </div>
@@ -60,6 +58,10 @@ export default {
 @media (max-width: 768px) {
   .sidebar {
     max-width: 86px;
+  }
+
+  .sidebar__burger {
+    width: 35px;
   }
 }
 

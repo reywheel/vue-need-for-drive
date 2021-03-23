@@ -2,15 +2,12 @@
   <div
     @click="clickHandler"
     :class="{ burger: true, 'burger--active': isActive }"
-    :style="{ gap: gap + 'px', height: height + 'px', width: width + 'px' }"
   >
-    <span
-      v-for="n in lineCount"
-      :key="n"
-      :style="{ height: lineHeight + 'px', backgroundColor: color }"
-    ></span>
+    <span class="burger__line"></span>
+    <span class="burger__line"></span>
+    <span class="burger__line"></span>
     <svg
-      class="cross"
+      class="burger__cross"
       width="20"
       height="20"
       viewBox="0 0 20 20"
@@ -42,30 +39,6 @@ export default {
     isActive: {
       type: Boolean,
       default: false
-    },
-    lineCount: {
-      type: Number,
-      default: 3
-    },
-    height: {
-      type: Number,
-      default: 19
-    },
-    width: {
-      type: Number,
-      default: 27
-    },
-    lineHeight: {
-      type: Number,
-      default: 3
-    },
-    gap: {
-      type: Number,
-      default: 5
-    },
-    color: {
-      type: String,
-      default: "#000000"
     }
   },
   methods: {
@@ -76,45 +49,55 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .burger {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   cursor: pointer;
+  width: 27px;
 
   &:focus {
     outline: none;
   }
 
-  span {
-    display: inline-block;
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  .cross {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s;
-  }
-
   &--active {
-    span {
+    .burger__line {
       opacity: 0;
       pointer-events: none;
     }
 
-    .cross {
+    .burger__cross {
       opacity: 1;
       pointer-events: initial;
       cursor: pointer;
     }
   }
+}
+
+.burger__line {
+  display: block;
+  width: 100%;
+  height: 3px;
+
+  border-radius: 1px;
+
+  &:not(:first-child) {
+    margin-top: 5px;
+  }
+}
+
+.burger__cross {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+}
+</style>
+
+<style lang="scss">
+.burger__line {
+  background-color: $white;
 }
 </style>

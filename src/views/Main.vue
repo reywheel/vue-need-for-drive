@@ -6,7 +6,6 @@
           <app-burger
             class="main__content-burger"
             :is-active="menuIsOpen"
-            :width="22"
             @click="toggleMenuVisibility"
             :class="{ 'main__content-burger--active': menuIsOpen }"
           />
@@ -553,12 +552,8 @@ export default {
   }
 
   .main__content-burger {
-    display: flex;
-
-    span {
-      background-color: #121212;
-      width: 21px;
-    }
+    display: block;
+    width: 21px;
   }
 
   .main__button {
@@ -588,6 +583,14 @@ export default {
   .main__menu-link {
     font-size: 22px;
     line-height: 26px;
+  }
+}
+</style>
+
+<style lang="scss">
+@media (max-width: 600px) {
+  .burger__line {
+    background-color: #121212;
   }
 }
 </style>
