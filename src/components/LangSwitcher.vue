@@ -35,8 +35,8 @@ export default {
   user-select: none;
 
   &:hover {
-    border: 1px solid #eeeeee;
-    color: #eeeeee;
+    border: 1px solid $light-grey;
+    color: $light-grey;
   }
 
   &:active {

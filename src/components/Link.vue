@@ -27,7 +27,7 @@ export default {
   font-size: 13px;
   line-height: 15px;
   transition: color 0.3s;
-  color: #121212;
+  color: $black;
 
   &:hover {
     color: $accent;
@@ -38,11 +38,11 @@ export default {
   }
 
   &--disabled {
-    color: #999999;
+    color: $dark-grey;
     pointer-events: none;
 
     &:hover {
-      color: #999999;
+      color: $dark-grey;
     }
   }
 }

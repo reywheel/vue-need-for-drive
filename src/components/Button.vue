@@ -125,7 +125,7 @@ export default {
   }
 
   &--disabled {
-    background: #eeeeee;
+    background: $light-grey;
     cursor: default;
   }
 }
@@ -134,7 +134,7 @@ export default {
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
-  color: #ffffff;
+  color: $white;
 
   &--hide {
     opacity: 0;

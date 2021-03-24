@@ -245,7 +245,7 @@ export default {
 .main__location-text {
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .main__content-burger {
@@ -269,12 +269,12 @@ export default {
   font-weight: bold;
   font-size: 70px;
   line-height: 66px;
-  color: #121212;
+  color: $black;
   max-width: 477px;
   margin-bottom: 34px;
 
   span {
-    color: #0ec261;
+    color: $accent;
     display: block;
   }
 }
@@ -283,7 +283,7 @@ export default {
   font-weight: 300;
   font-size: 26px;
   line-height: 30px;
-  color: #999999;
+  color: $dark-grey;
   margin-bottom: 60px;
 }
 
@@ -296,7 +296,7 @@ export default {
 .main__policy {
   font-size: 13px;
   line-height: 15px;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .main__slider {
@@ -386,7 +386,7 @@ export default {
   font-weight: 500;
   font-size: 40px;
   line-height: 47px;
-  color: #ffffff;
+  color: $white;
   margin-bottom: 8px;
 }
 
@@ -394,7 +394,7 @@ export default {
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;
-  color: #eeeeee;
+  color: $light-grey;
   margin-bottom: 32px;
   max-width: 495px;
 }
@@ -463,12 +463,12 @@ export default {
 .slider__dot {
   width: 8px;
   height: 8px;
-  background-color: #eeeeee;
+  background-color: $light-grey;
   border-radius: 100%;
   cursor: pointer;
 
   &--active {
-    background-color: #0ec261;
+    background-color: $accent;
   }
 }
 
@@ -592,7 +592,7 @@ export default {
 <style lang="scss">
 @media (max-width: 600px) {
   .burger__line {
-    background-color: #121212;
+    background-color: $black;
   }
 }
 </style>

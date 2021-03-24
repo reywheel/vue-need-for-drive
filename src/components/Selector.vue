@@ -119,19 +119,19 @@ export default {
 .input {
   padding: 3px 24px 3px 9px;
   border: none;
-  border-bottom: 1px solid #999999;
+  border-bottom: 1px solid $dark-grey;
   outline: none;
   width: 100%;
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #121212;
+  color: $black;
 
   &::placeholder {
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
-    color: #999999;
+    color: $dark-grey;
   }
 }
 
@@ -159,8 +159,8 @@ export default {
   top: 100%;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
+  background: $white;
+  border: 1px solid $light-grey;
   border-top: none;
   padding: 11px 7px;
   overflow-y: auto;
@@ -174,12 +174,12 @@ export default {
   }
 
   &::-webkit-scrollbar-track {
-    border-left: 1px solid #eeeeee;
-    border-right: 1px solid #eeeeee;
+    border-left: 1px solid $light-grey;
+    border-right: 1px solid $light-grey;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #999999;
+    background-color: $dark-grey;
     border: 2px solid transparent;
     border-radius: 4px;
     background-clip: content-box;
@@ -195,7 +195,7 @@ export default {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
   transition: color 0.3s;
   cursor: pointer;
   user-select: none;

@@ -118,7 +118,7 @@ export default {
 }
 
 .menu-link {
-  color: #ffffff;
+  color: $white;
   text-decoration: none;
   font-weight: 500;
   font-size: 32px;
@@ -136,15 +136,11 @@ export default {
   position: relative;
   width: 32px;
   height: 32px;
-  color: white;
+  color: $white;
   transition: all 0.5s;
 
   &:hover {
     color: $accent;
-  }
-
-  svg {
-    fill: white;
   }
 }
 
