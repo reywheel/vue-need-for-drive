@@ -584,7 +584,7 @@ export default {
 
 <style lang="scss">
 @media (max-width: 600px) {
-  .burger__line {
+  .burger .burger__line {
     background-color: $black;
   }
 }

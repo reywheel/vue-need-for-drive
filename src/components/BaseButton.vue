@@ -79,7 +79,6 @@ export default {
     var(--gradient-to) 112.6%
   );
   background-blend-mode: darken;
-  border-radius: 8px;
   border: none;
   cursor: pointer;
 
@@ -152,5 +151,11 @@ export default {
   to {
     transform: rotate(360deg);
   }
+}
+</style>
+
+<style lang="scss">
+.button {
+  border-radius: 8px;
 }
 </style>
