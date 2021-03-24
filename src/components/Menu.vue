@@ -16,13 +16,13 @@
     </ul>
     <div class="social-media">
       <a href="#" class="social-media__item">
-        <app-icon name="telegram.svg" />
+        <base-icon name="telegram.svg" />
       </a>
       <a href="#" class="social-media__item">
-        <app-icon name="facebook.svg" />
+        <base-icon name="facebook.svg" />
       </a>
       <a href="#" class="social-media__item">
-        <app-icon name="instagram.svg" />
+        <base-icon name="instagram.svg" />
       </a>
     </div>
     <app-lang-switcher class="menu-lang-switcher" />
@@ -33,13 +33,11 @@
 import AppLangSwitcher from "@/components/LangSwitcher";
 import { getterTypes } from "@/store/app";
 import { mapGetters } from "vuex";
-import AppIcon from "@/components/Icon";
 
 export default {
   name: "Menu",
   components: {
-    AppLangSwitcher,
-    AppIcon
+    AppLangSwitcher
   },
   computed: {
     ...mapGetters({

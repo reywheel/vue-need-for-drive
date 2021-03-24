@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <app-burger
-      @click="burgerClickHandler"
+    <base-burger
       class="sidebar__burger"
       :class="{ 'sidebar__burger--active': menuIsOpen }"
       :is-active="menuIsOpen"
+      @click="burgerClickHandler"
     />
     <app-lang-switcher />
   </div>
@@ -12,15 +12,13 @@
 
 <script>
 import AppLangSwitcher from "@/components/LangSwitcher";
-import AppBurger from "@/components/Burger";
 import { mutationTypes, getterTypes } from "@/store/app";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Sidebar",
   components: {
-    AppLangSwitcher,
-    AppBurger
+    AppLangSwitcher
   },
   computed: {
     ...mapGetters({

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "LangSelector",
+  name: "LangSwitcher",
   computed: {
     lang() {
       return this.$i18n.locale === "ru" ? "Рус" : "Eng";

@@ -7,11 +7,11 @@
       :placeholder="placeholder"
       @input="inputHandler"
     />
-    <app-icon
-      @click.native="clearValue"
+    <base-icon
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
       name="selector-cross.svg"
+      @click.native="clearValue"
     />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
       <template v-if="filteredList.length">
@@ -34,13 +34,9 @@
 
 <script>
 import vClickOutside from "v-click-outside";
-import AppIcon from "@/components/Icon";
 
 export default {
-  name: "Selector",
-  components: {
-    AppIcon
-  },
+  name: "base-selector",
   props: {
     value: {
       required: true
@@ -91,7 +87,6 @@ export default {
       this.$emit("input", $event.target.value);
     },
     clearValue() {
-      console.log("click");
       this.$emit("input", null);
     },
     selectHandler(index) {

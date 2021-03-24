@@ -3,11 +3,11 @@
     <div class="main__content">
       <div class="main__content-header">
         <div class="main__content-header-top">
-          <app-burger
-            class="main__content-burger"
+          <base-burger
             :is-active="menuIsOpen"
-            @click="toggleMenuVisibility"
+            class="main__content-burger"
             :class="{ 'main__content-burger--active': menuIsOpen }"
+            @click="toggleMenuVisibility"
           />
           <router-link
             :to="{ name: 'main' }"
@@ -21,19 +21,19 @@
           </router-link>
         </div>
         <div
-          class="main__location"
           v-if="!isLocationSelectorShow"
+          class="main__location"
           @click="toggleLocationSelectorVisibility"
         >
           <span class="main__location-text">{{ currentLocation }}</span>
         </div>
-        <app-selector
+        <base-selector
           v-else
           v-model.trim="currentLocation"
           :list="locationList"
-          v-click-outside="toggleLocationSelectorVisibility"
-          @select="toggleLocationSelectorVisibility"
           :placeholder="$t('main.citySelectorPlaceholder')"
+          @select="toggleLocationSelectorVisibility"
+          v-click-outside="toggleLocationSelectorVisibility"
         />
       </div>
       <div class="main__content-center">
@@ -41,15 +41,15 @@
           {{ $t("main.title") }} <span>Need for drive</span>
         </h1>
         <p class="main__description">{{ $t("main.description") }}</p>
-        <app-button class="main__button"
+        <base-button class="main__button"
           >{{ $t("main.buttonText") }}
-        </app-button>
+        </base-button>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
-        <app-link class="main__phone" href="tel:84952342244">
+        <base-link class="main__phone" href="tel:84952342244">
           8 (495) 234-22-44
-        </app-link>
+        </base-link>
       </div>
     </div>
     <div
@@ -65,26 +65,26 @@
           <p class="slider__item-description">
             {{ $t(`main.slider.items[${index}].description`) }}
           </p>
-          <app-button class="slider__item-button" :gradient="item.gradient">
+          <base-button class="slider__item-button" :gradient="item.gradient">
             {{ $t("main.slider.buttonText") }}
-          </app-button>
+          </base-button>
         </div>
       </transition>
       <button
-        @click="changeCurrentSlideIndex(currentSlideIndex - 1)"
         class="main__slider-arrow main__slider-arrow--prev"
+        @click="changeCurrentSlideIndex(currentSlideIndex - 1)"
       ></button>
       <button
-        @click="changeCurrentSlideIndex(currentSlideIndex + 1)"
         class="main__slider-arrow main__slider-arrow--next"
+        @click="changeCurrentSlideIndex(currentSlideIndex + 1)"
       ></button>
       <div class="main__slider-dots">
         <div
-          class="slider__dot"
           v-for="(item, index) in sliderItems"
           :key="index"
-          @click="changeCurrentSlideIndex(index)"
+          class="slider__dot"
           :class="index === currentSlideIndex ? 'slider__dot--active' : null"
+          @click="changeCurrentSlideIndex(index)"
         ></div>
       </div>
     </div>
@@ -93,10 +93,6 @@
 </template>
 
 <script>
-import AppButton from "@/components/Button";
-import AppSelector from "@/components/Selector";
-import AppLink from "@/components/Link";
-import AppBurger from "@/components/Burger";
 import AppMenu from "@/components/Menu";
 import { getterTypes, mutationTypes } from "@/store/app";
 import { mapGetters, mapMutations } from "vuex";
@@ -105,10 +101,6 @@ import vClickOutside from "v-click-outside";
 export default {
   name: "Main",
   components: {
-    AppButton,
-    AppSelector,
-    AppLink,
-    AppBurger,
     AppMenu
   },
   directives: {
@@ -151,11 +143,12 @@ export default {
     ...mapGetters({
       locationList: getterTypes.locationList,
       windowWidth: getterTypes.windowWidth,
-      menuIsOpen: getterTypes.menuIsOpen
+      menuIsOpen: getterTypes.menuIsOpen,
+      location: getterTypes.location
     }),
     currentLocation: {
       get() {
-        return this.$store.getters[getterTypes.location];
+        return this.location;
       },
       set(newLocation) {
         this[mutationTypes.setLocation](newLocation);

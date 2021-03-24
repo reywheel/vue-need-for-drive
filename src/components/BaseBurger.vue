@@ -1,32 +1,22 @@
 <template>
   <div
-    @click="clickHandler"
+    @click="$emit('click')"
     :class="{ burger: true, 'burger--active': isActive }"
   >
     <span class="burger__line"></span>
     <span class="burger__line"></span>
     <span class="burger__line"></span>
-    <app-icon name="cross.svg" class="burger__cross" />
+    <base-icon name="cross.svg" class="burger__cross" />
   </div>
 </template>
 
 <script>
-import AppIcon from "@/components/Icon";
-
 export default {
-  name: "Burger",
-  components: {
-    AppIcon
-  },
+  name: "base-burger",
   props: {
     isActive: {
       type: Boolean,
       default: false
-    }
-  },
-  methods: {
-    clickHandler() {
-      this.$emit("click");
     }
   }
 };

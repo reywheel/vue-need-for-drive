@@ -9,6 +9,7 @@ import VueSimpleSVG from "vue-simple-svg";
 Vue.use(VueSimpleSVG);
 Vue.use(vClickOutside);
 Vue.config.productionTip = false;
+includeBaseComponents();
 
 new Vue({
   router,
@@ -16,3 +17,20 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount("#app");
+
+function includeBaseComponents() {
+  var requireComponent = require.context(
+    "./components",
+    true,
+    /Base[A-Z]\w+\.(vue|js)$/
+  );
+  requireComponent.keys().forEach(function(fileName) {
+    var baseComponentConfig = requireComponent(fileName);
+    baseComponentConfig = baseComponentConfig.default || baseComponentConfig;
+    var baseComponentName =
+      baseComponentConfig.name ||
+      fileName.replace(/^.+\//, "").replace(/\.\w+$/, "");
+    console.log(baseComponentName);
+    Vue.component(baseComponentName, baseComponentConfig);
+  });
+}
