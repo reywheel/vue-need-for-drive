@@ -54,7 +54,6 @@
     </div>
     <div
       class="main__slider"
-      v-if="windowWidth > 768"
       @mouseenter="deleteInterval"
       @mouseleave="setInterval"
     >
@@ -185,7 +184,7 @@ export default {
     }
   },
   mounted() {
-    this.setInterval();
+    if (this.windowWidth > 768) this.setInterval();
   },
   beforeDestroy() {
     this.deleteInterval();
