@@ -2,16 +2,16 @@
   <div class="menu" :class="{ 'menu--visible': menuIsOpen }">
     <ul class="menu-list">
       <li class="menu-item">
-        <a href="#" class="menu-link">Парковка</a>
+        <a href="#" class="menu-link">{{ $t("menu.parking") }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">Страховка</a>
+        <a href="#" class="menu-link">{{ $t("menu.insurance") }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">Бензин</a>
+        <a href="#" class="menu-link">{{ $t("menu.petrol") }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">Обслуживание</a>
+        <a href="#" class="menu-link">{{ $t("menu.service") }}</a>
       </li>
     </ul>
     <div class="social-media">

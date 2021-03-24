@@ -3,24 +3,18 @@
 </template>
 
 <script>
-import { getterTypes, mutationTypes } from "@/store/app";
-
 export default {
   name: "LangSelector",
   computed: {
-    lang: {
-      get() {
-        return this.$store.getters[getterTypes.lang];
-      },
-      set(newLang) {
-        this.$store.commit(mutationTypes.setLang, newLang);
-      }
+    lang() {
+      return this.$i18n.locale === "ru" ? "Рус" : "Eng";
     }
   },
   methods: {
     toggleLang() {
-      if (this.lang === "Eng") this.lang = "Рус";
-      else this.lang = "Eng";
+      this.$i18n.locale === "ru"
+        ? (this.$i18n.locale = "eng")
+        : (this.$i18n.locale = "ru");
     }
   }
 };

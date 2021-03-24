@@ -33,13 +33,17 @@
           :list="locationList"
           v-click-outside="toggleLocationSelectorVisibility"
           @select="toggleLocationSelectorVisibility"
-          placeholder="Начните вводить город..."
+          :placeholder="$t('main.citySelectorPlaceholder')"
         />
       </div>
       <div class="main__content-center">
-        <h1 class="main__title">Каршеринг <span>Need for drive</span></h1>
-        <p class="main__description">Поминутная аренда авто твоего города</p>
-        <app-button class="main__button">Забронировать</app-button>
+        <h1 class="main__title">
+          {{ $t("main.title") }} <span>Need for drive</span>
+        </h1>
+        <p class="main__description">{{ $t("main.description") }}</p>
+        <app-button class="main__button"
+          >{{ $t("main.buttonText") }}
+        </app-button>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
@@ -56,10 +60,14 @@
     >
       <transition name="fade" v-for="(item, index) in sliderItems" :key="index">
         <div class="main__slider-item" v-show="currentSlideIndex === index">
-          <h3 class="slider__item-title">{{ item.title }}</h3>
-          <p class="slider__item-description">{{ item.description }}</p>
-          <app-button class="slider__item-button" :gradient="item.gradient"
-            >Подробнее
+          <h3 class="slider__item-title">
+            {{ $t(`main.slider.items[${index}].title`) }}
+          </h3>
+          <p class="slider__item-description">
+            {{ $t(`main.slider.items[${index}].description`) }}
+          </p>
+          <app-button class="slider__item-button" :gradient="item.gradient">
+            {{ $t("main.slider.buttonText") }}
           </app-button>
         </div>
       </transition>
@@ -114,33 +122,24 @@ export default {
       isLocationSelectorShow: false,
       sliderItems: [
         {
-          title: "Бесплатная парковка",
-          description:
-            "Оставляйте машину на платных городских парковках и разрешенных местах, не нарушая ПДД, а также в аэропортах.",
           gradient: {
             from: "#13493F",
             to: "#0C7B1B"
           }
         },
         {
-          title: "Страховка",
-          description: "Полная страховка страховка автомобиля",
           gradient: {
             from: "#132949",
             to: "#0C7B67"
           }
         },
         {
-          title: "Бензин",
-          description: "Полный бак на любой заправке города за наш счёт",
           gradient: {
             from: "#493013",
             to: "#7B0C3B"
           }
         },
         {
-          title: "Обслуживание",
-          description: "Автомобиль проходит еженедельное ТО",
           gradient: {
             from: "#281349",
             to: "#720C7B"
