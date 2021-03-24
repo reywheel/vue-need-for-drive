@@ -6,6 +6,7 @@
 
 <script>
 import { mutationTypes } from "@/store/app";
+import { mapMutations } from "vuex";
 import DefaultLayout from "@/layouts/DefaultLayout";
 
 export default {
@@ -14,13 +15,14 @@ export default {
     DefaultLayout
   },
   methods: {
+    ...mapMutations([mutationTypes.setWindowWidth]),
     setViewHeightVariable() {
       let vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     },
     setWindowWidth() {
       let width = window.innerWidth;
-      this.$store.commit(mutationTypes.setWindowWidth, width);
+      this[mutationTypes.setWindowWidth](width);
     }
   },
   computed: {

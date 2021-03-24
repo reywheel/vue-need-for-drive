@@ -99,7 +99,7 @@ import AppLink from "@/components/Link";
 import AppBurger from "@/components/Burger";
 import AppMenu from "@/components/Menu";
 import { getterTypes, mutationTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import vClickOutside from "v-click-outside";
 
 export default {
@@ -158,18 +158,22 @@ export default {
         return this.$store.getters[getterTypes.location];
       },
       set(newLocation) {
-        this.$store.commit(mutationTypes.setLocation, newLocation);
+        this[mutationTypes.setLocation](newLocation);
       }
     }
   },
   methods: {
+    ...mapMutations([
+      mutationTypes.setLocation,
+      mutationTypes.toggleMenuVisibility
+    ]),
     changeCurrentSlideIndex(newIndex) {
       if (newIndex > this.sliderItems.length - 1) newIndex = 0;
       if (newIndex < 0) newIndex = this.sliderItems.length - 1;
       this.currentSlideIndex = newIndex;
     },
     toggleMenuVisibility() {
-      this.$store.commit(mutationTypes.toggleMenuVisibility);
+      this[mutationTypes.toggleMenuVisibility]();
     },
     toggleLocationSelectorVisibility() {
       this.isLocationSelectorShow = !this.isLocationSelectorShow;

@@ -14,7 +14,7 @@
 import AppLangSwitcher from "@/components/LangSwitcher";
 import AppBurger from "@/components/Burger";
 import { mutationTypes, getterTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Sidebar",
@@ -29,8 +29,11 @@ export default {
     })
   },
   methods: {
+    ...mapMutations({
+      toggleMenuVisibility: mutationTypes.toggleMenuVisibility
+    }),
     burgerClickHandler() {
-      this.$store.commit(mutationTypes.toggleMenuVisibility);
+      this.toggleMenuVisibility();
     }
   }
 };
