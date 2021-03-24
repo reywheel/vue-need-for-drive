@@ -4,7 +4,9 @@ import router from "./router";
 import store from "./store";
 import vClickOutside from "v-click-outside";
 import i18n from "@/plugins/i18n";
+import VueSimpleSVG from "vue-simple-svg";
 
+Vue.use(VueSimpleSVG);
 Vue.use(vClickOutside);
 Vue.config.productionTip = false;
 
