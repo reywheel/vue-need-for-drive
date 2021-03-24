@@ -24,6 +24,8 @@ export default {
 
 <style lang="scss" scoped>
 .burger {
+  --color: #{$white};
+
   position: relative;
   cursor: pointer;
   width: 27px;
@@ -50,7 +52,7 @@ export default {
   display: block;
   width: 100%;
   height: 3px;
-
+  background-color: var(--color);
   border-radius: 1px;
 
   &:not(:first-child) {
@@ -66,11 +68,5 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   transition: all 0.3s;
-}
-</style>
-
-<style lang="scss">
-.burger__line {
-  background-color: $white;
 }
 </style>

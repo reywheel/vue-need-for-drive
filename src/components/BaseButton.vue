@@ -71,8 +71,11 @@ export default {
 
 <style scoped lang="scss">
 .button {
+  --border-radius: 8px;
+
   position: relative;
   padding: 15px 49px 13px;
+  border-radius: var(--border-radius);
   background: linear-gradient(
     90deg,
     var(--gradient-from) 2.61%,
@@ -151,11 +154,5 @@ export default {
   to {
     transform: rotate(360deg);
   }
-}
-</style>
-
-<style lang="scss">
-.button {
-  border-radius: 8px;
 }
 </style>

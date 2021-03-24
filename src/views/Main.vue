@@ -551,10 +551,17 @@ export default {
     width: 21px;
   }
 
+  #app .main__content-burger {
+    --color: #{$black};
+  }
+
   .main__button {
     width: calc(100% + 32px);
-    border-radius: 0;
     margin: 0 -16px;
+  }
+
+  #app .main__button {
+    --border-radius: 0px;
   }
 
   .main__content-footer {
@@ -567,25 +574,18 @@ export default {
   }
 
   .main__phone {
-    color: $accent;
     margin-bottom: 8px;
+  }
 
-    &:hover {
-      color: $light-grey;
-    }
+  #app .main__phone {
+    --color: #{$accent};
+    --color-hover: #{$light-grey};
+    --color-active: #{$light-grey};
   }
 
   .main__menu-link {
     font-size: 22px;
     line-height: 26px;
-  }
-}
-</style>
-
-<style lang="scss">
-@media (max-width: 600px) {
-  .burger .burger__line {
-    background-color: $black;
   }
 }
 </style>

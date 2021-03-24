@@ -22,19 +22,23 @@ export default {
 
 <style scoped lang="scss">
 .link {
+  --color: #{$black};
+  --color-hover: #{$accent};
+  --color-active: #{$accent};
+
   text-decoration: none;
   font-weight: 400;
   font-size: 13px;
   line-height: 15px;
   transition: color 0.3s;
-  color: $black;
+  color: var(--color);
 
   &:hover {
-    color: $accent;
+    color: var(--color-hover);
   }
 
   &:active {
-    color: $accent;
+    color: var(--color-active);
   }
 
   &--disabled {
