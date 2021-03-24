@@ -6,35 +6,18 @@
     <span class="burger__line"></span>
     <span class="burger__line"></span>
     <span class="burger__line"></span>
-    <svg
-      class="burger__cross"
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M18 2L2 18"
-        stroke="white"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M2 2L18 18"
-        stroke="white"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
+    <app-icon name="cross.svg" class="burger__cross" />
   </div>
 </template>
 
 <script>
+import AppIcon from "@/components/Icon";
+
 export default {
   name: "Burger",
+  components: {
+    AppIcon
+  },
   props: {
     isActive: {
       type: Boolean,
