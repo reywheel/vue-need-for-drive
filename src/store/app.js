@@ -25,14 +25,6 @@ const state = {
     "Сочи",
     "Новгород"
   ],
-  pickPointsList: [
-    "Ульяновск",
-    "Самара",
-    "Москва",
-    "Краснодар",
-    "Сочи",
-    "Новгород"
-  ],
   windowWidth: null,
   menuIsOpen: false
 };

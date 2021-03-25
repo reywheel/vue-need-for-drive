@@ -1,6 +1,7 @@
 export const getterTypes = {
   city: "[order] city",
-  pickUpPoint: "[order] pick-up point"
+  pickUpPoint: "[order] pick-up point",
+  pickUpPointsList: "[order] pick-up points list"
 };
 
 export const mutationTypes = {
@@ -12,12 +13,21 @@ export const actionTypes = {};
 
 const state = {
   city: null,
-  pickUpPoint: null
+  pickUpPoint: null,
+  pickUpPointsList: [
+    "Ульяновская",
+    "Самарская",
+    "Московская",
+    "Краснодарская",
+    "Сочинская",
+    "Новгородская"
+  ]
 };
 
 const getters = {
   [getterTypes.city]: state => state.city,
-  [getterTypes.pickUpPoint]: state => state.pickUpPoint
+  [getterTypes.pickUpPoint]: state => state.pickUpPoint,
+  [getterTypes.pickUpPointsList]: state => state.pickUpPointsList
 };
 
 const mutations = {

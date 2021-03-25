@@ -4,7 +4,7 @@
       <div class="location__row">
         <span>Город</span>
         <base-selector
-          v-model.trim="currentLocation"
+          v-model.trim="city"
           :list="locationList"
           placeholder="Начните вводить город ..."
         />
@@ -13,7 +13,7 @@
         <span>Пункт выдачи</span>
         <base-selector
           placeholder="Начните вводить пункт ..."
-          v-model.trim="pickPoint"
+          v-model.trim="pickUpPoint"
           :list="pickPointsList"
         />
       </div>
@@ -30,33 +30,46 @@
 </template>
 
 <script>
-import { getterTypes, mutationTypes } from "@/store/app";
+import { getterTypes as appGetterTypes } from "@/store/app";
+import {
+  getterTypes as orderGetterTypes,
+  mutationTypes as orderMutationTypes
+} from "@/store/order";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "StepOne",
-  data() {
-    return {
-      pickPoint: ""
-    };
-  },
   computed: {
     ...mapGetters({
-      locationList: getterTypes.locationList,
-      pickPointsList: getterTypes.pickPointsList,
-      location: getterTypes.location
+      locationList: appGetterTypes.locationList,
+      pickPointsList: orderGetterTypes.pickUpPointsList,
+      currentLocation: appGetterTypes.location
     }),
-    currentLocation: {
+    city: {
       get() {
-        return this.location;
+        return this.$store.getters[orderGetterTypes.city];
       },
-      set(newLocation) {
-        this[mutationTypes.setLocation](newLocation);
+      set(newCity) {
+        this[orderMutationTypes.setCity](newCity);
+      }
+    },
+    pickUpPoint: {
+      get() {
+        return this.$store.getters[orderGetterTypes.pickUpPoint];
+      },
+      set(newPickUpPoint) {
+        this[orderMutationTypes.setPickUpPoint](newPickUpPoint);
       }
     }
   },
   methods: {
-    ...mapMutations([mutationTypes.setLocation])
+    ...mapMutations([
+      orderMutationTypes.setCity,
+      orderMutationTypes.setPickUpPoint
+    ])
+  },
+  mounted() {
+    this[orderMutationTypes.setCity](this.currentLocation);
   }
 };
 </script>
