@@ -171,9 +171,24 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border: 1px solid $light-grey;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $dark-grey;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background-clip: content-box;
+  }
 }
 
 .item {
@@ -185,6 +200,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   transition: all 0.3s;
+  cursor: pointer;
 
   &:hover {
     border-color: $dark-grey;
