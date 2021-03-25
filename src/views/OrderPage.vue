@@ -2,9 +2,9 @@
   <div class="order">
     <div class="order__header">
       <router-link :to="{ name: 'main' }" v-slot="{ href, navigate }" custom>
-        <a :href="href" class="order__logo" @click.prevent="navigate"
-          >Need for drive</a
-        >
+        <a :href="href" class="order__logo" @click.prevent="navigate">
+          Need for drive
+        </a>
       </router-link>
       <div
         class="main__location"
@@ -13,12 +13,12 @@
       >
         <span class="main__location-text">{{ currentLocation }}</span>
       </div>
-      <AppSelector
+      <base-selector
         v-else
         v-model.trim="currentLocation"
         :list="locationList"
-        @close="isLocationSelectorShow = !isLocationSelectorShow"
         placeholder="Начните вводить город..."
+        @close="isLocationSelectorShow = !isLocationSelectorShow"
       />
     </div>
     <div class="order__bread-crumbs crumbs">
@@ -47,7 +47,9 @@
           <strong class="statement__price-title">Цена: </strong>
           <span class="statement__price-value">от 8 000 до 12 000 ₽</span>
         </div>
-        <AppButton disabled class="statement__button">Выбрать модель</AppButton>
+        <base-button disabled class="statement__button">
+          Выбрать модель
+        </base-button>
       </div>
     </div>
   </div>
@@ -55,16 +57,10 @@
 
 <script>
 import { getterTypes, mutationTypes } from "@/store/app";
-import { mapGetters } from "vuex";
-import AppSelector from "@/components/Selector";
-import AppButton from "@/components/Button";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "OrderPage",
-  components: {
-    AppSelector,
-    AppButton
-  },
   data() {
     return {
       isLocationSelectorShow: false
@@ -72,16 +68,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locationList: getterTypes.locationList
+      locationList: getterTypes.locationList,
+      location: getterTypes.location
     }),
     currentLocation: {
       get() {
-        return this.$store.getters[getterTypes.location];
+        return this.location;
       },
       set(newLocation) {
-        return this.$store.commit(mutationTypes.setLocation, newLocation);
+        this[mutationTypes.setLocation](newLocation);
       }
     }
+  },
+  methods: {
+    ...mapMutations([mutationTypes.setLocation])
   }
 };
 </script>
