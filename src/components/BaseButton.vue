@@ -21,7 +21,7 @@
 import chroma from "chroma-js";
 
 export default {
-  name: "base-button",
+  name: "BaseButton",
   props: {
     loading: {
       type: Boolean,

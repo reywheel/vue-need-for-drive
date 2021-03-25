@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "base-burger",
+  name: "BaseBurger",
   props: {
     isActive: {
       type: Boolean,

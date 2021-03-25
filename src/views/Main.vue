@@ -88,21 +88,16 @@
         ></div>
       </div>
     </div>
-    <app-menu />
   </div>
 </template>
 
 <script>
-import AppMenu from "@/components/Menu";
 import { getterTypes, mutationTypes } from "@/store/app";
 import { mapGetters, mapMutations } from "vuex";
 import vClickOutside from "v-click-outside";
 
 export default {
   name: "Main",
-  components: {
-    AppMenu
-  },
   directives: {
     vClickOutside
   },

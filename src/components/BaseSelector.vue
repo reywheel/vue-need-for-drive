@@ -36,7 +36,7 @@
 import vClickOutside from "v-click-outside";
 
 export default {
-  name: "base-selector",
+  name: "BaseSelector",
   props: {
     value: {
       required: true
