@@ -101,9 +101,6 @@ export default {
   directives: {
     vClickOutside
   },
-  directives: {
-    vClickOutside
-  },
   data() {
     return {
       intervalInstance: null,

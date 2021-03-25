@@ -3,7 +3,7 @@
     <div class="location__header">
       <div class="location__row">
         <span>Город</span>
-        <AppSelector
+        <base-selector
           v-model.trim="currentLocation"
           :list="locationList"
           placeholder="Начните вводить город ..."
@@ -11,7 +11,7 @@
       </div>
       <div class="location__row">
         <span>Пункт выдачи</span>
-        <AppSelector
+        <base-selector
           placeholder="Начните вводить пункт ..."
           v-model.trim="pickPoint"
           :list="pickPointsList"
@@ -20,21 +20,21 @@
     </div>
     <div class="location__map">
       <span class="location__map-title">Выбрать на карте:</span>
-      <img src="@/assets/map.jpg" alt="" class="location__map-img" />
+      <img
+        :src="require('@/assets/map.jpg')"
+        alt=""
+        class="location__map-img"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import AppSelector from "@/components/Selector";
 import { getterTypes, mutationTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "StepOne",
-  components: {
-    AppSelector
-  },
   data() {
     return {
       pickPoint: ""
@@ -43,16 +43,20 @@ export default {
   computed: {
     ...mapGetters({
       locationList: getterTypes.locationList,
-      pickPointsList: getterTypes.pickPointsList
+      pickPointsList: getterTypes.pickPointsList,
+      location: getterTypes.location
     }),
     currentLocation: {
       get() {
-        return this.$store.getters[getterTypes.location];
+        return this.location;
       },
       set(newLocation) {
-        this.$store.commit(mutationTypes.setLocation, newLocation);
+        this[mutationTypes.setLocation](newLocation);
       }
     }
+  },
+  methods: {
+    ...mapMutations([mutationTypes.setLocation])
   }
 };
 </script>
@@ -70,13 +74,13 @@ export default {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  justify-content: flex-end;
-  min-width: 320px;
-  width: 0;
+  justify-content: flex-start;
   margin-bottom: 13px;
 
   span {
     display: inline-block;
+    text-align: right;
+    min-width: 95px;
     margin-right: 5px;
     font-weight: 300;
     font-size: 14px;
