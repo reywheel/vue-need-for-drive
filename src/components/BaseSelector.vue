@@ -7,21 +7,12 @@
       :placeholder="placeholder"
       @input="inputHandler"
     />
-    <svg
-      @click="clearValue"
+    <base-icon
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
-      width="8"
-      height="8"
-      fill="currentColor"
-      viewBox="0 0 8 8"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M8 0.805714L7.19429 0L4 3.19429L0.805714 0L0 0.805714L3.19429 4L0 7.19429L0.805714 8L4 4.80571L7.19429 8L8 7.19429L4.80571 4L8 0.805714Z"
-        fill="currentColor"
-      />
-    </svg>
+      name="selector-cross.svg"
+      @click.native="clearValue"
+    />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
       <template v-if="filteredList.length">
         <li
@@ -45,7 +36,7 @@
 import vClickOutside from "v-click-outside";
 
 export default {
-  name: "Selector",
+  name: "BaseSelector",
   props: {
     value: {
       required: true
@@ -123,19 +114,19 @@ export default {
 .input {
   padding: 3px 24px 3px 9px;
   border: none;
-  border-bottom: 1px solid #999999;
+  border-bottom: 1px solid $dark-grey;
   outline: none;
   width: 100%;
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #121212;
+  color: $black;
 
   &::placeholder {
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
-    color: #999999;
+    color: $dark-grey;
   }
 }
 
@@ -163,8 +154,8 @@ export default {
   top: 100%;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
+  background: $white;
+  border: 1px solid $light-grey;
   border-top: none;
   padding: 11px 7px;
   overflow-y: auto;
@@ -178,12 +169,12 @@ export default {
   }
 
   &::-webkit-scrollbar-track {
-    border-left: 1px solid #eeeeee;
-    border-right: 1px solid #eeeeee;
+    border-left: 1px solid $light-grey;
+    border-right: 1px solid $light-grey;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #999999;
+    background-color: $dark-grey;
     border: 2px solid transparent;
     border-radius: 4px;
     background-clip: content-box;
@@ -199,7 +190,7 @@ export default {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
   transition: color 0.3s;
   cursor: pointer;
   user-select: none;

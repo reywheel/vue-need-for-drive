@@ -1,17 +1,20 @@
 <template>
   <div class="layout">
-    <AppSidebar />
+    <app-sidebar />
     <router-view />
+    <app-menu />
   </div>
 </template>
 
 <script>
-import AppSidebar from "@/components/Sidebar";
+import AppSidebar from "@/components/TheSidebar";
+import AppMenu from "@/components/TheMenu";
 
 export default {
   name: "DefaultLayout",
   components: {
-    AppSidebar
+    AppSidebar,
+    AppMenu
   }
 };
 </script>

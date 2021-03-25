@@ -3,12 +3,11 @@
     <div class="main__content">
       <div class="main__content-header">
         <div class="main__content-header-top">
-          <AppBurger
-            class="main__content-burger"
+          <base-burger
             :is-active="menuIsOpen"
-            :width="22"
+            class="main__content-burger"
+            :class="{ 'main__content-burger--active': menuIsOpen }"
             @click="toggleMenuVisibility"
-            :style="{ 'z-index': menuIsOpen ? 104 : null }"
           />
           <router-link
             :to="{ name: 'main' }"
@@ -22,88 +21,85 @@
           </router-link>
         </div>
         <div
-          class="main__location"
           v-if="!isLocationSelectorShow"
+          class="main__location"
           @click="toggleLocationSelectorVisibility"
         >
           <span class="main__location-text">{{ currentLocation }}</span>
         </div>
-        <AppSelector
+        <base-selector
           v-else
           v-model.trim="currentLocation"
           :list="locationList"
-          v-click-outside="toggleLocationSelectorVisibility"
+          :placeholder="$t('main.citySelectorPlaceholder')"
           @select="toggleLocationSelectorVisibility"
-          placeholder="Начните вводить город..."
+          v-click-outside="toggleLocationSelectorVisibility"
         />
       </div>
       <div class="main__content-center">
-        <h1 class="main__title">Каршеринг <span>Need for drive</span></h1>
-        <p class="main__description">Поминутная аренда авто твоего города</p>
-        <AppButton class="main__button">Забронировать</AppButton>
+        <h1 class="main__title">
+          {{ $t("main.title") }} <span>Need for drive</span>
+        </h1>
+        <p class="main__description">{{ $t("main.description") }}</p>
+        <base-button class="main__button"
+          >{{ $t("main.buttonText") }}
+        </base-button>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
-        <AppLink class="main__phone" href="tel:84952342244">
+        <base-link class="main__phone" href="tel:84952342244">
           8 (495) 234-22-44
-        </AppLink>
+        </base-link>
       </div>
     </div>
     <div
       class="main__slider"
-      v-if="windowWidth > 768"
       @mouseenter="deleteInterval"
       @mouseleave="setInterval"
     >
       <transition name="fade" v-for="(item, index) in sliderItems" :key="index">
         <div class="main__slider-item" v-show="currentSlideIndex === index">
-          <h3 class="slider__item-title">{{ item.title }}</h3>
-          <p class="slider__item-description">{{ item.description }}</p>
-          <AppButton class="slider__item-button" :gradient="item.gradient"
-            >Подробнее
-          </AppButton>
+          <h3 class="slider__item-title">
+            {{ $t(`main.slider.items[${index}].title`) }}
+          </h3>
+          <p class="slider__item-description">
+            {{ $t(`main.slider.items[${index}].description`) }}
+          </p>
+          <base-button class="slider__item-button" :gradient="item.gradient">
+            {{ $t("main.slider.buttonText") }}
+          </base-button>
         </div>
       </transition>
       <button
-        @click="changeCurrentSlideIndex(currentSlideIndex - 1)"
         class="main__slider-arrow main__slider-arrow--prev"
+        @click="changeCurrentSlideIndex(currentSlideIndex - 1)"
       ></button>
       <button
-        @click="changeCurrentSlideIndex(currentSlideIndex + 1)"
         class="main__slider-arrow main__slider-arrow--next"
+        @click="changeCurrentSlideIndex(currentSlideIndex + 1)"
       ></button>
       <div class="main__slider-dots">
         <div
-          class="slider__dot"
           v-for="(item, index) in sliderItems"
           :key="index"
-          @click="changeCurrentSlideIndex(index)"
+          class="slider__dot"
           :class="index === currentSlideIndex ? 'slider__dot--active' : null"
+          @click="changeCurrentSlideIndex(index)"
         ></div>
       </div>
     </div>
-    <AppMenu />
   </div>
 </template>
 
 <script>
-import AppButton from "@/components/Button";
-import AppSelector from "@/components/Selector";
-import AppLink from "@/components/Link";
-import AppBurger from "@/components/Burger";
-import AppMenu from "@/components/Menu";
 import { getterTypes, mutationTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import vClickOutside from "v-click-outside";
 
 export default {
   name: "Main",
-  components: {
-    AppButton,
-    AppSelector,
-    AppLink,
-    AppBurger,
-    AppMenu
+  directives: {
+    vClickOutside
   },
   directives: {
     vClickOutside
@@ -115,33 +111,24 @@ export default {
       isLocationSelectorShow: false,
       sliderItems: [
         {
-          title: "Бесплатная парковка",
-          description:
-            "Оставляйте машину на платных городских парковках и разрешенных местах, не нарушая ПДД, а также в аэропортах.",
           gradient: {
             from: "#13493F",
             to: "#0C7B1B"
           }
         },
         {
-          title: "Страховка",
-          description: "Полная страховка страховка автомобиля",
           gradient: {
             from: "#132949",
             to: "#0C7B67"
           }
         },
         {
-          title: "Бензин",
-          description: "Полный бак на любой заправке города за наш счёт",
           gradient: {
             from: "#493013",
             to: "#7B0C3B"
           }
         },
         {
-          title: "Обслуживание",
-          description: "Автомобиль проходит еженедельное ТО",
           gradient: {
             from: "#281349",
             to: "#720C7B"
@@ -154,25 +141,30 @@ export default {
     ...mapGetters({
       locationList: getterTypes.locationList,
       windowWidth: getterTypes.windowWidth,
-      menuIsOpen: getterTypes.menuIsOpen
+      menuIsOpen: getterTypes.menuIsOpen,
+      location: getterTypes.location
     }),
     currentLocation: {
       get() {
-        return this.$store.getters[getterTypes.location];
+        return this.location;
       },
       set(newLocation) {
-        this.$store.commit(mutationTypes.setLocation, newLocation);
+        this[mutationTypes.setLocation](newLocation);
       }
     }
   },
   methods: {
+    ...mapMutations([
+      mutationTypes.setLocation,
+      mutationTypes.toggleMenuVisibility
+    ]),
     changeCurrentSlideIndex(newIndex) {
       if (newIndex > this.sliderItems.length - 1) newIndex = 0;
       if (newIndex < 0) newIndex = this.sliderItems.length - 1;
       this.currentSlideIndex = newIndex;
     },
     toggleMenuVisibility() {
-      this.$store.commit(mutationTypes.toggleMenuVisibility);
+      this[mutationTypes.toggleMenuVisibility]();
     },
     toggleLocationSelectorVisibility() {
       this.isLocationSelectorShow = !this.isLocationSelectorShow;
@@ -187,7 +179,7 @@ export default {
     }
   },
   mounted() {
-    this.setInterval();
+    if (this.windowWidth > 768) this.setInterval();
   },
   beforeDestroy() {
     this.deleteInterval();
@@ -244,11 +236,15 @@ export default {
 .main__location-text {
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .main__content-burger {
   display: none;
+
+  &--active {
+    z-index: 104;
+  }
 }
 
 .main__content-center {
@@ -264,12 +260,12 @@ export default {
   font-weight: bold;
   font-size: 70px;
   line-height: 66px;
-  color: #121212;
+  color: $black;
   max-width: 477px;
   margin-bottom: 34px;
 
   span {
-    color: #0ec261;
+    color: $accent;
     display: block;
   }
 }
@@ -278,7 +274,7 @@ export default {
   font-weight: 300;
   font-size: 26px;
   line-height: 30px;
-  color: #999999;
+  color: $dark-grey;
   margin-bottom: 60px;
 }
 
@@ -291,7 +287,7 @@ export default {
 .main__policy {
   font-size: 13px;
   line-height: 15px;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .main__slider {
@@ -381,7 +377,7 @@ export default {
   font-weight: 500;
   font-size: 40px;
   line-height: 47px;
-  color: #ffffff;
+  color: $white;
   margin-bottom: 8px;
 }
 
@@ -389,7 +385,7 @@ export default {
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;
-  color: #eeeeee;
+  color: $light-grey;
   margin-bottom: 32px;
   max-width: 495px;
 }
@@ -458,12 +454,12 @@ export default {
 .slider__dot {
   width: 8px;
   height: 8px;
-  background-color: #eeeeee;
+  background-color: $light-grey;
   border-radius: 100%;
   cursor: pointer;
 
   &--active {
-    background-color: #0ec261;
+    background-color: $accent;
   }
 }
 
@@ -549,18 +545,21 @@ export default {
   }
 
   .main__content-burger {
-    display: flex;
+    display: block;
+    width: 21px;
+  }
 
-    span {
-      background-color: #121212;
-      width: 21px;
-    }
+  #app .main__content-burger {
+    --color: #{$black};
   }
 
   .main__button {
     width: calc(100% + 32px);
-    border-radius: 0;
     margin: 0 -16px;
+  }
+
+  #app .main__button {
+    --border-radius: 0px;
   }
 
   .main__content-footer {
@@ -579,6 +578,12 @@ export default {
     &:hover {
       color: $light-grey;
     }
+  }
+
+  #app .main__phone {
+    --color: #{$accent};
+    --color-hover: #{$light-grey};
+    --color-active: #{$light-grey};
   }
 
   .main__menu-link {

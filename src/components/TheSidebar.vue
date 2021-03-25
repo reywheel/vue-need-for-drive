@@ -1,27 +1,24 @@
 <template>
-  <div class="main__sidebar">
-    <AppBurger
-      @click="burgerClickHandler"
-      color="#FFFFFF"
+  <div class="sidebar">
+    <base-burger
+      class="sidebar__burger"
+      :class="{ 'sidebar__burger--active': menuIsOpen }"
       :is-active="menuIsOpen"
-      :style="{ 'z-index': menuIsOpen ? 104 : null }"
-      :width="windowWidth < 768 ? 35 : undefined"
+      @click="burgerClickHandler"
     />
-    <AppLangSwitcher />
+    <app-lang-switcher />
   </div>
 </template>
 
 <script>
 import AppLangSwitcher from "@/components/LangSwitcher";
-import AppBurger from "@/components/Burger";
 import { mutationTypes, getterTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Sidebar",
   components: {
-    AppLangSwitcher,
-    AppBurger
+    AppLangSwitcher
   },
   computed: {
     ...mapGetters({
@@ -30,15 +27,18 @@ export default {
     })
   },
   methods: {
+    ...mapMutations({
+      toggleMenuVisibility: mutationTypes.toggleMenuVisibility
+    }),
     burgerClickHandler() {
-      this.$store.commit(mutationTypes.toggleMenuVisibility);
+      this.toggleMenuVisibility();
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.main__sidebar {
+.sidebar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -50,14 +50,24 @@ export default {
   background-color: #151b1f;
 }
 
+.sidebar__burger {
+  &--active {
+    z-index: 104;
+  }
+}
+
 @media (max-width: 768px) {
-  .main__sidebar {
+  .sidebar {
     max-width: 86px;
+  }
+
+  .sidebar__burger {
+    width: 35px;
   }
 }
 
 @media (max-width: 600px) {
-  .main__sidebar {
+  .sidebar {
     display: none;
   }
 }
