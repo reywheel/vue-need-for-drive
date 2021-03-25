@@ -30,7 +30,6 @@ function includeBaseComponents() {
     var baseComponentName =
       baseComponentConfig.name ||
       fileName.replace(/^.+\//, "").replace(/\.\w+$/, "");
-    console.log(baseComponentName);
     Vue.component(baseComponentName, baseComponentConfig);
   });
 }
