@@ -6,6 +6,7 @@
       :value="value"
       :placeholder="placeholder"
       @input="inputHandler"
+      @focusin="isListOpen = true"
     />
     <base-icon
       class="input__cross"
@@ -19,10 +20,7 @@
           v-for="(item, index) of filteredList"
           :key="index"
           class="input__list-item"
-          @click="
-            selectHandler(index);
-            closeList();
-          "
+          @click="selectHandler(index)"
         >
           {{ item }}
         </li>
@@ -55,9 +53,7 @@ export default {
   },
   data() {
     return {
-      isListOpen: false,
-      isSelected: false,
-      initialValue: null
+      isListOpen: false
     };
   },
   computed: {
@@ -76,30 +72,21 @@ export default {
       }
     }
   },
-  watch: {
-    value(newValue) {
-      if (!this.isSelected) this.isListOpen = newValue.length > 1;
-    }
-  },
   methods: {
     inputHandler($event) {
-      this.isSelected = false;
       this.$emit("input", $event.target.value);
     },
     clearValue() {
       this.$emit("input", null);
     },
     selectHandler(index) {
-      this.isSelected = true;
       this.$emit("input", this.filteredList[index]);
       this.$emit("select");
+      this.closeList();
     },
     closeList() {
       this.isListOpen = false;
     }
-  },
-  created() {
-    this.initialValue = this.value;
   }
 };
 </script>
