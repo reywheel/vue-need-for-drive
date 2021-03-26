@@ -12,6 +12,7 @@ const routes = [
   },
   {
     path: "/order",
+    redirect: { name: "orderLocation" },
     name: "order",
     component: () => import("@/views/OrderPage"),
     children: [
@@ -24,6 +25,16 @@ const routes = [
         path: "model",
         name: "orderModel",
         component: () => import("@/components/order/OrderModel")
+      },
+      {
+        path: "additionally",
+        name: "orderAdditionally",
+        component: () => import("@/components/order/OrderAdditionally")
+      },
+      {
+        path: "total",
+        name: "orderTotal",
+        component: () => import("@/components/order/OrderTotal")
       }
     ]
   }
