@@ -5,10 +5,14 @@
       :key="index"
       :to="{ name: item.routeName }"
       v-slot="{ navigate, isExactActive }"
+      custom
     >
       <li
         class="crumbs__item"
-        :class="{ 'crumbs__item--active': isExactActive }"
+        :class="{
+          'crumbs__item--active': isExactActive,
+          'crumbs__item--disabled': !item.isAllowed
+        }"
         @click="navigate"
       >
         {{ item.text }}
@@ -18,31 +22,39 @@
 </template>
 
 <script>
+import { getterTypes } from "@/store/order";
+import { mapGetters } from "vuex";
+
 export default {
   name: "TheCrumbs",
-  data() {
-    return {
-      items: [
+  computed: {
+    ...mapGetters({
+      isLocationFilled: getterTypes.isLocationFilled
+    }),
+    items() {
+      return [
         {
           text: "Местоположение",
-          routeName: "orderLocation"
+          routeName: "orderLocation",
+          isAllowed: true
         },
         {
           text: "Модель",
-          routeName: "orderModel"
+          routeName: "orderModel",
+          isAllowed: this.isLocationFilled
         },
         {
           text: "Дополнительно",
-          routeName: "orderAdditionally"
+          routeName: "orderAdditionally",
+          isAllowed: false
         },
         {
           text: "Итого",
-          routeName: "orderTotal"
+          routeName: "orderTotal",
+          isAllowed: false
         }
-      ]
-    };
-  },
-  computed: {
+      ];
+    },
     routeName() {
       return this.$route.name;
     }
@@ -57,12 +69,17 @@ export default {
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
   cursor: pointer;
   transition: all 0.3s;
+  color: $black;
 
   &--active {
     color: $accent;
+  }
+
+  &--disabled {
+    color: $dark-grey;
+    pointer-events: none;
   }
 
   &:not(:last-child) {
