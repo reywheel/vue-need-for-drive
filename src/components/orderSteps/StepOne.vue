@@ -98,7 +98,7 @@ export default {
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
-    color: #121212;
+    color: $black;
   }
 }
 
@@ -107,7 +107,7 @@ export default {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #121212;
+  color: $black;
   margin-bottom: 16px;
 }
 </style>

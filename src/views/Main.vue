@@ -15,9 +15,9 @@
             custom
             tag="a"
           >
-            <a :href="href" class="main__logo" @click.prevent="navigate"
-              >Need for drive</a
-            >
+            <a :href="href" class="main__logo" @click.prevent="navigate">
+              Need for drive
+            </a>
           </router-link>
         </div>
         <div
@@ -80,10 +80,12 @@
       ></button>
       <div class="main__slider-dots">
         <div
-          v-for="(item, index) in sliderItems"
+          v-for="index in sliderItems.length"
           :key="index"
           class="slider__dot"
-          :class="index === currentSlideIndex ? 'slider__dot--active' : null"
+          :class="
+            index - 1 === currentSlideIndex ? 'slider__dot--active' : null
+          "
           @click="changeCurrentSlideIndex(index)"
         ></div>
       </div>
@@ -137,7 +139,6 @@ export default {
   computed: {
     ...mapGetters({
       locationList: getterTypes.locationList,
-      windowWidth: getterTypes.windowWidth,
       menuIsOpen: getterTypes.menuIsOpen,
       location: getterTypes.location
     }),
@@ -176,7 +177,7 @@ export default {
     }
   },
   mounted() {
-    if (this.windowWidth > 768) this.setInterval();
+    this.setInterval();
   },
   beforeDestroy() {
     this.deleteInterval();
@@ -563,7 +564,7 @@ export default {
     flex-direction: column-reverse;
     padding: 16px;
     align-items: flex-end;
-    background-color: #151b1f;
+    background-color: $black-2;
     margin: -16px;
     margin-top: 0;
   }

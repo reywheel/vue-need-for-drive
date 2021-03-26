@@ -11,7 +11,7 @@
     <base-icon
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
-      name="selector-cross.svg"
+      name="selector-cross"
       @click.native="clearValue"
     />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
@@ -58,12 +58,12 @@ export default {
   },
   computed: {
     preparedList() {
-      let list = [...this.list];
+      const list = [...this.list];
       return list.sort();
     },
     filteredList() {
       if (this.value) {
-        let list = [...this.preparedList];
+        const list = [...this.preparedList];
         return list.filter(item => {
           return item.toLowerCase().includes(this.value.toLowerCase());
         });

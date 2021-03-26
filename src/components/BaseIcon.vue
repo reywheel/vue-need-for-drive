@@ -1,6 +1,6 @@
 <template>
   <div class="icon__wrapper">
-    <simple-svg :src="require('@/assets/icons/' + this.name)" />
+    <simple-svg :src="require(`@/assets/icons/${name}.${type}`)" />
   </div>
 </template>
 
@@ -11,6 +11,10 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    type: {
+      type: String,
+      default: "svg"
     }
   }
 };

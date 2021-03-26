@@ -129,7 +129,7 @@ export default {
 .main__location-text {
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .order__bread-crumbs {
@@ -143,7 +143,7 @@ export default {
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: #999999;
+  color: $dark-grey;
   cursor: pointer;
   transition: all 0.3s;
 
@@ -190,7 +190,7 @@ export default {
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
-  color: #121212;
+  color: $black;
   margin-bottom: 26px;
 }
 
@@ -204,7 +204,7 @@ export default {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #121212;
+  color: $black;
 }
 
 .statement__pick-up-divided {
@@ -220,7 +220,7 @@ export default {
   font-size: 14px;
   line-height: 16px;
   text-align: right;
-  color: #999999;
+  color: $dark-grey;
 }
 
 .statement__pick-up-city {
@@ -231,7 +231,7 @@ export default {
   font-weight: 500;
   font-size: 16px;
   line-height: 16px;
-  color: #121212;
+  color: $black;
   margin-bottom: 32px;
 }
 

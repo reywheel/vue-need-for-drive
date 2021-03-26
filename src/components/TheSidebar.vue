@@ -47,7 +47,7 @@ export default {
   max-width: 64px;
   width: 100%;
   padding: 32px 8px 16px;
-  background-color: #151b1f;
+  background-color: $black-2;
 }
 
 .sidebar__burger {

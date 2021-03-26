@@ -6,7 +6,7 @@
     <span class="burger__line"></span>
     <span class="burger__line"></span>
     <span class="burger__line"></span>
-    <base-icon name="cross.svg" class="burger__cross" />
+    <base-icon name="cross" class="burger__cross" />
   </div>
 </template>
 

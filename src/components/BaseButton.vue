@@ -12,7 +12,7 @@
       class="button__loader-wrapper"
       :class="{ 'button__loader-wrapper--hide': !loading }"
     >
-      <base-icon name="loader.svg" class="button__loader" />
+      <base-icon name="loader" class="button__loader" />
     </i>
   </button>
 </template>

@@ -16,13 +16,13 @@
     </ul>
     <div class="social-media">
       <a href="#" class="social-media__item">
-        <base-icon name="telegram.svg" />
+        <base-icon name="telegram" />
       </a>
       <a href="#" class="social-media__item">
-        <base-icon name="facebook.svg" />
+        <base-icon name="facebook" />
       </a>
       <a href="#" class="social-media__item">
-        <base-icon name="instagram.svg" />
+        <base-icon name="instagram" />
       </a>
     </div>
     <app-lang-switcher class="menu-lang-switcher" />
@@ -72,7 +72,7 @@ export default {
     bottom: 0;
     left: 0;
     width: calc((100% - 64px) * 0.48 + 64px);
-    background: #111518;
+    background: $black-3;
   }
 
   &--visible {
