@@ -13,7 +13,6 @@
             :to="{ name: 'main' }"
             v-slot="{ href, navigate }"
             custom
-            tag="a"
           >
             <a :href="href" class="main__logo" @click.prevent="navigate"
               >Need for drive</a

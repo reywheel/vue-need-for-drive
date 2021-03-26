@@ -16,14 +16,14 @@ const routes = [
     component: () => import("@/views/OrderPage"),
     children: [
       {
-        path: "1",
-        name: "orderStepOne",
-        component: () => import("@/components/orderSteps/StepOne")
+        path: "location",
+        name: "orderLocation",
+        component: () => import("@/components/order/OrderLocation")
       },
       {
-        path: "2",
-        name: "orderStepTwo",
-        component: () => import("@/components/orderSteps/StepTwo")
+        path: "model",
+        name: "orderModel",
+        component: () => import("@/components/order/OrderModel")
       }
     ]
   }
