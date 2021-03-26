@@ -3,7 +3,7 @@
     class="button"
     :class="{ 'button--disabled': disabled }"
     :disabled="disabled"
-    @click.prevent="$emit('click')"
+    @click.prevent="clickHandler"
   >
     <span class="button__text" :class="{ 'button__text--hide': loading }">
       <slot />
@@ -61,6 +61,9 @@ export default {
         "--gradient-to-darken-20",
         `${chroma(this.gradient.to).darken(2)}`
       );
+    },
+    clickHandler() {
+      this.$emit("click");
     }
   },
   mounted() {

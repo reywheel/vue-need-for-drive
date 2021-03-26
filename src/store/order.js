@@ -1,7 +1,9 @@
 export const getterTypes = {
   city: "[order] city",
   pickUpPoint: "[order] pick-up point",
-  pickUpPointsList: "[order] pick-up points list"
+  pickUpPointsList: "[order] pick-up points list",
+  isLocationFilled: "[order] is location filled",
+  isModelFilled: "[order] is model filled"
 };
 
 export const mutationTypes = {
@@ -27,7 +29,8 @@ const state = {
 const getters = {
   [getterTypes.city]: state => state.city,
   [getterTypes.pickUpPoint]: state => state.pickUpPoint,
-  [getterTypes.pickUpPointsList]: state => state.pickUpPointsList
+  [getterTypes.pickUpPointsList]: state => state.pickUpPointsList,
+  [getterTypes.isLocationFilled]: state => state.city && state.pickUpPoint
 };
 
 const mutations = {
