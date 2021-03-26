@@ -28,6 +28,7 @@
         <li class="crumbs__item">Дополнительно</li>
         <li class="crumbs__item">Итого</li>
       </ul>
+      <the-crumbs />
     </div>
     <div class="order__wrapper">
       <div class="order__area">
@@ -58,9 +59,11 @@
 <script>
 import { getterTypes, mutationTypes } from "@/store/app";
 import { mapGetters, mapMutations } from "vuex";
+import TheCrumbs from "@/components/TheCrumbs";
 
 export default {
   name: "OrderPage",
+  components: { TheCrumbs },
   data() {
     return {
       isLocationSelectorShow: false
