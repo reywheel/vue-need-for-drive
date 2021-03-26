@@ -9,15 +9,8 @@
             :class="{ 'main__content-burger--active': menuIsOpen }"
             @click="toggleMenuVisibility"
           />
-          <router-link
-            :to="{ name: 'main' }"
-            v-slot="{ href, navigate }"
-            custom
-            tag="a"
-          >
-            <a :href="href" class="main__logo" @click.prevent="navigate">
-              Need for drive
-            </a>
+          <router-link :to="{ name: 'main' }" class="main__logo">
+            Need for drive
           </router-link>
         </div>
         <div
@@ -41,9 +34,11 @@
           {{ $t("main.title") }} <span>Need for drive</span>
         </h1>
         <p class="main__description">{{ $t("main.description") }}</p>
-        <base-button class="main__button"
-          >{{ $t("main.buttonText") }}
-        </base-button>
+        <router-link :to="{ name: 'orderStepOne' }">
+          <base-button class="main__button">
+            {{ $t("main.buttonText") }}
+          </base-button>
+        </router-link>
       </div>
       <div class="main__content-footer">
         <span class="main__policy">© 2016-2019 «Need for drive»</span>
