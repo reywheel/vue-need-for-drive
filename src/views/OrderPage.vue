@@ -1,10 +1,8 @@
 <template>
   <div class="order">
     <div class="order__header">
-      <router-link :to="{ name: 'main' }" tag="div" custom>
-        <a href="#" class="order__logo">
-          Need for drive
-        </a>
+      <router-link :to="{ name: 'main' }" class="order__logo">
+        Need for drive
       </router-link>
       <div
         class="main__location"
