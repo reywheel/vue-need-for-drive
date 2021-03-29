@@ -1,39 +1,27 @@
 <template>
   <div class="model">
     <div class="model__header">
-      <div class="model__radio-wrapper">
-        <input
-          type="radio"
-          class="model__radio"
-          id="all"
-          name="filter"
-          value="all"
-          v-model="filter"
-        />
-        <label for="all" class="model__radio-label">Все модели</label>
-      </div>
-      <div class="model__radio-wrapper">
-        <input
-          type="radio"
-          class="model__radio"
-          id="economy"
-          name="filter"
-          value="economy"
-          v-model="filter"
-        />
-        <label for="economy" class="model__radio-label">Эконом</label>
-      </div>
-      <div class="model__radio-wrapper">
-        <input
-          type="radio"
-          class="model__radio"
-          id="premium"
-          name="filter"
-          value="premium"
-          v-model="filter"
-        />
-        <label for="premium" class="model__radio-label">Премиум</label>
-      </div>
+      <base-radio-button
+        v-model="filter"
+        name="filter"
+        native-value="all"
+        label="Все модели"
+        class="model__radio-wrapper"
+      />
+      <base-radio-button
+        v-model="filter"
+        name="filter"
+        native-value="economy"
+        label="Эконом"
+        class="model__radio-wrapper"
+      />
+      <base-radio-button
+        v-model="filter"
+        name="filter"
+        native-value="premium"
+        label="Премиум"
+        class="model__radio-wrapper"
+      />
     </div>
     <div class="model__list">
       <div class="model__list-inner">
@@ -41,8 +29,8 @@
           v-for="(car, index) of carList"
           :key="index"
           class="model__list-item item"
-          :class="{ 'item--active': selectedCarIndex === index }"
-          @click="selectedCarIndex = index"
+          :class="{ 'item--active': selectedCarId === car.id }"
+          @click="selectedCarId = car.id"
         >
           <div class="item__title">{{ car.title }}</div>
           <div class="item__price">{{ car.price }}</div>
@@ -54,55 +42,32 @@
 </template>
 
 <script>
+import { getterTypes as carListGetterTypes } from "@/store/carList";
+import {
+  getterTypes as orderGetterTypes,
+  mutationTypes as orderMutationTypes
+} from "@/store/order";
+import { mapGetters } from "vuex";
+
 export default {
   name: "StepTwo",
   data() {
     return {
-      filter: "all",
-      selectedCarIndex: 0,
-      carList: [
-        {
-          title: "ELANTRA",
-          price: "12 000 - 25 000 ₽",
-          img: require("@/assets/car-1.jpg")
-        },
-        {
-          title: "i30 N",
-          price: "10 000 - 32 000 ₽",
-          img: require("@/assets/car-2.jpg")
-        },
-        {
-          title: "CRETA",
-          price: "12 000 - 25 000 ₽",
-          img: require("@/assets/car-3.jpg")
-        },
-        {
-          title: "SONATA",
-          price: "10 000 - 32 000 ₽",
-          img: require("@/assets/car-4.jpg")
-        },
-        {
-          title: "ELANTRA",
-          price: "12 000 - 25 000 ₽",
-          img: require("@/assets/car-1.jpg")
-        },
-        {
-          title: "i30 N",
-          price: "10 000 - 32 000 ₽",
-          img: require("@/assets/car-2.jpg")
-        },
-        {
-          title: "CRETA",
-          price: "12 000 - 25 000 ₽",
-          img: require("@/assets/car-3.jpg")
-        },
-        {
-          title: "SONATA",
-          price: "10 000 - 32 000 ₽",
-          img: require("@/assets/car-4.jpg")
-        }
-      ]
+      filter: "all"
     };
+  },
+  computed: {
+    ...mapGetters({
+      carList: carListGetterTypes.carList
+    }),
+    selectedCarId: {
+      get() {
+        return this.$store.getters[orderGetterTypes.carId];
+      },
+      set(newCarId) {
+        this.$store.commit(orderMutationTypes.setCarId, newCarId);
+      }
+    }
   }
 };
 </script>

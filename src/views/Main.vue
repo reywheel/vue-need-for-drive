@@ -34,7 +34,7 @@
           {{ $t("main.title") }} <span>Need for drive</span>
         </h1>
         <p class="main__description">{{ $t("main.description") }}</p>
-        <router-link :to="{ name: 'orderStepOne' }">
+        <router-link :to="{ name: 'orderStart' }">
           <base-button class="main__button">
             {{ $t("main.buttonText") }}
           </base-button>
@@ -559,7 +559,7 @@ export default {
     flex-direction: column-reverse;
     padding: 16px;
     align-items: flex-end;
-    background-color: $black-2;
+    background-color: #151b1f;
     margin: -16px;
     margin-top: 0;
   }

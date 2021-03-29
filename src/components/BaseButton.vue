@@ -3,7 +3,7 @@
     class="button"
     :class="{ 'button--disabled': disabled }"
     :disabled="disabled"
-    @click="$emit('click')"
+    @click="$emit('click', $event)"
   >
     <span class="button__text" :class="{ 'button__text--hide': loading }">
       <slot />
