@@ -29,7 +29,9 @@ export default {
   name: "TheCrumbs",
   computed: {
     ...mapGetters({
-      isLocationFilled: getterTypes.isLocationFilled
+      isLocationFilled: getterTypes.isLocationFilled,
+      isModelFilled: getterTypes.isModelFilled,
+      isAdditionallyFilled: getterTypes.isAdditionallyFilled
     }),
     items() {
       return [
@@ -46,12 +48,12 @@ export default {
         {
           text: "Дополнительно",
           routeName: "orderAdditionally",
-          isAllowed: false
+          isAllowed: this.isModelFilled
         },
         {
           text: "Итого",
           routeName: "orderTotal",
-          isAllowed: false
+          isAllowed: this.isAdditionallyFilled
         }
       ];
     },

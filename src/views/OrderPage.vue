@@ -1,8 +1,8 @@
 <template>
   <div class="order">
     <div class="order__header">
-      <router-link :to="{ name: 'main' }" v-slot="{ href, navigate }" custom>
-        <a :href="href" class="order__logo" @click.prevent="navigate">
+      <router-link :to="{ name: 'main' }" tag="div" custom>
+        <a href="#" class="order__logo">
           Need for drive
         </a>
       </router-link>
@@ -22,7 +22,10 @@
       />
     </div>
     <div class="order__bread-crumbs crumbs">
-      <the-crumbs />
+      <div v-if="routeName === 'order'" class="order__id">
+        Заказ номер RU{{ id }}
+      </div>
+      <the-crumbs v-else />
     </div>
     <div class="order__wrapper">
       <div class="order__area">
@@ -45,6 +48,11 @@ import TheBid from "@/components/TheBid";
 export default {
   name: "OrderPage",
   components: { TheCrumbs, TheBid },
+  props: {
+    id: {
+      type: Number
+    }
+  },
   data() {
     return {
       isLocationSelectorShow: false
@@ -62,6 +70,9 @@ export default {
       set(newLocation) {
         this[mutationTypes.setLocation](newLocation);
       }
+    },
+    routeName() {
+      return this.$route.name;
     }
   },
   methods: {
@@ -91,6 +102,13 @@ export default {
   line-height: 35px;
   color: $accent;
   text-decoration: none;
+}
+
+.order__id {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: $black;
 }
 
 .main__location {
