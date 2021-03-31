@@ -22,8 +22,8 @@
         </div>
         <base-selector
           v-else
-          v-model.trim="currentLocation"
-          :list="locationList"
+          v-model="currentLocation"
+          :list="preparedCityList"
           :placeholder="$t('main.citySelectorPlaceholder')"
           @select="toggleLocationSelectorVisibility"
           v-click-outside="toggleLocationSelectorVisibility"
@@ -89,7 +89,8 @@
 </template>
 
 <script>
-import { getterTypes, mutationTypes } from "@/store/app";
+import { getterTypes as appGT, mutationTypes as appMT } from "@/store/app";
+import { getterTypes as cityListGT } from "@/store/cityList";
 import { mapGetters, mapMutations } from "vuex";
 import vClickOutside from "v-click-outside";
 
@@ -133,31 +134,33 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locationList: getterTypes.locationList,
-      menuIsOpen: getterTypes.menuIsOpen,
-      location: getterTypes.location
+      menuIsOpen: appGT.menuIsOpen,
+      location: appGT.location,
+      cityList: cityListGT.allCities,
+      cityListIsEmpty: cityListGT.isEmpty
     }),
+    preparedCityList() {
+      return !this.cityListIsEmpty ? this.cityList.map(item => item.name) : [];
+    },
     currentLocation: {
       get() {
-        return this.location;
+        return this.location.name;
       },
-      set(newLocation) {
-        this[mutationTypes.setLocation](newLocation);
+      set(cityName) {
+        const city = this.cityList.find(city => city.name === cityName);
+        this[appMT.setLocation](city);
       }
     }
   },
   methods: {
-    ...mapMutations([
-      mutationTypes.setLocation,
-      mutationTypes.toggleMenuVisibility
-    ]),
+    ...mapMutations([appMT.setLocation, appMT.toggleMenuVisibility]),
     changeCurrentSlideIndex(newIndex) {
       if (newIndex > this.sliderItems.length - 1) newIndex = 0;
       if (newIndex < 0) newIndex = this.sliderItems.length - 1;
       this.currentSlideIndex = newIndex;
     },
     toggleMenuVisibility() {
-      this[mutationTypes.toggleMenuVisibility]();
+      this[appMT.toggleMenuVisibility]();
     },
     toggleLocationSelectorVisibility() {
       this.isLocationSelectorShow = !this.isLocationSelectorShow;
