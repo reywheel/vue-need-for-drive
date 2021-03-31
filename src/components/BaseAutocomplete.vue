@@ -3,9 +3,8 @@
     <input
       type="text"
       class="input"
-      :value="value"
+      v-model="localValue"
       :placeholder="placeholder"
-      @input="inputHandler"
       @focusin="isListOpen = true"
     />
     <base-icon
@@ -53,6 +52,7 @@ export default {
   },
   data() {
     return {
+      localValue: this.value,
       isListOpen: false
     };
   },
@@ -62,22 +62,19 @@ export default {
       return list.sort();
     },
     filteredList() {
-      if (this.value) {
+      if (this.localValue) {
         const list = [...this.preparedList];
         return list.filter(item => {
-          return item.toLowerCase().includes(this.value.toLowerCase());
+          return item.toLowerCase().includes(this.localValue.toLowerCase());
         });
       } else {
-        return [];
+        return this.preparedList;
       }
     }
   },
   methods: {
-    inputHandler($event) {
-      this.$emit("input", $event.target.value);
-    },
     clearValue() {
-      this.$emit("input", null);
+      this.localValue = "";
     },
     selectHandler(index) {
       this.$emit("input", this.filteredList[index]);
