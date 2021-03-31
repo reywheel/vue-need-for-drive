@@ -3,7 +3,7 @@
     <div class="location__header">
       <div class="location__row">
         <span>Город</span>
-        <base-selector
+        <base-autocomplete
           v-model.trim="city"
           :list="locationList"
           placeholder="Начните вводить город ..."
@@ -11,7 +11,7 @@
       </div>
       <div class="location__row">
         <span>Пункт выдачи</span>
-        <base-selector
+        <base-autocomplete
           placeholder="Начните вводить пункт ..."
           v-model.trim="pickUpPoint"
           :list="pickPointsList"

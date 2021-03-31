@@ -11,12 +11,12 @@
       >
         <span class="main__location-text">{{ currentLocation }}</span>
       </div>
-      <base-selector
+      <base-autocomplete
         v-else
         v-model.trim="currentLocation"
         :list="locationList"
         placeholder="Начните вводить город..."
-        @close="isLocationSelectorShow = !isLocationSelectorShow"
+        @select="isLocationSelectorShow = !isLocationSelectorShow"
       />
     </div>
     <div class="order__bread-crumbs crumbs">

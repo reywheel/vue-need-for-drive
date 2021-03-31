@@ -20,7 +20,7 @@
         >
           <span class="main__location-text">{{ currentLocation }}</span>
         </div>
-        <base-selector
+        <base-autocomplete
           v-else
           v-model.trim="currentLocation"
           :list="locationList"

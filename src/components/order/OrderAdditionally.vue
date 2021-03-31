@@ -28,7 +28,7 @@
       <div class="additionally__date-title">Дата аренды</div>
       <div class="additionally__date-row">
         <span>С</span>
-        <base-selector
+        <base-autocomplete
           v-model.trim="dateFrom"
           :list="dateList"
           placeholder="Введите дату и время"
@@ -36,7 +36,7 @@
       </div>
       <div class="additionally__date-row">
         <span>По</span>
-        <base-selector
+        <base-autocomplete
           v-model.trim="dateTo"
           :list="dateList"
           placeholder="Введите дату и время"

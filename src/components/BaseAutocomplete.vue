@@ -33,7 +33,7 @@
 import vClickOutside from "v-click-outside";
 
 export default {
-  name: "BaseSelector",
+  name: "BaseAutocomplete",
   props: {
     value: {
       required: true
@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      localValue: this.value,
+      localValue: "",
       isListOpen: false
     };
   },
@@ -70,6 +70,11 @@ export default {
       } else {
         return this.preparedList;
       }
+    }
+  },
+  watch: {
+    value(newValue) {
+      this.localValue = newValue;
     }
   },
   methods: {
