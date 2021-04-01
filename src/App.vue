@@ -6,6 +6,7 @@
 
 <script>
 import DefaultLayout from "@/layouts/DefaultLayout";
+import { actionTypes as cityListAT } from "@/store/cityList";
 
 export default {
   name: "App",
@@ -24,6 +25,9 @@ export default {
       const layoutName = this.$route.meta.layout || "default";
       return layoutName[0].toUpperCase() + layoutName.slice(1) + "Layout";
     }
+  },
+  created() {
+    this.$store.dispatch(cityListAT.getCityList);
   },
   mounted() {
     this.setViewHeightVariable();
