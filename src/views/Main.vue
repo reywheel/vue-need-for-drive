@@ -18,12 +18,12 @@
           class="main__location"
           @click="toggleLocationSelectorVisibility"
         >
-          <span class="main__location-text">{{ currentLocation }}</span>
+          <span class="main__location-text">{{ currentLocation.name }}</span>
         </div>
         <base-autocomplete
           v-else
           v-model="currentLocation"
-          :list="preparedCityList"
+          :list="cityList"
           :placeholder="$t('main.citySelectorPlaceholder')"
           @select="toggleLocationSelectorVisibility"
           v-click-outside="toggleLocationSelectorVisibility"
@@ -139,16 +139,12 @@ export default {
       cityList: cityListGT.allCities,
       cityListIsEmpty: cityListGT.isEmpty
     }),
-    preparedCityList() {
-      return !this.cityListIsEmpty ? this.cityList.map(item => item.name) : [];
-    },
     currentLocation: {
       get() {
-        return this.location.name;
+        return this.location;
       },
-      set(cityName) {
-        const city = this.cityList.find(city => city.name === cityName);
-        this[appMT.setLocation](city);
+      set(newLocation) {
+        this[appMT.setLocation](newLocation);
       }
     }
   },

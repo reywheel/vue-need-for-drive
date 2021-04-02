@@ -11,7 +11,7 @@
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
       name="selector-cross"
-      @click.native="clearValue"
+      @click.native="value = ''"
     />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
       <template v-if="filteredList.length">
@@ -21,7 +21,7 @@
           class="input__list-item"
           @click="selectHandler(index)"
         >
-          {{ item }}
+          {{ item.name }}
         </li>
       </template>
       <li v-else class="input__list-item">Нет совпадений...</li>
@@ -36,7 +36,8 @@ export default {
   name: "BaseAutocomplete",
   props: {
     value: {
-      required: true
+      required: true,
+      type: Object
     },
     placeholder: {
       type: String,
@@ -57,30 +58,33 @@ export default {
     };
   },
   computed: {
-    preparedList() {
+    sortedList() {
       const list = [...this.list];
-      return list.sort();
+      return list.sort((a, b) => (a.name > b.name ? 1 : -1));
     },
     filteredList() {
+      console.log(this.sortedList);
       if (this.localValue) {
-        const list = [...this.preparedList];
+        const list = [...this.sortedList];
         return list.filter(item => {
-          return item.toLowerCase().includes(this.localValue.toLowerCase());
+          return item.name
+            .toLowerCase()
+            .includes(this.localValue.toLowerCase());
         });
       } else {
-        return this.preparedList;
+        return this.sortedList;
       }
     }
   },
   watch: {
-    value(newValue) {
-      this.localValue = newValue;
+    value: {
+      immediate: true,
+      handler(newValue) {
+        this.localValue = newValue.name;
+      }
     }
   },
   methods: {
-    clearValue() {
-      this.localValue = "";
-    },
     selectHandler(index) {
       this.$emit("input", this.filteredList[index]);
       this.$emit("select");

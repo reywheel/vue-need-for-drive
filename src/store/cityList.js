@@ -2,6 +2,7 @@ import cityApi from "@/api/city";
 
 export const getterTypes = {
   allCities: "[cityList] all cities",
+  cityNameList: "[cityList] city name list",
   isLoading: "[cityList] is loading",
   isEmpty: "[cityList] is empty"
 };
@@ -23,7 +24,10 @@ const state = {
 
 const getters = {
   [getterTypes.allCities]: state => state.data,
-  [getterTypes.isEmpty]: state => state.data === null || state.data === []
+  [getterTypes.isEmpty]: state => state.data === null || state.data === [],
+  [getterTypes.isLoading]: state => state.isLoading,
+  [getterTypes.cityNameList]: (state, getters) =>
+    getters[getterTypes.isEmpty] ? [] : state.data.map(city => city.name)
 };
 
 const mutations = {
