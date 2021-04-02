@@ -41,6 +41,13 @@ export default {
         zoom: 7
       });
 
+      this.map.controls.remove("fullscreenControl");
+      this.map.controls.remove("routeEditor");
+      this.map.controls.remove("rulerControl");
+      this.map.controls.remove("searchControl");
+      this.map.controls.remove("trafficControl");
+      this.map.controls.remove("typeSelector");
+
       this.addPoint("сочи павлова 89");
       this.addPoint("сочи победы 111");
       this.addPoint("сочи победы 300");

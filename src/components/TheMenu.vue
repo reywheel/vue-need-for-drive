@@ -2,26 +2,46 @@
   <div class="menu" :class="{ 'menu--visible': menuIsOpen }">
     <ul class="menu-list">
       <li class="menu-item">
-        <a href="#" class="menu-link">{{ $t("menu.parking") }}</a>
+        <a href="#" class="menu-link" @click.prevent="toggleMenuVisibility">{{
+          $t("menu.parking")
+        }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">{{ $t("menu.insurance") }}</a>
+        <a href="#" class="menu-link" @click.prevent="toggleMenuVisibility">{{
+          $t("menu.insurance")
+        }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">{{ $t("menu.petrol") }}</a>
+        <a href="#" class="menu-link" @click.prevent="toggleMenuVisibility">{{
+          $t("menu.petrol")
+        }}</a>
       </li>
       <li class="menu-item">
-        <a href="#" class="menu-link">{{ $t("menu.service") }}</a>
+        <a href="#" class="menu-link" @click.prevent="toggleMenuVisibility">{{
+          $t("menu.service")
+        }}</a>
       </li>
     </ul>
     <div class="social-media">
-      <a href="#" class="social-media__item">
+      <a
+        href="#"
+        class="social-media__item"
+        @click.prevent="toggleMenuVisibility"
+      >
         <base-icon name="telegram" />
       </a>
-      <a href="#" class="social-media__item">
+      <a
+        href="#"
+        class="social-media__item"
+        @click.prevent="toggleMenuVisibility"
+      >
         <base-icon name="facebook" />
       </a>
-      <a href="#" class="social-media__item">
+      <a
+        href="#"
+        class="social-media__item"
+        @click.prevent="toggleMenuVisibility"
+      >
         <base-icon name="instagram" />
       </a>
     </div>
@@ -31,8 +51,8 @@
 
 <script>
 import AppLangSwitcher from "@/components/LangSwitcher";
-import { getterTypes } from "@/store/app";
-import { mapGetters } from "vuex";
+import { getterTypes as appGT, mutationTypes as appMT } from "@/store/app";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Menu",
@@ -41,7 +61,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      menuIsOpen: getterTypes.menuIsOpen
+      menuIsOpen: appGT.menuIsOpen
+    })
+  },
+  methods: {
+    ...mapMutations({
+      toggleMenuVisibility: appMT.toggleMenuVisibility
     })
   }
 };

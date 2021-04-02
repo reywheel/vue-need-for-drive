@@ -6,7 +6,7 @@
       <div class="bid__row-title">Пункт выдачи</div>
       <div class="bid__row-divided"></div>
       <div class="bid__row-value">
-        <span class="bid__pick-up-city">{{ city }},</span>
+        <span class="bid__pick-up-city">{{ city.name }},</span>
         {{ pickUpPoint }}
       </div>
     </div>
@@ -88,7 +88,6 @@ export default {
     ...mapGetters([orderGT.color, orderGT.tariff]),
     ...mapGetters({
       city: orderGT.city,
-      pickUpPoint: orderGT.pickUpPoint,
       carId: orderGT.carId,
       carList: carListGT.carList,
       fullTank: orderGT.fullTank,
