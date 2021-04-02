@@ -20,16 +20,13 @@
     </div>
     <div class="location__map">
       <span class="location__map-title">Выбрать на карте:</span>
-      <img
-        :src="require('@/assets/map.jpg')"
-        alt=""
-        class="location__map-img"
-      />
+      <the-map />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import { getterTypes as appGT } from "@/store/app";
 import { getterTypes as cityListGT } from "@/store/cityList";
 import {
@@ -40,10 +37,13 @@ import {
   getterTypes as orderGT,
   mutationTypes as orderMT
 } from "@/store/order";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import TheMap from "@/components/TheMap";
 
 export default {
   name: "OrderLocation",
+  components: {
+    TheMap
+  },
   computed: {
     ...mapGetters([orderGT.city, orderGT.point]),
     ...mapGetters({
@@ -62,7 +62,6 @@ export default {
     },
     point: {
       get() {
-        console.log(this[orderGT.point]);
         return this[orderGT.point];
       },
       set(newPoint) {
@@ -84,7 +83,6 @@ export default {
   },
   mounted() {
     this[orderMT.setCity](this.currentLocation);
-    console.log(this.city);
     this.fetchPointList({ cityId: this.city.id });
   }
 };
