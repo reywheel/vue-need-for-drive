@@ -9,14 +9,14 @@
         v-if="!isLocationSelectorShow"
         @click="isLocationSelectorShow = !isLocationSelectorShow"
       >
-        <span class="main__location-text">{{ currentLocation }}</span>
+        <span class="main__location-text">{{ currentLocation.name }}</span>
       </div>
       <base-autocomplete
         v-else
-        v-model.trim="currentLocation"
+        v-model="currentLocation"
         :list="locationList"
         placeholder="Начните вводить город..."
-        @select="isLocationSelectorShow = !isLocationSelectorShow"
+        @close="isLocationSelectorShow = !isLocationSelectorShow"
       />
     </div>
     <div class="order__bread-crumbs crumbs">
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import { getterTypes, mutationTypes } from "@/store/app";
+import { mutationTypes as appMT, getterTypes as appGT } from "@/store/app";
+import { getterTypes as cityListGT } from "@/store/cityList";
 import { mapGetters, mapMutations } from "vuex";
 import TheCrumbs from "@/components/TheCrumbs";
 import TheBid from "@/components/TheBid";
@@ -58,15 +59,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locationList: getterTypes.locationList,
-      location: getterTypes.location
+      locationList: cityListGT.allCities,
+      location: appGT.location
     }),
     currentLocation: {
       get() {
         return this.location;
       },
       set(newLocation) {
-        this[mutationTypes.setLocation](newLocation);
+        this[appMT.setLocation](newLocation);
       }
     },
     routeName() {
@@ -74,7 +75,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([mutationTypes.setLocation])
+    ...mapMutations([appMT.setLocation])
   }
 };
 </script>

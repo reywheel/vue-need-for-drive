@@ -4,6 +4,7 @@ import app from "@/store/app";
 import order from "@/store/order";
 import carList from "@/store/carList";
 import cityList from "@/store/cityList";
+import pointList from "@/store/pointList";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     app,
     order,
     carList,
-    cityList
+    cityList,
+    pointList
   }
 });

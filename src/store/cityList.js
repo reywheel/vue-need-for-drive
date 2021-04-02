@@ -18,7 +18,7 @@ export const actionTypes = {
 };
 
 const state = {
-  data: null,
+  data: [],
   isLoading: false
 };
 

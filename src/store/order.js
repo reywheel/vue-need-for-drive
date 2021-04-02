@@ -11,7 +11,7 @@ export const TARIFFS = {
 
 export const getterTypes = {
   city: "[order] city",
-  pickUpPoint: "[order] pick-up point",
+  point: "[order] point",
   carId: "[order] car id",
   color: "[order] color",
   dateFrom: "[order] date from",
@@ -21,7 +21,6 @@ export const getterTypes = {
   babyChair: "[order] baby chair",
   rightHandDrive: "[order] right hand drive",
 
-  pickUpPointsList: "[order] pick-up points list",
   dateList: "[order] date list",
 
   isLocationFilled: "[order] is location filled",
@@ -31,7 +30,7 @@ export const getterTypes = {
 
 export const mutationTypes = {
   setCity: "[order] set city",
-  setPickUpPoint: "[order] set pick-up point",
+  setPoint: "[order] set point",
   setCarId: "[order] set car id",
   setColor: "[order] set color",
   setDateFrom: "[order] set date from",
@@ -46,7 +45,7 @@ export const actionTypes = {};
 
 const state = {
   city: null,
-  pickUpPoint: null,
+  point: null,
   carId: null,
   color: "any",
   dateFrom: null,
@@ -55,20 +54,12 @@ const state = {
   fullTank: false,
   babyChair: false,
   rightHandDrive: false,
-  pickUpPointsList: [
-    "Ульяновская",
-    "Самарская",
-    "Московская",
-    "Краснодарская",
-    "Сочинская",
-    "Новгородская"
-  ],
   dateList: ["1", "2", "3", "4", "5"]
 };
 
 const getters = {
   [getterTypes.city]: state => state.city,
-  [getterTypes.pickUpPoint]: state => state.pickUpPoint,
+  [getterTypes.point]: state => state.point,
   [getterTypes.carId]: state => state.carId,
   [getterTypes.color]: state => state.color,
   [getterTypes.dateFrom]: state => state.dateFrom,
@@ -78,7 +69,6 @@ const getters = {
   [getterTypes.babyChair]: state => state.babyChair,
   [getterTypes.rightHandDrive]: state => state.rightHandDrive,
 
-  [getterTypes.pickUpPointsList]: state => state.pickUpPointsList,
   [getterTypes.dateList]: state => state.dateList,
 
   [getterTypes.isLocationFilled]: state => state.city && state.pickUpPoint,
@@ -90,8 +80,8 @@ const mutations = {
   [mutationTypes.setCity](state, newCity) {
     state.city = newCity;
   },
-  [mutationTypes.setPickUpPoint](state, newPickUpPoint) {
-    state.pickUpPoint = newPickUpPoint;
+  [mutationTypes.setPoint](state, newPoint) {
+    state.point = newPoint;
   },
   [mutationTypes.setCarId](state, carId) {
     state.carId = carId;

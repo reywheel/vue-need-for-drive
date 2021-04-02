@@ -1,8 +1,7 @@
 export const getterTypes = {
   lang: "[app] lang",
   location: "[app] location",
-  menuIsOpen: "[app] menu is open",
-  pickPointsList: "[app] pick points list"
+  menuIsOpen: "[app] menu is open"
 };
 
 export const mutationTypes = {
@@ -13,15 +12,19 @@ export const mutationTypes = {
 
 const state = {
   lang: "Рус",
-  location: { name: "Краснодар" },
+  location: {
+    createdAt: 1579589928849,
+    id: "5e26a128099b810b946c5d87",
+    name: "Ульяновск",
+    updatedAt: 1611743727561
+  },
   menuIsOpen: false
 };
 
 const getters = {
   [getterTypes.lang]: state => state.lang,
   [getterTypes.location]: state => state.location,
-  [getterTypes.menuIsOpen]: state => state.menuIsOpen,
-  [getterTypes.pickPointsList]: state => state.pickPointsList
+  [getterTypes.menuIsOpen]: state => state.menuIsOpen
 };
 
 const mutations = {

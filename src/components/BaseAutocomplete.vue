@@ -36,8 +36,7 @@ export default {
   name: "BaseAutocomplete",
   props: {
     value: {
-      required: true,
-      type: Object
+      required: true
     },
     placeholder: {
       type: String,
@@ -63,7 +62,6 @@ export default {
       return list.sort((a, b) => (a.name > b.name ? 1 : -1));
     },
     filteredList() {
-      console.log(this.sortedList);
       if (this.localValue) {
         const list = [...this.sortedList];
         return list.filter(item => {
@@ -80,7 +78,7 @@ export default {
     value: {
       immediate: true,
       handler(newValue) {
-        this.localValue = newValue.name;
+        this.localValue = newValue?.name || "";
       }
     }
   },
@@ -91,6 +89,7 @@ export default {
       this.closeList();
     },
     closeList() {
+      this.$emit("close");
       this.isListOpen = false;
     }
   }

@@ -4,17 +4,17 @@
       <div class="location__row">
         <span>Город</span>
         <base-autocomplete
-          v-model.trim="city"
-          :list="locationList"
+          v-model="city"
+          :list="cityList"
           placeholder="Начните вводить город ..."
         />
       </div>
-      <div class="location__row">
+      <div v-if="!isPointListLoading" class="location__row">
         <span>Пункт выдачи</span>
         <base-autocomplete
           placeholder="Начните вводить пункт ..."
-          v-model.trim="pickUpPoint"
-          :list="pickPointsList"
+          v-model="point"
+          :list="pointList"
         />
       </div>
     </div>
@@ -30,46 +30,62 @@
 </template>
 
 <script>
-import { getterTypes as appGetterTypes } from "@/store/app";
+import { getterTypes as appGT } from "@/store/app";
+import { getterTypes as cityListGT } from "@/store/cityList";
 import {
-  getterTypes as orderGetterTypes,
-  mutationTypes as orderMutationTypes
+  actionTypes as pointListAT,
+  getterTypes as pointListGT
+} from "@/store/pointList";
+import {
+  getterTypes as orderGT,
+  mutationTypes as orderMT
 } from "@/store/order";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-  name: "StepOne",
+  name: "OrderLocation",
   computed: {
+    ...mapGetters([orderGT.city, orderGT.point]),
     ...mapGetters({
-      locationList: appGetterTypes.locationList,
-      pickPointsList: orderGetterTypes.pickUpPointsList,
-      currentLocation: appGetterTypes.location
+      cityList: cityListGT.allCities,
+      currentLocation: appGT.location,
+      pointList: pointListGT.allPoints,
+      isPointListLoading: pointListGT.isLoading
     }),
     city: {
       get() {
-        return this.$store.getters[orderGetterTypes.city];
+        return this[orderGT.city];
       },
       set(newCity) {
-        this[orderMutationTypes.setCity](newCity);
+        this[orderMT.setCity](newCity);
       }
     },
-    pickUpPoint: {
+    point: {
       get() {
-        return this.$store.getters[orderGetterTypes.pickUpPoint];
+        console.log(this[orderGT.point]);
+        return this[orderGT.point];
       },
-      set(newPickUpPoint) {
-        this[orderMutationTypes.setPickUpPoint](newPickUpPoint);
+      set(newPoint) {
+        this[orderMT.setPoint](newPoint);
       }
     }
   },
+  watch: {
+    city(newCity) {
+      const cityId = newCity.id;
+      this.fetchPointList({ cityId });
+    }
+  },
   methods: {
-    ...mapMutations([
-      orderMutationTypes.setCity,
-      orderMutationTypes.setPickUpPoint
-    ])
+    ...mapMutations([orderMT.setCity, orderMT.setPoint]),
+    ...mapActions({
+      fetchPointList: pointListAT.getPointListByCityId
+    })
   },
   mounted() {
-    this[orderMutationTypes.setCity](this.currentLocation);
+    this[orderMT.setCity](this.currentLocation);
+    console.log(this.city);
+    this.fetchPointList({ cityId: this.city.id });
   }
 };
 </script>
