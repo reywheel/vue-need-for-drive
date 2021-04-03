@@ -26,7 +26,7 @@
           :list="cityList"
           :placeholder="$t('main.citySelectorPlaceholder')"
           @select="toggleLocationSelectorVisibility"
-          v-click-outside="toggleLocationSelectorVisibility"
+          @outside-click="toggleLocationSelectorVisibility"
         />
       </div>
       <div class="main__content-center">

@@ -16,7 +16,8 @@
         v-model="currentLocation"
         :list="locationList"
         placeholder="Начните вводить город..."
-        @close="isLocationSelectorShow = !isLocationSelectorShow"
+        @select="isLocationSelectorShow = !isLocationSelectorShow"
+        @outside-click="isLocationSelectorShow = !isLocationSelectorShow"
       />
     </div>
     <div class="order__bread-crumbs crumbs">

@@ -1,5 +1,5 @@
 <template>
-  <div class="input__wrapper" v-click-outside="closeList">
+  <div class="input__wrapper" v-click-outside="outsideClickHandler">
     <input
       type="text"
       class="input"
@@ -90,6 +90,10 @@ export default {
     },
     closeList() {
       this.$emit("close");
+      this.isListOpen = false;
+    },
+    outsideClickHandler() {
+      this.$emit("outside-click");
       this.isListOpen = false;
     }
   }
