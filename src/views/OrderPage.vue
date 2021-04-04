@@ -91,6 +91,7 @@ export default {
 .order__header {
   padding: 32px 64px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #eeeeee;
@@ -149,8 +150,27 @@ export default {
 }
 
 .order__statement {
-  max-width: 384px;
-  width: 100%;
+  width: 384px;
   border-left: 1px solid #eeeeee;
+}
+
+@media (max-width: 1100px) {
+  .order__wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .order__statement {
+    width: unset;
+  }
+}
+
+@media (max-width: 600px) {
+  .order__header {
+    flex-direction: column;
+  }
+
+  .order__logo {
+    margin-bottom: 15px;
+  }
 }
 </style>

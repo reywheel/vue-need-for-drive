@@ -70,7 +70,7 @@ export default {
         const list = [...this.list];
         return list.sort((a, b) => (a.name > b.name ? 1 : -1));
       } else {
-        return this.list;
+        return [];
       }
     },
     filteredList() {

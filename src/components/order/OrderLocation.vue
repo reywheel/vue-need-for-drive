@@ -21,11 +21,13 @@
     </div>
     <div class="location__map">
       <span class="location__map-title">Выбрать на карте:</span>
-      <the-map
-        :city="location"
-        :point-list="pointList"
-        @select="point = $event"
-      />
+      <div class="location__map-wrapper">
+        <the-map
+          :city="location"
+          :point-list="pointList"
+          @select="point = $event"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -125,5 +127,11 @@ export default {
   line-height: 16px;
   color: $black;
   margin-bottom: 16px;
+}
+
+@media (max-width: 1100px) {
+  .location {
+    padding: 32px;
+  }
 }
 </style>

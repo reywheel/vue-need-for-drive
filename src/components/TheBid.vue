@@ -238,4 +238,10 @@ export default {
 .bid__button {
   width: 100%;
 }
+
+@media (max-width: 1100px) {
+  .bid {
+    padding: 32px;
+  }
+}
 </style>

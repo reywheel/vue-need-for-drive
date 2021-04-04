@@ -30,6 +30,7 @@ const getters = {
 const mutations = {
   [mutationTypes.getPointListStart](state) {
     state.isLoading = true;
+    state.data = null;
   },
   [mutationTypes.getPointListSuccess](state, pointList) {
     state.isLoading = false;

@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="width: 100%; height: 400px"></div>
+  <div id="map" style="height: 400px; width: auto;"></div>
 </template>
 
 <script>
@@ -83,6 +83,7 @@ export default {
     },
 
     fitMapSize() {
+      console.log("fit");
       const bounds = this.map.geoObjects.getBounds();
       this.map.setBounds(bounds, {
         zoomMargin: 100
