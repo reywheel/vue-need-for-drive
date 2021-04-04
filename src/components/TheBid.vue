@@ -171,11 +171,6 @@ export default {
           return "orderLocation";
       }
     }
-  },
-  methods: {
-    clickHandler() {
-      console.log("click");
-    }
   }
 };
 </script>

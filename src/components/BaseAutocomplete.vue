@@ -18,7 +18,7 @@
       @click.native="localValue = ''"
     />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
-      <template v-if="filteredList">
+      <template v-if="filteredList && filteredList.length">
         <li
           v-for="(item, index) of filteredList"
           :key="index"
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     selectHandler(index) {
-      this.$emit("input", this.filteredList[index]);
+      this.$emit("input", { ...this.filteredList[index] });
       this.$emit("select");
       this.closeList();
     },

@@ -28,7 +28,9 @@
     </div>
     <div class="order__wrapper">
       <div class="order__area">
-        <router-view />
+        <keep-alive>
+          <router-view />
+        </keep-alive>
       </div>
 
       <div class="order__statement">

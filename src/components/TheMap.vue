@@ -75,15 +75,16 @@ export default {
     },
 
     setAllPoints() {
-      const pointList = [...this.pointList];
-      if (pointList && pointList.length && this.map) {
-        const promiseArray = pointList.map(point => this.addPoint(point));
-        Promise.all(promiseArray).then(() => this.fitMapSize());
+      if (this.pointList && this.pointList.length) {
+        const pointList = [...this.pointList];
+        if (pointList && pointList.length && this.map) {
+          const promiseArray = pointList.map(point => this.addPoint(point));
+          Promise.all(promiseArray).then(() => this.fitMapSize());
+        }
       }
     },
 
     fitMapSize() {
-      console.log("fit");
       const bounds = this.map.geoObjects.getBounds();
       this.map.setBounds(bounds, {
         zoomMargin: 100

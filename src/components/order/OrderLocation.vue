@@ -81,6 +81,7 @@ export default {
       handler(newCity) {
         const cityId = newCity.id;
         this.fetchPointList({ cityId });
+        this.point = "";
       }
     }
   },
