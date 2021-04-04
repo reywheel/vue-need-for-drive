@@ -4,30 +4,35 @@
       <div class="location__row">
         <span>Город</span>
         <base-autocomplete
-          v-model="city"
+          v-model="location"
           :list="cityList"
           placeholder="Начните вводить город ..."
         />
       </div>
-      <div v-if="!isPointListLoading" class="location__row">
+      <div class="location__row">
         <span>Пункт выдачи</span>
         <base-autocomplete
-          placeholder="Начните вводить пункт ..."
           v-model="point"
           :list="pointList"
+          :isLoading="isPointListLoading"
+          placeholder="Начните вводить пункт ..."
         />
       </div>
     </div>
     <div class="location__map">
       <span class="location__map-title">Выбрать на карте:</span>
-      <the-map />
+      <the-map
+        :city="location"
+        :point-list="pointList"
+        @select="point = $event"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import { getterTypes as appGT } from "@/store/app";
+import { mapGetters, mapActions } from "vuex";
+import { getterTypes as appGT, mutationTypes as appMT } from "@/store/app";
 import { getterTypes as cityListGT } from "@/store/cityList";
 import {
   actionTypes as pointListAT,
@@ -45,45 +50,42 @@ export default {
     TheMap
   },
   computed: {
-    ...mapGetters([orderGT.city, orderGT.point]),
     ...mapGetters({
       cityList: cityListGT.allCities,
-      currentLocation: appGT.location,
       pointList: pointListGT.allPoints,
-      isPointListLoading: pointListGT.isLoading
+      isPointListLoading: pointListGT.isLoading,
+      isPointListEmpty: pointListGT.isEmpty
     }),
-    city: {
+    location: {
       get() {
-        return this[orderGT.city];
+        return this.$store.getters[appGT.location];
       },
-      set(newCity) {
-        this[orderMT.setCity](newCity);
+      set(newLocation) {
+        this.$store.commit(appMT.setLocation, newLocation);
       }
     },
     point: {
       get() {
-        return this[orderGT.point];
+        return this.$store.getters[orderGT.point];
       },
       set(newPoint) {
-        this[orderMT.setPoint](newPoint);
+        this.$store.commit(orderMT.setPoint, newPoint);
       }
     }
   },
   watch: {
-    city(newCity) {
-      const cityId = newCity.id;
-      this.fetchPointList({ cityId });
+    location: {
+      immediate: true,
+      handler(newCity) {
+        const cityId = newCity.id;
+        this.fetchPointList({ cityId });
+      }
     }
   },
   methods: {
-    ...mapMutations([orderMT.setCity, orderMT.setPoint]),
     ...mapActions({
       fetchPointList: pointListAT.getPointListByCityId
     })
-  },
-  mounted() {
-    this[orderMT.setCity](this.currentLocation);
-    this.fetchPointList({ cityId: this.city.id });
   }
 };
 </script>

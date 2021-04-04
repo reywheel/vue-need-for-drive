@@ -29,12 +29,12 @@
           v-for="(car, index) of carList"
           :key="index"
           class="model__list-item item"
-          :class="{ 'item--active': selectedCarId === car.id }"
-          @click="selectedCarId = car.id"
+          :class="{ 'item--active': selectedCar && selectedCar.id === car.id }"
+          @click="selectedCarId = car"
         >
-          <div class="item__title">{{ car.title }}</div>
-          <div class="item__price">{{ car.price }}</div>
-          <img :src="car.img" class="item__image" />
+          <div class="item__title">{{ car.name }}</div>
+          <div class="item__price">{{ car.priceMax }}</div>
+          <img :src="car.thumbnail.path" class="item__image" />
         </div>
       </div>
     </div>
@@ -42,12 +42,15 @@
 </template>
 
 <script>
-import { getterTypes as carListGetterTypes } from "@/store/carList";
 import {
-  getterTypes as orderGetterTypes,
-  mutationTypes as orderMutationTypes
+  getterTypes as carListGT,
+  actionTypes as carListAT
+} from "@/store/carList";
+import {
+  getterTypes as orderGT,
+  mutationTypes as orderMT
 } from "@/store/order";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "StepTwo",
@@ -58,16 +61,24 @@ export default {
   },
   computed: {
     ...mapGetters({
-      carList: carListGetterTypes.carList
+      carList: carListGT.allCars
     }),
-    selectedCarId: {
+    selectedCar: {
       get() {
-        return this.$store.getters[orderGetterTypes.carId];
+        return this.$store.getters[orderGT.car];
       },
-      set(newCarId) {
-        this.$store.commit(orderMutationTypes.setCarId, newCarId);
+      set(newCar) {
+        this.$store.commit(orderMT.setCarId, newCar);
       }
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchCarList: carListAT.getCarList
+    })
+  },
+  created() {
+    this.fetchCarList();
   }
 };
 </script>

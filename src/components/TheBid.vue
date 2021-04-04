@@ -1,13 +1,13 @@
 <template>
   <div class="bid">
     <h3 class="bid__title">Ваш заказ:</h3>
-    <!--   пукнт выдачи   -->
+    <!--   пункт выдачи   -->
     <div class="bid__pick-up bid__row">
       <div class="bid__row-title">Пункт выдачи</div>
       <div class="bid__row-divided"></div>
       <div class="bid__row-value">
         <span class="bid__pick-up-city">{{ city.name }},</span>
-        {{ pickUpPoint }}
+        <template v-if="point">{{ point.name }}</template>
       </div>
     </div>
     <!--   модель автомобиля   -->
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { getterTypes as appGT } from "@/store/app";
 import { getterTypes as orderGT } from "@/store/order";
 import { COLORS, TARIFFS } from "@/store/order";
 import { getterTypes as carListGT } from "@/store/carList";
@@ -85,9 +86,9 @@ import { mapGetters } from "vuex";
 export default {
   name: "TheBid",
   computed: {
-    ...mapGetters([orderGT.color, orderGT.tariff]),
     ...mapGetters({
-      city: orderGT.city,
+      city: appGT.location,
+      point: orderGT.point,
       carId: orderGT.carId,
       carList: carListGT.carList,
       fullTank: orderGT.fullTank,
@@ -107,10 +108,10 @@ export default {
         : null;
     },
     color() {
-      return COLORS[this[orderGT.color]];
+      return COLORS[this.$store.getters[orderGT.color]];
     },
     tariff() {
-      return TARIFFS[this[orderGT.tariff]];
+      return TARIFFS[this.$store.getters[orderGT.tariff]];
     },
     isModelPartVisible() {
       return (

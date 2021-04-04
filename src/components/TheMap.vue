@@ -5,42 +5,114 @@
 <script>
 export default {
   name: "TheMap",
+  props: {
+    city: {
+      type: Object,
+      required: true,
+      validator(value) {
+        return (
+          // eslint-disable-next-line no-prototype-builtins
+          value.hasOwnProperty("name") && typeof value?.name === "string"
+        );
+      }
+    },
+    pointList: {
+      type: Array,
+      default: () => [],
+      validator(value) {
+        return value.every(
+          point =>
+            // eslint-disable-next-line no-prototype-builtins
+            point.hasOwnProperty("address") &&
+            typeof point?.address === "string"
+        );
+      }
+    }
+  },
   data() {
     return {
       map: null
     };
   },
-  methods: {
-    addPoint(address) {
-      // eslint-disable-next-line no-undef
-      ymaps
-        .geocode(address, {
-          results: 1
-        })
-        .then(res => {
-          let firstGeoObject = res.geoObjects.get(0);
-          firstGeoObject.options.set(
-            "iconImageHref",
-            require("@/assets/icons/map-point.svg")
-          );
-          firstGeoObject.options.set("iconLayout", "default#image");
-          this.map.geoObjects.add(firstGeoObject);
-          const bounds = this.map.geoObjects.getBounds();
-          this.map.setBounds(bounds, {
-            zoomMargin: 40
-          });
-        });
+
+  watch: {
+    city: {
+      async handler(newCity) {
+        const cityCoordinates = await this.getCityCoordinates(newCity.name);
+        this.map.setCenter(cityCoordinates);
+        this.map.geoObjects.removeAll();
+      }
+    },
+    pointList() {
+      this.setAllPoints();
     }
   },
-  mounted() {
-    // eslint-disable-next-line no-undef
-    ymaps.ready(() => {
+
+  methods: {
+    async addPoint(point) {
+      const address = `${this.city.name}, ${point.address}`;
+      // беру гео-объект по адресу
       // eslint-disable-next-line no-undef
-      this.map = new ymaps.Map("map", {
-        center: [55.76, 37.64],
-        zoom: 7
+      const res = await ymaps.geocode(address, {
+        results: 1
+      });
+      const geoObject = res.geoObjects.get(0);
+
+      // устанавливаю гео-объекту иконку
+      geoObject.options.set(
+        "iconImageHref",
+        require("@/assets/icons/map-point.svg")
+      );
+      geoObject.options.set("iconLayout", "default#image");
+
+      // вешаю на гео-объект обработчик события
+      geoObject.events.add("click", () => {
+        this.$emit("select", point);
       });
 
+      // добавляю гео-объект
+      this.map.geoObjects.add(geoObject);
+    },
+
+    setAllPoints() {
+      const pointList = [...this.pointList];
+      if (pointList && pointList.length && this.map) {
+        const promiseArray = pointList.map(point => this.addPoint(point));
+        Promise.all(promiseArray).then(() => this.fitMapSize());
+      }
+    },
+
+    fitMapSize() {
+      const bounds = this.map.geoObjects.getBounds();
+      this.map.setBounds(bounds, {
+        zoomMargin: 100
+      });
+      this.map.setZoom(11, {
+        duration: 500
+      });
+    },
+
+    async getCityCoordinates(cityName) {
+      // eslint-disable-next-line no-undef
+      const res = await ymaps.geocode(cityName, {
+        results: 1
+      });
+      const geoObject = res.geoObjects.get(0);
+      return geoObject.geometry._coordinates;
+    }
+  },
+
+  mounted() {
+    // eslint-disable-next-line no-undef
+    ymaps.ready(async () => {
+      const cityCoordinates = await this.getCityCoordinates(this.city.name);
+      // eslint-disable-next-line no-undef
+      this.map = new ymaps.Map("map", {
+        center: cityCoordinates,
+        zoom: 11
+      });
+
+      // удаление ненужных управляющих элементов
       this.map.controls.remove("fullscreenControl");
       this.map.controls.remove("routeEditor");
       this.map.controls.remove("rulerControl");
@@ -48,10 +120,12 @@ export default {
       this.map.controls.remove("trafficControl");
       this.map.controls.remove("typeSelector");
 
-      this.addPoint("сочи павлова 89");
-      this.addPoint("сочи победы 111");
-      this.addPoint("сочи победы 300");
+      // добавление точек
+      this.setAllPoints();
     });
+  },
+  beforeDestroy() {
+    this.map.destroy();
   }
 };
 </script>

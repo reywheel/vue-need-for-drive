@@ -10,9 +10,8 @@ export const TARIFFS = {
 };
 
 export const getterTypes = {
-  city: "[order] city",
   point: "[order] point",
-  carId: "[order] car id",
+  car: "[order] car",
   color: "[order] color",
   dateFrom: "[order] date from",
   dateTo: "[order] date to",
@@ -29,9 +28,8 @@ export const getterTypes = {
 };
 
 export const mutationTypes = {
-  setCity: "[order] set city",
   setPoint: "[order] set point",
-  setCarId: "[order] set car id",
+  setCar: "[order] set car",
   setColor: "[order] set color",
   setDateFrom: "[order] set date from",
   setDateTo: "[order] set date to",
@@ -44,9 +42,8 @@ export const mutationTypes = {
 export const actionTypes = {};
 
 const state = {
-  city: null,
   point: null,
-  carId: null,
+  car: null,
   color: "any",
   dateFrom: null,
   dateTo: null,
@@ -58,9 +55,8 @@ const state = {
 };
 
 const getters = {
-  [getterTypes.city]: state => state.city,
   [getterTypes.point]: state => state.point,
-  [getterTypes.carId]: state => state.carId,
+  [getterTypes.car]: state => state.car,
   [getterTypes.color]: state => state.color,
   [getterTypes.dateFrom]: state => state.dateFrom,
   [getterTypes.dateTo]: state => state.dateTo,
@@ -71,20 +67,17 @@ const getters = {
 
   [getterTypes.dateList]: state => state.dateList,
 
-  [getterTypes.isLocationFilled]: state => state.city && state.pickUpPoint,
-  [getterTypes.isModelFilled]: state => state.carId !== null,
+  [getterTypes.isLocationFilled]: state => state.point,
+  [getterTypes.isModelFilled]: state => state.car !== null,
   [getterTypes.isAdditionallyFilled]: state => state.dateFrom && state.dateTo
 };
 
 const mutations = {
-  [mutationTypes.setCity](state, newCity) {
-    state.city = newCity;
-  },
   [mutationTypes.setPoint](state, newPoint) {
     state.point = newPoint;
   },
-  [mutationTypes.setCarId](state, carId) {
-    state.carId = carId;
+  [mutationTypes.setCar](state, car) {
+    state.car = car;
   },
   [mutationTypes.setColor](state, color) {
     state.color = color;

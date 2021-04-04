@@ -1,71 +1,57 @@
+import carApi from "@/api/car";
+
 export const getterTypes = {
-  carList: "[car list] car list"
+  allCars: "[carList] all cars",
+  isLoading: "[carList] is loading",
+  isEmpty: "[carList] is empty"
 };
 
-export const mutationTypes = {};
+export const mutationTypes = {
+  getCarListStart: "[carList] get car list start",
+  getCarListSuccess: "[carList] get car list success",
+  getCarListFailure: "[carList] get car list failure"
+};
 
-export const actionTypes = {};
+export const actionTypes = {
+  getCarList: "[carList] get car list"
+};
 
 const state = {
-  carList: [
-    {
-      id: 1,
-      title: "ELANTRA",
-      price: "12 000 - 25 000 ₽",
-      img: require("@/assets/car-1.jpg")
-    },
-    {
-      id: 2,
-      title: "i30 N",
-      price: "10 000 - 32 000 ₽",
-      img: require("@/assets/car-2.jpg")
-    },
-    {
-      id: 3,
-      title: "CRETA",
-      price: "12 000 - 25 000 ₽",
-      img: require("@/assets/car-3.jpg")
-    },
-    {
-      id: 4,
-      title: "SONATA",
-      price: "10 000 - 32 000 ₽",
-      img: require("@/assets/car-4.jpg")
-    },
-    {
-      id: 5,
-      title: "ELANTRA",
-      price: "12 000 - 25 000 ₽",
-      img: require("@/assets/car-1.jpg")
-    },
-    {
-      id: 6,
-      title: "i30 N",
-      price: "10 000 - 32 000 ₽",
-      img: require("@/assets/car-2.jpg")
-    },
-    {
-      id: 7,
-      title: "CRETA",
-      price: "12 000 - 25 000 ₽",
-      img: require("@/assets/car-3.jpg")
-    },
-    {
-      id: 8,
-      title: "SONATA",
-      price: "10 000 - 32 000 ₽",
-      img: require("@/assets/car-4.jpg")
-    }
-  ]
+  data: null,
+  isLoading: false
 };
 
 const getters = {
-  [getterTypes.carList]: state => state.carList
+  [getterTypes.allCars]: state => state.data,
+  [getterTypes.isEmpty]: state => state.data === null || state.data === [],
+  [getterTypes.isLoading]: state => state.isLoading
 };
 
-const mutations = {};
+const mutations = {
+  [mutationTypes.getCarListStart](state) {
+    state.isLoading = true;
+  },
+  [mutationTypes.getCarListSuccess](state, carList) {
+    state.isLoading = false;
+    state.data = carList;
+  },
+  [mutationTypes.getCarListFailure](state) {
+    state.isLoading = false;
+  }
+};
 
-const actions = {};
+const actions = {
+  async [actionTypes.getCarList]({ commit }) {
+    try {
+      commit(mutationTypes.getCarListStart);
+      const response = await carApi.getAll();
+      commit(mutationTypes.getCarListSuccess, response.data);
+    } catch (e) {
+      commit(mutationTypes.getCarListFailure);
+      throw e;
+    }
+  }
+};
 
 export default {
   state,

@@ -3,8 +3,7 @@ import pointApi from "@/api/point";
 export const getterTypes = {
   allPoints: "[pointList] all points",
   isLoading: "[pointList] is loading",
-  isEmpty: "[pointList] is empty",
-  pointNamesList: "[pointList] point names list"
+  isEmpty: "[pointList] is empty"
 };
 
 export const mutationTypes = {
@@ -25,9 +24,7 @@ const state = {
 const getters = {
   [getterTypes.allPoints]: state => state.data,
   [getterTypes.isEmpty]: state => state.data === null || state.data === [],
-  [getterTypes.isLoading]: state => state.isLoading,
-  [getterTypes.pointNamesList]: (state, getters) =>
-    getters[getterTypes.isEmpty] ? [] : state.data.map(point => point.name)
+  [getterTypes.isLoading]: state => state.isLoading
 };
 
 const mutations = {

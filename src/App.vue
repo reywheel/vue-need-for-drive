@@ -74,4 +74,37 @@ li {
 #app {
   height: calc(var(--vh, 1vh) * 100);
 }
+
+.loading {
+  position: relative;
+  pointer-events: none;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    animation-duration: 1.8s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #fafafa 8%, #cdcdcd 38%, #fafafa 54%);
+    background-size: 1000px 640px;
+    opacity: 0.5;
+    z-index: 10;
+  }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
 </style>

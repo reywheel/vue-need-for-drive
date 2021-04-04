@@ -1,5 +1,9 @@
 <template>
-  <div class="input__wrapper" v-click-outside="outsideClickHandler">
+  <div
+    class="input__wrapper"
+    :class="{ loading: isLoading }"
+    v-click-outside="outsideClickHandler"
+  >
     <input
       type="text"
       class="input"
@@ -11,10 +15,10 @@
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
       name="selector-cross"
-      @click.native="value = ''"
+      @click.native="localValue = ''"
     />
     <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
-      <template v-if="filteredList.length">
+      <template v-if="filteredList">
         <li
           v-for="(item, index) of filteredList"
           :key="index"
@@ -45,6 +49,10 @@ export default {
     list: {
       type: Array,
       default: Array
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   },
   directives: {
@@ -58,8 +66,12 @@ export default {
   },
   computed: {
     sortedList() {
-      const list = [...this.list];
-      return list.sort((a, b) => (a.name > b.name ? 1 : -1));
+      if (this.list) {
+        const list = [...this.list];
+        return list.sort((a, b) => (a.name > b.name ? 1 : -1));
+      } else {
+        return this.list;
+      }
     },
     filteredList() {
       if (this.localValue) {
