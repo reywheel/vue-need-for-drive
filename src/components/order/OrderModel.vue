@@ -1,43 +1,40 @@
 <template>
   <div class="model">
-    <div class="model__header">
-      <base-radio-button
-        v-model="filter"
-        name="filter"
-        native-value="all"
-        label="Все модели"
-        class="model__radio-wrapper"
-      />
-      <base-radio-button
-        v-model="filter"
-        name="filter"
-        native-value="economy"
-        label="Эконом"
-        class="model__radio-wrapper"
-      />
-      <base-radio-button
-        v-model="filter"
-        name="filter"
-        native-value="premium"
-        label="Премиум"
-        class="model__radio-wrapper"
-      />
-    </div>
-    <div class="model__list">
-      <div class="model__list-inner">
-        <div
-          v-for="(car, index) of carList"
+    <base-loader v-if="isCarListLoading || isCategoryListLoading" />
+    <template v-else>
+      <div class="model__header">
+        <base-radio-button
+          v-model="filter"
+          value="all"
+          label="Все"
+          id="all"
+          name="filter"
+          class="model__radio-wrapper"
+        />
+        <base-radio-button
+          v-for="(category, index) of categoryList"
           :key="index"
-          class="model__list-item item"
-          :class="{ 'item--active': selectedCar && selectedCar.id === car.id }"
-          @click="selectedCarId = car"
-        >
-          <div class="item__title">{{ car.name }}</div>
-          <div class="item__price">{{ car.priceMax }}</div>
-          <img :src="car.thumbnail.path" class="item__image" />
+          v-model="filter"
+          :value="category.id"
+          :label="category.name"
+          :id="category.id"
+          name="filter"
+          class="model__radio-wrapper"
+        />
+      </div>
+      <div class="model__list">
+        <div class="model__list-inner">
+          <app-car-card
+            v-for="(car, index) of preparedCarList"
+            v-show="filter === 'all' || car.categoryId.id === filter"
+            :key="index"
+            :car="car"
+            :is-active="selectedCar && selectedCar.id === car.id"
+            @click.native="selectedCar = car"
+          />
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -47,13 +44,21 @@ import {
   actionTypes as carListAT
 } from "@/store/carList";
 import {
+  getterTypes as categoryListGT,
+  actionTypes as categoryListAT
+} from "@/store/categoryList";
+import {
   getterTypes as orderGT,
   mutationTypes as orderMT
 } from "@/store/order";
 import { mapActions, mapGetters } from "vuex";
+import AppCarCard from "@/components/CarCard";
 
 export default {
-  name: "StepTwo",
+  name: "OrderModel",
+  components: {
+    AppCarCard
+  },
   data() {
     return {
       filter: "all"
@@ -61,24 +66,42 @@ export default {
   },
   computed: {
     ...mapGetters({
-      carList: carListGT.allCars
+      carList: carListGT.allCars,
+      isCarListLoading: carListGT.isLoading,
+      isCarListEmpty: carListGT.isEmpty,
+      categoryList: categoryListGT.allCategories,
+      isCategoryListLoading: categoryListGT.isLoading
     }),
+    preparedCarList() {
+      if (!this.isCarListEmpty) {
+        const baseUrl = process.env.VUE_APP_API_URL.replace("/api/", "");
+        return this.carList.map(car => {
+          const newCar = { ...car };
+          newCar.thumbnail.path = baseUrl + newCar.thumbnail.path;
+          return newCar;
+        });
+      } else {
+        return [];
+      }
+    },
     selectedCar: {
       get() {
         return this.$store.getters[orderGT.car];
       },
       set(newCar) {
-        this.$store.commit(orderMT.setCarId, newCar);
+        this.$store.commit(orderMT.setCar, newCar);
       }
     }
   },
   methods: {
     ...mapActions({
-      fetchCarList: carListAT.getCarList
+      fetchCarList: carListAT.getCarList,
+      fetchCategoryList: categoryListAT.getCategoryList
     })
   },
   created() {
     this.fetchCarList();
+    this.fetchCategoryList();
   }
 };
 </script>
@@ -150,6 +173,7 @@ export default {
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -165,48 +189,5 @@ export default {
     border-radius: 4px;
     background-clip: content-box;
   }
-}
-
-.item {
-  border: 1px solid $light-grey;
-  padding: 16px;
-  max-width: 368px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: all 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    border-color: $dark-grey;
-  }
-
-  &--active {
-    border-color: $accent;
-
-    &:hover {
-      border-color: $accent;
-    }
-  }
-}
-
-.item__title {
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
-  color: $black;
-}
-
-.item__price {
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  color: $dark-grey;
-  margin-bottom: 36px;
-}
-
-.item__image {
-  align-self: flex-end;
 }
 </style>

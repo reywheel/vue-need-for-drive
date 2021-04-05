@@ -3,15 +3,14 @@
     <input
       type="radio"
       class="radio__input"
-      :id="nativeValue"
-      :name="name"
-      :value="nativeValue"
-      @change="$emit('input', nativeValue)"
+      v-bind="$attrs"
+      :value="value"
+      @change="$emit('input', value)"
     />
     <label
-      :for="nativeValue"
+      :for="$attrs.id"
       class="radio__label"
-      :class="{ 'radio__label--active': value === nativeValue }"
+      :class="{ 'radio__label--active': vModelValue === value }"
     >
       {{ label }}
     </label>
@@ -21,15 +20,16 @@
 <script>
 export default {
   name: "BaseRadioButton",
+  inheritAttrs: false,
+  model: {
+    prop: "vModelValue"
+  },
   props: {
     value: {
-      required: true
+      required: true,
+      type: String
     },
-    name: {
-      type: String,
-      required: true
-    },
-    nativeValue: {
+    vModelValue: {
       type: String,
       required: true
     },

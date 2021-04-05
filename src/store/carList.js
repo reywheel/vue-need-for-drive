@@ -23,7 +23,8 @@ const state = {
 
 const getters = {
   [getterTypes.allCars]: state => state.data,
-  [getterTypes.isEmpty]: state => state.data === null || state.data === [],
+  [getterTypes.isEmpty]: state =>
+    state.data === null || state.data.length === 0,
   [getterTypes.isLoading]: state => state.isLoading
 };
 
