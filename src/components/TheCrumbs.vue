@@ -36,22 +36,22 @@ export default {
     items() {
       return [
         {
-          text: "Местоположение",
+          text: this.$t("orderPage.crumbs.location"),
           routeName: "orderLocation",
           isAllowed: true
         },
         {
-          text: "Модель",
+          text: this.$t("orderPage.crumbs.model"),
           routeName: "orderModel",
           isAllowed: this.isLocationFilled
         },
         {
-          text: "Дополнительно",
+          text: this.$t("orderPage.crumbs.additionally"),
           routeName: "orderAdditionally",
           isAllowed: this.isModelFilled
         },
         {
-          text: "Итого",
+          text: this.$t("orderPage.crumbs.total"),
           routeName: "orderTotal",
           isAllowed: this.isAdditionallyFilled
         }

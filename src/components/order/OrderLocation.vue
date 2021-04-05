@@ -2,25 +2,27 @@
   <div class="location">
     <div class="location__header">
       <div class="location__row">
-        <span>Город</span>
+        <span>{{ $t("orderPage.location.city") }}</span>
         <base-autocomplete
           v-model="location"
           :list="cityList"
-          placeholder="Начните вводить город ..."
+          :placeholder="$t('orderPage.location.cityPlaceholder')"
         />
       </div>
       <div class="location__row">
-        <span>Пункт выдачи</span>
+        <span>{{ $t("orderPage.location.pickUpPoint") }}</span>
         <base-autocomplete
           v-model="point"
           :list="pointList"
           :isLoading="isPointListLoading"
-          placeholder="Начните вводить пункт ..."
+          :placeholder="$t('orderPage.location.pickUpPointPlaceholder')"
         />
       </div>
     </div>
     <div class="location__map">
-      <span class="location__map-title">Выбрать на карте:</span>
+      <span class="location__map-title"
+        >{{ $t("orderPage.location.mapTitle") }}:</span
+      >
       <div class="location__map-wrapper">
         <the-map
           :city="location"

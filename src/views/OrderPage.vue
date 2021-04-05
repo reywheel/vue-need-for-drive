@@ -1,9 +1,17 @@
 <template>
   <div class="order">
     <div class="order__header">
-      <router-link :to="{ name: 'main' }" class="order__logo">
-        Need for drive
-      </router-link>
+      <div class="order__header-wrapper">
+        <base-burger
+          :is-active="isMenuOpen"
+          class="order__header-burger"
+          :class="{ 'order__header-burger--active': isMenuOpen }"
+          @click="toggleMenuVisibility"
+        />
+        <router-link :to="{ name: 'main' }" class="order__logo">
+          Need for drive
+        </router-link>
+      </div>
       <div
         class="main__location"
         v-if="!isLocationSelectorShow"
@@ -46,10 +54,11 @@ import { getterTypes as cityListGT } from "@/store/cityList";
 import { mapGetters, mapMutations } from "vuex";
 import TheCrumbs from "@/components/TheCrumbs";
 import TheBid from "@/components/TheBid";
+import BaseBurger from "@/components/BaseBurger";
 
 export default {
   name: "OrderPage",
-  components: { TheCrumbs, TheBid },
+  components: { BaseBurger, TheCrumbs, TheBid },
   props: {
     id: {
       type: Number
@@ -62,6 +71,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isMenuOpen: appGT.menuIsOpen,
       locationList: cityListGT.allCities,
       location: appGT.location
     }),
@@ -70,7 +80,7 @@ export default {
         return this.location;
       },
       set(newLocation) {
-        this[appMT.setLocation](newLocation);
+        this.$store.commit(appMT.setLocation, newLocation);
       }
     },
     routeName() {
@@ -78,7 +88,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([appMT.setLocation])
+    ...mapMutations({
+      toggleMenuVisibility: appMT.toggleMenuVisibility
+    })
   }
 };
 </script>
@@ -105,6 +117,10 @@ export default {
   line-height: 35px;
   color: $accent;
   text-decoration: none;
+}
+
+.order__header-burger {
+  display: none;
 }
 
 .order__id {
@@ -169,10 +185,28 @@ export default {
 @media (max-width: 600px) {
   .order__header {
     flex-direction: column;
+    padding: 15px;
   }
 
-  .order__logo {
-    margin-bottom: 15px;
+  .order__header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .order__header-burger {
+    display: block;
+    --color: #{$black};
+
+    &--active {
+      z-index: 104;
+    }
+  }
+
+  .main__location {
+    align-self: flex-end;
   }
 }
 </style>

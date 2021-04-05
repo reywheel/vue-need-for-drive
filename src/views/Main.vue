@@ -34,8 +34,8 @@
           {{ $t("main.title") }} <span>Need for drive</span>
         </h1>
         <p class="main__description">{{ $t("main.description") }}</p>
-        <router-link :to="{ name: 'orderStart' }">
-          <base-button class="main__button">
+        <router-link :to="{ name: 'orderStart' }" v-slot="{ navigate }" custom>
+          <base-button class="main__button" @click="navigate">
             {{ $t("main.buttonText") }}
           </base-button>
         </router-link>

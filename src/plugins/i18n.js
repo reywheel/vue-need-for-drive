@@ -38,6 +38,21 @@ const messages = {
       insurance: "Страховка",
       petrol: "Бензин",
       service: "Обслуживание"
+    },
+    orderPage: {
+      crumbs: {
+        location: "Местоположение",
+        model: "Модель",
+        additionally: "Дополнительно",
+        total: "Итого"
+      },
+      location: {
+        city: "Город",
+        cityPlaceholder: "Начните вводить город ...",
+        pickUpPoint: "Пункт выдачи",
+        pickUpPointPlaceholder: "Начните вводить пункт ...",
+        mapTitle: "Выбрать на карте"
+      }
     }
   },
   eng: {
@@ -75,6 +90,21 @@ const messages = {
       insurance: "Insurance",
       petrol: "Petrol",
       service: "Service"
+    },
+    orderPage: {
+      crumbs: {
+        location: "Location",
+        model: "Model",
+        additionally: "Additionally",
+        total: "Total"
+      },
+      location: {
+        city: "City",
+        cityPlaceholder: "Start typing city ...",
+        pickUpPoint: "Pick-up point",
+        pickUpPointPlaceholder: "Start typing pick-up point ...",
+        mapTitle: "Choose on the map"
+      }
     }
   }
 };
