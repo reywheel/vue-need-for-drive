@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import app from "@/store/app";
 import order from "@/store/order";
+import errors from "@/store/errors";
 import carList from "@/store/carList";
 import cityList from "@/store/cityList";
 import pointList from "@/store/pointList";
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   modules: {
     app,
     order,
+    errors,
     carList,
     cityList,
     pointList,

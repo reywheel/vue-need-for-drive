@@ -5,6 +5,7 @@ import store from "./store";
 import vClickOutside from "v-click-outside";
 import i18n from "@/plugins/i18n";
 import VueSimpleSVG from "vue-simple-svg";
+import { actionTypes as errorsAT } from "@/store/errors";
 
 Vue.use(VueSimpleSVG);
 Vue.use(vClickOutside);
@@ -32,4 +33,8 @@ function includeBaseComponents() {
       fileName.replace(/^.+\//, "").replace(/\.\w+$/, "");
     Vue.component(baseComponentName, baseComponentConfig);
   });
+}
+
+export function addError(error) {
+  store.dispatch(errorsAT.addError, { error });
 }

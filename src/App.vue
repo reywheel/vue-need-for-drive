@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <app-error v-for="(error, index) of errors" :key="index">
+      {{ error }}
+    </app-error>
     <component :is="layoutName" />
   </div>
 </template>
@@ -7,11 +10,15 @@
 <script>
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { actionTypes as cityListAT } from "@/store/cityList";
+import { getterTypes as errorsGT } from "@/store/errors";
+import { mapGetters } from "vuex";
+import AppError from "@/components/Error";
 
 export default {
   name: "App",
   components: {
-    DefaultLayout
+    DefaultLayout,
+    AppError
   },
   methods: {
     setViewHeightVariable() {
@@ -20,6 +27,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      errors: errorsGT.errors
+    }),
     // Построение имени компонента лэйаута по данным из мета поля роута
     layoutName() {
       const layoutName = this.$route.meta.layout || "default";
@@ -72,7 +82,7 @@ li {
 }
 
 #app {
-  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
 .loading {
