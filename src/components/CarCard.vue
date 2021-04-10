@@ -3,7 +3,16 @@
     <div class="item__title">{{ car.name }}</div>
     <div class="item__price">{{ car.priceMax }}</div>
     <div class="item__image-wrapper">
-      <img :src="car.thumbnail.path" class="item__image" />
+      <img
+        v-show="isLoaded"
+        :src="car.thumbnail.path"
+        class="item__image"
+        @load="isLoaded = true"
+      />
+      <img
+        v-show="!isLoaded"
+        src="http://dummyimage.com/250x150/c0c0c0/ffffff0&text=The+car!"
+      />
     </div>
   </div>
 </template>
@@ -20,6 +29,11 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data() {
+    return {
+      isLoaded: false
+    };
   }
 };
 </script>
