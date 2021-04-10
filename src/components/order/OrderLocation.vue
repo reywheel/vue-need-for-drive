@@ -81,9 +81,11 @@ export default {
     location: {
       immediate: true,
       handler(newCity) {
-        const cityId = newCity.id;
-        this.fetchPointList({ cityId });
-        this.point = "";
+        if (newCity) {
+          const cityId = newCity.id;
+          this.fetchPointList({ cityId });
+          this.point = "";
+        }
       }
     }
   },

@@ -22,6 +22,6 @@ export default {
 <style>
 .layout {
   display: flex;
-  height: 100%;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 </style>

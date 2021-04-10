@@ -1,76 +1,42 @@
 <template>
   <div class="bid">
     <h3 class="bid__title">Ваш заказ:</h3>
-    <!--   пункт выдачи   -->
-    <div class="bid__pick-up bid__row">
-      <div class="bid__row-title">Пункт выдачи</div>
-      <div class="bid__row-divided"></div>
-      <div class="bid__row-value">
-        <span class="bid__pick-up-city">{{ city.name }},</span>
-        <template v-if="point">{{ point.name }}</template>
-      </div>
-    </div>
-    <!--   модель автомобиля   -->
-    <div v-if="isModelPartVisible" class="bid__model bid__row">
-      <div class="bid__row-title">Модель</div>
-      <div class="bid__row-divided"></div>
-      <div class="bid__row-value">Hyndai, {{ model }}</div>
-    </div>
 
-    <template v-if="isAdditionallyPartVisible">
-      <!--   цвет автомобиля   -->
-      <div class="bid__color bid__row">
-        <div class="bid__row-title">Цвет</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">{{ color }}</div>
-      </div>
-      <!--   длительность аренды   -->
-      <div class="bid__duration bid__row">
-        <div class="bid__row-title">Длительность аренды</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">1д 2ч</div>
-      </div>
-      <!--   тариф аренды   -->
-      <div class="bid__tariff bid__row">
-        <div class="bid__row-title">Тариф</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">{{ tariff }}</div>
-      </div>
-      <!--   полный бак   -->
-      <div v-if="fullTank" class="bid__tariff bid__row">
-        <div class="bid__row-title">Полный бак</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">Да</div>
-      </div>
-      <!--   детское кресло   -->
-      <div v-if="babyChair" class="bid__baby-chair bid__row">
-        <div class="bid__row-title">Детское кресло</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">Да</div>
-      </div>
-      <!--   правый руль   -->
-      <div v-if="rightHandDrive" class="bid__baby-chair bid__row">
-        <div class="bid__row-title">Правый руль</div>
-        <div class="bid__row-divided"></div>
-        <div class="bid__row-value">Да</div>
-      </div>
-    </template>
+    <app-bid-row>
+      <template v-slot:label>Пункт выдачи</template>
+      <template v-slot:value>
+        <div>{{ city.name }},</div>
+        {{ point.name }}
+      </template>
+    </app-bid-row>
+
+    <app-bid-row
+      v-for="(row, index) of bidRows"
+      v-show="row.isVisible"
+      :key="index"
+    >
+      <template v-slot:label>{{ row.label }}</template>
+      <template v-slot:value>{{ row.value }}</template>
+    </app-bid-row>
 
     <div class="bid__price">
       <strong class="bid__price-title">Цена: </strong>
-      <span class="bid__price-value">от 8 000 до 12 000 ₽</span>
+      <span class="bid__price-value">
+        от <nobr>8 000</nobr> до <nobr>12 000 ₽</nobr>
+      </span>
     </div>
+
     <router-link
-      :to="{ name: this.nextRouteName }"
+      :to="{ name: currentButtonParam.nextRouteName }"
       v-slot="{ navigate }"
       custom
     >
       <base-button
-        :disabled="!isButtonAllowed"
+        :disabled="!currentButtonParam.isAllowed"
         class="bid__button"
         @click="navigate"
       >
-        {{ buttonText }}
+        {{ currentButtonParam.text }}
       </base-button>
     </router-link>
   </div>
@@ -82,14 +48,18 @@ import { getterTypes as orderGT } from "@/store/order";
 import { COLORS, TARIFFS } from "@/store/order";
 import { getterTypes as carListGT } from "@/store/carList";
 import { mapGetters } from "vuex";
+import AppBidRow from "@/components/BidRow";
 
 export default {
   name: "TheBid",
+  components: {
+    AppBidRow
+  },
   computed: {
     ...mapGetters({
       city: appGT.location,
       point: orderGT.point,
-      carId: orderGT.carId,
+      model: orderGT.car,
       carList: carListGT.carList,
       fullTank: orderGT.fullTank,
       babyChair: orderGT.babyChair,
@@ -99,13 +69,47 @@ export default {
       isModelFilled: orderGT.isModelFilled,
       isAdditionallyFilled: orderGT.isAdditionallyFilled
     }),
+    bidRows() {
+      return [
+        {
+          isVisible: this.isModelPartVisible,
+          label: "Модель",
+          value: this.model?.name
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible,
+          label: "Цвет",
+          value: this.color
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible,
+          label: "Длительность аренды",
+          value: "1д 2ч"
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible,
+          label: "Тариф",
+          value: this.tariff
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible && this.fullTank,
+          label: "Полный бак",
+          value: "Да"
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible && this.babyChair,
+          label: "Детское кресло",
+          value: "Да"
+        },
+        {
+          isVisible: this.isAdditionallyPartVisible && this.rightHandDrive,
+          label: "Правый руль",
+          value: "Да"
+        }
+      ];
+    },
     routeName() {
       return this.$route.name;
-    },
-    model() {
-      return this.carId
-        ? this.carList.filter(car => car.id === this.carId)[0].title
-        : null;
     },
     color() {
       return COLORS[this.$store.getters[orderGT.color]];
@@ -125,51 +129,41 @@ export default {
         (this.routeName === "orderAdditionally" && this.isAdditionallyFilled)
       );
     },
-    buttonText() {
-      switch (this.$route.name) {
-        case "orderLocation":
-          return "Выбрать модель";
-        case "orderModel":
-          return "Дополнительно";
-        case "orderAdditionally":
-          return "Итого";
-        case "orderTotal":
-          return "Заказать";
-        default:
-          return "Следующий шаг";
-      }
-    },
-    isButtonAllowed() {
-      switch (this.$route.name) {
-        case "orderLocation":
-          return this.isLocationFilled;
-        case "orderModel":
-          return this.isLocationFilled && this.isModelFilled;
-        case "orderAdditionally":
-          return (
+    buttonParams() {
+      return [
+        {
+          routeName: "orderLocation",
+          text: "Выбрать модель",
+          isAllowed: this.isLocationFilled,
+          nextRouteName: "orderModel"
+        },
+        {
+          routeName: "orderModel",
+          text: "Дополнительно",
+          isAllowed: this.isLocationFilled && this.isModelFilled,
+          nextRouteName: "orderAdditionally"
+        },
+        {
+          routeName: "orderAdditionally",
+          text: "Итого",
+          isAllowed:
             this.isLocationFilled &&
             this.isModelFilled &&
-            this.isAdditionallyFilled
-          );
-        case "orderTotal":
-          return true;
-        default:
-          return false;
-      }
+            this.isAdditionallyFilled,
+          nextRouteName: "orderTotal"
+        },
+        {
+          routeName: "orderTotal",
+          text: "Заказать",
+          isAllowed: true,
+          nextRouteName: "order"
+        }
+      ];
     },
-    nextRouteName() {
-      switch (this.$route.name) {
-        case "orderLocation":
-          return "orderModel";
-        case "orderModel":
-          return "orderAdditionally";
-        case "orderAdditionally":
-          return "orderTotal";
-        case "orderTotal":
-          return "order";
-        default:
-          return "orderLocation";
-      }
+    currentButtonParam() {
+      return this.buttonParams.find(
+        param => param.routeName === this.routeName
+      );
     }
   }
 };
@@ -187,35 +181,6 @@ export default {
   line-height: 21px;
   color: #121212;
   margin-bottom: 26px;
-}
-
-.bid__row {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 16px;
-}
-
-.bid__row-title {
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 16px;
-  color: #121212;
-}
-
-.bid__row-divided {
-  height: 5px;
-  flex-grow: 1;
-  border-top: 1px dotted #999999;
-
-  margin: 0 12px;
-}
-
-.bid__row-value {
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 16px;
-  text-align: right;
-  color: #999999;
 }
 
 .bid__pick-up-city {

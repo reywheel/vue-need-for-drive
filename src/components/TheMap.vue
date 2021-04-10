@@ -7,14 +7,8 @@ export default {
   name: "TheMap",
   props: {
     city: {
-      type: Object,
-      required: true,
-      validator(value) {
-        return (
-          // eslint-disable-next-line no-prototype-builtins
-          value.hasOwnProperty("name") && typeof value?.name === "string"
-        );
-      }
+      type: [Object, String],
+      required: true
     },
     pointList: {
       type: Array,

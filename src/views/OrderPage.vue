@@ -173,12 +173,22 @@ export default {
 }
 
 @media (max-width: 1100px) {
+  .order__header {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
   .order__wrapper {
     flex-direction: column-reverse;
   }
 
   .order__statement {
     width: unset;
+  }
+
+  .order__bread-crumbs {
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 

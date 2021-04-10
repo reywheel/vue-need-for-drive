@@ -9,15 +9,19 @@
       class="input"
       v-model="localValue"
       :placeholder="placeholder"
-      @focusin="isListOpen = true"
+      @input="open = true"
     />
     <base-icon
       class="input__cross"
       :class="{ 'input__cross--visible': value }"
-      name="selector-cross"
+      name="autocomplete-cross"
       @click.native="localValue = ''"
     />
-    <ul class="input__list" :class="{ 'input__list--visible': isListOpen }">
+    <ul
+      class="input__list"
+      :class="{ 'input__list--visible': isListOpen }"
+      @mouseover="isInputInFocus = true"
+    >
       <template v-if="filteredList && filteredList.length">
         <li
           v-for="(item, index) of filteredList"
@@ -61,10 +65,16 @@ export default {
   data() {
     return {
       localValue: "",
-      isListOpen: false
+      open: false
     };
   },
   computed: {
+    isLengthFull() {
+      return this.localValue.length >= 2;
+    },
+    isListOpen() {
+      return this.open && this.isLengthFull;
+    },
     sortedList() {
       if (this.list) {
         const list = [...this.list];
@@ -98,15 +108,10 @@ export default {
     selectHandler(index) {
       this.$emit("input", { ...this.filteredList[index] });
       this.$emit("select");
-      this.closeList();
-    },
-    closeList() {
-      this.$emit("close");
-      this.isListOpen = false;
+      this.open = false;
     },
     outsideClickHandler() {
-      this.$emit("outside-click");
-      this.isListOpen = false;
+      this.open = false;
     }
   }
 };
@@ -167,7 +172,6 @@ export default {
   border-top: none;
   padding: 11px 7px;
   overflow-y: auto;
-  transition: opacity 0.3s;
   opacity: 0;
   pointer-events: none;
   z-index: 1;
@@ -197,6 +201,7 @@ export default {
 .input__list-item {
   font-weight: 300;
   font-size: 14px;
+
   line-height: 16px;
   color: $dark-grey;
   transition: color 0.3s;

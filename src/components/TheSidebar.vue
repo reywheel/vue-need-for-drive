@@ -43,7 +43,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  min-height: 100%;
   max-width: 64px;
   width: 100%;
   padding: 32px 8px 16px;

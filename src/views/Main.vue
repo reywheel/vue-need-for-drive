@@ -53,7 +53,13 @@
       @mouseleave="setInterval"
     >
       <transition name="fade" v-for="(item, index) in sliderItems" :key="index">
-        <div class="main__slider-item" v-show="currentSlideIndex === index">
+        <div
+          class="main__slider-item"
+          v-show="currentSlideIndex === index"
+          :style="{
+            backgroundImage: `url(${item.backgroundImg})`
+          }"
+        >
           <h3 class="slider__item-title">
             {{ $t(`main.slider.items[${index}].title`) }}
           </h3>
@@ -81,7 +87,7 @@
           :class="
             index - 1 === currentSlideIndex ? 'slider__dot--active' : null
           "
-          @click="changeCurrentSlideIndex(index)"
+          @click="changeCurrentSlideIndex(index - 1)"
         ></div>
       </div>
     </div>
@@ -106,24 +112,28 @@ export default {
       isLocationSelectorShow: false,
       sliderItems: [
         {
+          backgroundImg: require("@/assets/slider-item1.jpg"),
           gradient: {
             from: "#13493F",
             to: "#0C7B1B"
           }
         },
         {
+          backgroundImg: require("@/assets/slider-item2.jpg"),
           gradient: {
             from: "#132949",
             to: "#0C7B67"
           }
         },
         {
+          backgroundImg: require("@/assets/slider-item3.jpg"),
           gradient: {
             from: "#493013",
             to: "#7B0C3B"
           }
         },
         {
+          backgroundImg: require("@/assets/slider-item4.jpg"),
           gradient: {
             from: "#281349",
             to: "#720C7B"
@@ -183,7 +193,7 @@ export default {
 .main {
   display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 .main__content {
@@ -316,14 +326,15 @@ export default {
 
 .main__slider-item {
   position: absolute;
-  background: url("~@/assets/slider-item1.jpg") no-repeat center;
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
   height: 100%;
   width: 100%;
-  padding: 237px 96px 45px;
+  padding: 45px 96px 96px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
 
   &::before {
@@ -347,22 +358,6 @@ export default {
   background-position: center;
   background-size: cover;
   height: 100%;
-}
-
-.main__slider-item:nth-child(1) {
-  background-image: url("~@/assets/slider-item1.jpg");
-}
-
-.main__slider-item:nth-child(2) {
-  background-image: url("~@/assets/slider-item2.jpg");
-}
-
-.main__slider-item:nth-child(3) {
-  background-image: url("~@/assets/slider-item3.jpg");
-}
-
-.main__slider-item:nth-child(4) {
-  background-image: url("~@/assets/slider-item4.jpg");
 }
 
 .slider__item-title {
