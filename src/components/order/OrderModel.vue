@@ -7,7 +7,6 @@
           v-model="filter"
           value="all"
           label="Все"
-          id="all"
           name="filter"
           class="model__radio-wrapper"
         />
@@ -17,7 +16,6 @@
           v-model="filter"
           :value="category.id"
           :label="category.name"
-          :id="category.id"
           name="filter"
           class="model__radio-wrapper"
         />

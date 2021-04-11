@@ -49,7 +49,7 @@ const routes = [
         name: "orderTotal",
         component: () => import("@/components/order/OrderTotal"),
         beforeEnter: (to, from, next) => {
-          store.getters[getterTypes.isAdditionallyFilled]
+          store.getters[getterTypes.isPeriodFilled]
             ? next()
             : next({ name: "orderLocation" });
         }

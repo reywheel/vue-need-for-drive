@@ -31,7 +31,7 @@ export default {
     ...mapGetters({
       isLocationFilled: getterTypes.isLocationFilled,
       isModelFilled: getterTypes.isModelFilled,
-      isAdditionallyFilled: getterTypes.isAdditionallyFilled
+      isPeriodFilled: getterTypes.isPeriodFilled
     }),
     items() {
       return [
@@ -53,7 +53,7 @@ export default {
         {
           text: this.$t("orderPage.crumbs.total"),
           routeName: "orderTotal",
-          isAllowed: this.isAdditionallyFilled
+          isAllowed: this.isPeriodFilled
         }
       ];
     },

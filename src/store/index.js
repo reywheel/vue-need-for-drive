@@ -4,6 +4,7 @@ import app from "@/store/app";
 import order from "@/store/order";
 import errors from "@/store/errors";
 import carList from "@/store/carList";
+import rateList from "@/store/rateList";
 import cityList from "@/store/cityList";
 import pointList from "@/store/pointList";
 import categoryList from "@/store/categoryList";
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     order,
     errors,
     carList,
+    rateList,
     cityList,
     pointList,
     categoryList

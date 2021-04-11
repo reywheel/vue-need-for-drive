@@ -1,14 +1,3 @@
-export const COLORS = {
-  any: "Любой",
-  red: "Красный",
-  blue: "Голубой"
-};
-
-export const TARIFFS = {
-  minuteByMinute: "Поминутно",
-  forADay: "На сутки"
-};
-
 export const getterTypes = {
   point: "[order] point",
   car: "[order] car",
@@ -24,7 +13,7 @@ export const getterTypes = {
 
   isLocationFilled: "[order] is location filled",
   isModelFilled: "[order] is model filled",
-  isAdditionallyFilled: "[order] is additionally filled"
+  isPeriodFilled: "[order] is period filled"
 };
 
 export const mutationTypes = {
@@ -44,10 +33,10 @@ export const actionTypes = {};
 const state = {
   point: null,
   car: null,
-  color: "any",
+  color: "Любой",
   dateFrom: null,
   dateTo: null,
-  tariff: "minuteByMinute",
+  tariff: "На сутки",
   fullTank: false,
   babyChair: false,
   rightHandDrive: false,
@@ -69,7 +58,8 @@ const getters = {
 
   [getterTypes.isLocationFilled]: state => state.point,
   [getterTypes.isModelFilled]: state => state.car !== null,
-  [getterTypes.isAdditionallyFilled]: state => state.dateFrom && state.dateTo
+  [getterTypes.isPeriodFilled]: state =>
+    state.dateFrom && state.dateTo && state.dateTo - state.dateFrom > 0
 };
 
 const mutations = {

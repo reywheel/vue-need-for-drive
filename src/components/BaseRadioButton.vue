@@ -5,10 +5,11 @@
       class="radio__input"
       v-bind="$attrs"
       :value="value"
+      :id="id"
       @change="$emit('input', value)"
     />
     <label
-      :for="$attrs.id"
+      :for="id"
       class="radio__label"
       :class="{ 'radio__label--active': vModelValue === value }"
     >
@@ -30,13 +31,17 @@ export default {
       type: String
     },
     vModelValue: {
-      type: String,
       required: true
     },
     label: {
       type: String,
       default: ""
     }
+  },
+  data() {
+    return {
+      id: Math.random()
+    };
   }
 };
 </script>

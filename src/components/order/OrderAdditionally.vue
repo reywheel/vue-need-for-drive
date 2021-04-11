@@ -1,65 +1,65 @@
 <template>
   <div class="additionally">
+    <!-- color -->
     <div class="additionally__color">
       <div class="additionally__color-title">Цвет</div>
-      <base-radio-button
-        v-model="color"
-        name="color"
-        native-value="any"
-        label="Любой"
-        class="additionally__color-input"
-      />
-      <base-radio-button
-        v-model="color"
-        name="color"
-        native-value="red"
-        label="Красный"
-        class="additionally__color-input"
-      />
-      <base-radio-button
-        v-model="color"
-        name="color"
-        native-value="blue"
-        label="Голубой"
-        class="additionally__color-input"
-      />
+      <template v-if="isColorChoiceAvailable">
+        <base-radio-button
+          v-model="color"
+          value="Любой"
+          label="Любой"
+          name="color"
+          class="additionally__color-input"
+        />
+        <base-radio-button
+          v-for="(value, index) of selectedCar.colors"
+          :key="index"
+          v-model="color"
+          :value="value"
+          :label="value"
+          name="color"
+          class="additionally__color-input"
+        />
+      </template>
+      <div v-else>Выбор цвета недоступен</div>
     </div>
+
+    <!-- date -->
     <div class="additionally__date">
       <div class="additionally__date-title">Дата аренды</div>
       <div class="additionally__date-row">
         <span>С</span>
-        <base-autocomplete
-          v-model.trim="dateFrom"
-          :list="dateList"
+        <base-datetime-picker
+          v-model="dateFrom"
           placeholder="Введите дату и время"
         />
       </div>
       <div class="additionally__date-row">
         <span>По</span>
-        <base-autocomplete
-          v-model.trim="dateTo"
-          :list="dateList"
+        <base-datetime-picker
+          v-model="dateTo"
           placeholder="Введите дату и время"
         />
       </div>
     </div>
+
+    <!-- tariff -->
     <div class="additionally__tariff">
       <div class="additionally__tariff-title">Тариф</div>
       <base-radio-button
-        v-model="tariff"
+        v-for="(rate, index) of rateList"
+        :key="index"
+        v-model="tariffName"
         name="tariff"
-        native-value="minuteByMinute"
-        label="Поминутно, 7₽/мин"
-        class="additionally__tariff-input"
-      />
-      <base-radio-button
-        v-model="tariff"
-        name="tariff"
-        native-value="forADay"
-        label="На сутки, 1999 ₽/сутки"
+        :value="rate.rateTypeId.name"
+        :label="
+          `${rate.rateTypeId.name}, ${rate.price}₽/${rate.rateTypeId.unit}`
+        "
         class="additionally__tariff-input"
       />
     </div>
+
+    <!-- services -->
     <div class="additionally__services">
       <div class="additionally__services-title">Доп услуги</div>
       <base-checkbox
@@ -85,91 +85,122 @@
 </template>
 
 <script>
-import { getterTypes, mutationTypes } from "@/store/order";
-import { mapGetters, mapMutations } from "vuex";
+import {
+  getterTypes as orderGT,
+  mutationTypes as orderMT
+} from "@/store/order";
+import {
+  actionTypes as rateListAT,
+  getterTypes as rateListGT
+} from "@/store/rateList";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import BaseDatetimePicker from "@/components/BaseDatetimePicker";
 
 export default {
   name: "OrderAdditionally",
+  components: { BaseDatetimePicker },
   computed: {
     ...mapGetters([
-      getterTypes.color,
-      getterTypes.dateFrom,
-      getterTypes.dateTo,
-      getterTypes.tariff,
-      getterTypes.fullTank,
-      getterTypes.babyChair,
-      getterTypes.rightHandDrive
+      orderGT.color,
+      orderGT.dateFrom,
+      orderGT.dateTo,
+      orderGT.tariff,
+      orderGT.fullTank,
+      orderGT.babyChair,
+      orderGT.rightHandDrive
     ]),
     ...mapGetters({
-      dateList: getterTypes.dateList
+      dateList: orderGT.dateList,
+      selectedCar: orderGT.car,
+      rateList: rateListGT.allRates,
+      isRateListLoading: rateListGT.isLoading
     }),
+    isColorChoiceAvailable() {
+      return this.selectedCar.colors.length > 0;
+    },
     color: {
       get() {
-        return this[getterTypes.color];
+        return this[orderGT.color];
       },
       set(newColor) {
-        this[mutationTypes.setColor](newColor);
+        this[orderMT.setColor](newColor);
       }
     },
     dateFrom: {
       get() {
-        return this[getterTypes.dateFrom];
+        return this[orderGT.dateFrom];
       },
       set(newDateFrom) {
-        this[mutationTypes.setDateFrom](newDateFrom);
+        this[orderMT.setDateFrom](newDateFrom);
       }
     },
     dateTo: {
       get() {
-        return this[getterTypes.dateTo];
+        return this[orderGT.dateTo];
       },
       set(newDateTo) {
-        this[mutationTypes.setDateTo](newDateTo);
+        this[orderMT.setDateTo](newDateTo);
       }
     },
-    tariff: {
+    tariffName: {
       get() {
-        return this[getterTypes.tariff];
+        return this[orderGT.tariff].rateTypeId?.name;
       },
-      set(newTariff) {
-        this[mutationTypes.setTariff](newTariff);
+      set(newTariffName) {
+        let tariff = this.rateList.find(
+          rate => rate.rateTypeId.name === newTariffName
+        );
+        this[orderMT.setTariff](tariff);
       }
     },
     fullTank: {
       get() {
-        return this[getterTypes.fullTank];
+        return this[orderGT.fullTank];
       },
       set(newValue) {
-        this[mutationTypes.setFullTank](newValue);
+        this[orderMT.setFullTank](newValue);
       }
     },
     babyChair: {
       get() {
-        return this[getterTypes.babyChair];
+        return this[orderGT.babyChair];
       },
       set(newValue) {
-        this[mutationTypes.setBabyChair](newValue);
+        this[orderMT.setBabyChair](newValue);
       }
     },
     rightHandDrive: {
       get() {
-        return this[getterTypes.rightHandDrive];
+        return this[orderGT.rightHandDrive];
       },
       set(newValue) {
-        this[mutationTypes.setRightHandDrive](newValue);
+        this[orderMT.setRightHandDrive](newValue);
       }
+    }
+  },
+  watch: {
+    selectedCar() {
+      this.color = "Любой";
     }
   },
   methods: {
     ...mapMutations([
-      mutationTypes.setColor,
-      mutationTypes.setDateFrom,
-      mutationTypes.setDateTo,
-      mutationTypes.setTariff,
-      mutationTypes.setFullTank,
-      mutationTypes.setBabyChair,
-      mutationTypes.setRightHandDrive
-    ])
+      orderMT.setColor,
+      orderMT.setDateFrom,
+      orderMT.setDateTo,
+      orderMT.setTariff,
+      orderMT.setFullTank,
+      orderMT.setBabyChair,
+      orderMT.setRightHandDrive
+    ]),
+    ...mapActions({
+      fetchRateList: rateListAT.getRateList
+    })
+  },
+  created() {
+    this.fetchRateList().then(() => {
+      this[orderMT.setTariff](this.rateList[0]);
+    });
   }
 };
 </script>

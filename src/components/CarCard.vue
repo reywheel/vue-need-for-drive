@@ -1,7 +1,9 @@
 <template>
   <div class="item" :class="{ 'item--active': isActive }">
     <div class="item__title">{{ car.name }}</div>
-    <div class="item__price">{{ car.priceMax }}</div>
+    <div class="item__price">
+      {{ priceToString(car.priceMin) }} - {{ priceToString(car.priceMax) }} ₽
+    </div>
     <div class="item__image-wrapper">
       <img
         v-show="isLoaded"
@@ -11,7 +13,7 @@
       />
       <img
         v-show="!isLoaded"
-        src="http://dummyimage.com/250x150/c0c0c0/ffffff0&text=The+car!"
+        src="http://dummyimage.com/265x116/c0c0c0/ffffff0&text=The+car!"
       />
     </div>
   </div>
@@ -34,6 +36,14 @@ export default {
     return {
       isLoaded: false
     };
+  },
+  methods: {
+    priceToString(price) {
+      const str = String(price);
+      const start = str.slice(0, str.length - 3);
+      const end = str.slice(-3);
+      return `${start}  ${end}`;
+    }
   }
 };
 </script>
