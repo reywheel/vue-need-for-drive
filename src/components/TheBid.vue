@@ -75,37 +75,37 @@ export default {
     bidRows() {
       return [
         {
-          isVisible: this.isModelPartVisible,
+          isVisible: this.isModelFilled,
           label: "Модель",
           value: this.model?.name
         },
         {
-          isVisible: this.isAdditionallyPartVisible,
+          isVisible: this.isPeriodFilled,
           label: "Цвет",
           value: this.color
         },
         {
-          isVisible: this.isAdditionallyPartVisible && this.isPeriodFilled,
+          isVisible: this.isPeriodFilled,
           label: "Длительность аренды",
           value: this.leaseDuration
         },
         {
-          isVisible: this.isAdditionallyPartVisible,
+          isVisible: this.isPeriodFilled,
           label: "Тариф",
           value: this.tariff.rateTypeId?.name
         },
         {
-          isVisible: this.isAdditionallyPartVisible && this.fullTank,
+          isVisible: this.isPeriodFilled && this.fullTank,
           label: "Полный бак",
           value: "Да"
         },
         {
-          isVisible: this.isAdditionallyPartVisible && this.babyChair,
+          isVisible: this.isPeriodFilled && this.babyChair,
           label: "Детское кресло",
           value: "Да"
         },
         {
-          isVisible: this.isAdditionallyPartVisible && this.rightHandDrive,
+          isVisible: this.isPeriodFilled && this.rightHandDrive,
           label: "Правый руль",
           value: "Да"
         }
@@ -132,7 +132,10 @@ export default {
     },
 
     isAdditionallyPartVisible() {
-      return this.routeName === "orderAdditionally";
+      return (
+        (this.routeName !== "orderTotal" && this.isPeriodFilled) ||
+        (this.routeName === "orderTotal" && this.isPeriodFilled)
+      );
     },
 
     buttonParams() {

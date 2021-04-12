@@ -116,10 +116,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
   margin-bottom: 48px;
 }
 
 .model__radio-wrapper {
+  margin-bottom: 10px;
   &:not(:last-child) {
     margin-right: 16px;
   }
@@ -186,6 +188,16 @@ export default {
     border: 2px solid transparent;
     border-radius: 4px;
     background-clip: content-box;
+  }
+}
+
+@media (max-width: 600px) {
+  .model {
+    padding: 32px;
+  }
+
+  .model__list {
+    min-height: 500px;
   }
 }
 </style>

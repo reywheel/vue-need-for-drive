@@ -13,7 +13,8 @@
       />
       <img
         v-show="!isLoaded"
-        src="http://dummyimage.com/265x116/c0c0c0/ffffff0&text=The+car!"
+        class="item__image"
+        src="http://dummyimage.com/265x116/c0c0c0/ffffff0&text=car+image"
       />
     </div>
   </div>

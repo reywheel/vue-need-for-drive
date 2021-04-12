@@ -1,24 +1,37 @@
 <template>
   <div class="total">
-    <div class="total___info">
+    <div class="total__info">
       <div v-if="routeName === 'order'" class="total__order-title">
         Ваш заказ подтверждён
       </div>
-      <div class="total__info-title">Hyndai, i30 N</div>
-      <div class="total__info-number">K 761 HA 73</div>
-      <div class="total__info-fuel"><strong>Топливо </strong>100%</div>
+      <div class="total__info-title">{{ selectedCar.name }}</div>
+      <div v-if="selectedCar.number" class="total__info-number">
+        {{ selectedCar.number }}
+      </div>
+      <div v-if="isFinite(selectedCar.tank)" class="total__info-fuel">
+        <strong>Топливо </strong>{{ selectedCar.tank }}%
+      </div>
       <div class="total__info-date">
         <strong>Доступна с</strong> 12.06.2019 12:00
       </div>
     </div>
     <div>
-      <img :src="car.img" class="total__img" />
+      <img
+        v-show="isLoaded"
+        :src="selectedCar.thumbnail.path"
+        class="total__img"
+        @load="isLoaded = true"
+      />
+      <img
+        v-show="!isLoaded"
+        class="total__img"
+        src="http://dummyimage.com/265x116/c0c0c0/ffffff0&text=car+image"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { getterTypes as carListGT } from "@/store/carList";
 import { getterTypes as orderGT } from "@/store/order";
 import { mapGetters } from "vuex";
 
@@ -29,14 +42,15 @@ export default {
       type: Number
     }
   },
+  data() {
+    return {
+      isLoaded: false
+    };
+  },
   computed: {
     ...mapGetters({
-      carList: carListGT.carList,
-      selectedCarId: orderGT.carId
+      selectedCar: orderGT.car
     }),
-    car() {
-      return this.carList.filter(car => car.id === this.selectedCarId)[0];
-    },
     routeName() {
       return this.$route.name;
     }
@@ -49,9 +63,10 @@ export default {
   padding: 32px 192px 32px 64px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.total___info {
+.total__info {
   & > * {
     margin-bottom: 8px;
   }
@@ -92,6 +107,23 @@ export default {
 
   strong {
     font-weight: bold;
+  }
+}
+
+.total__img {
+  max-width: 256px;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .total {
+    padding: 32px 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .total {
+    padding: 32px 32px;
   }
 }
 </style>

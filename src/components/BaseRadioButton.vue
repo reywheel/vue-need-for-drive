@@ -53,6 +53,7 @@ export default {
 
 .radio__label {
   position: relative;
+  display: block;
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;

@@ -27,12 +27,12 @@ const routes = [
       {
         path: "model",
         name: "orderModel",
-        component: () => import("@/components/order/OrderModel"),
-        beforeEnter: (to, from, next) => {
-          store.getters[getterTypes.isLocationFilled]
-            ? next()
-            : next({ name: "orderLocation" });
-        }
+        component: () => import("@/components/order/OrderModel")
+        // beforeEnter: (to, from, next) => {
+        //   store.getters[getterTypes.isLocationFilled]
+        //     ? next()
+        //     : next({ name: "orderLocation" });
+        // }
       },
       {
         path: "additionally",

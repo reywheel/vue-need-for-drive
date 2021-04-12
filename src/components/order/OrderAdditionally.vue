@@ -264,4 +264,10 @@ export default {
     margin-bottom: 8px;
   }
 }
+
+@media (max-width: 600px) {
+  .additionally {
+    padding: 32px;
+  }
+}
 </style>
