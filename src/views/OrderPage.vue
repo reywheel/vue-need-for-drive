@@ -15,7 +15,7 @@
       <div
         class="main__location"
         v-if="!isLocationSelectorShow"
-        @click="isLocationSelectorShow = !isLocationSelectorShow"
+        @click="toggleAutocompleteVisibility"
       >
         <span class="main__location-text">{{ currentLocation.name }}</span>
       </div>
@@ -24,8 +24,8 @@
         v-model="currentLocation"
         :list="locationList"
         placeholder="Начните вводить город..."
-        @select="isLocationSelectorShow = !isLocationSelectorShow"
-        @outside-click="isLocationSelectorShow = !isLocationSelectorShow"
+        @select="toggleAutocompleteVisibility"
+        v-click-outside="toggleAutocompleteVisibility"
       />
     </div>
     <div class="order__bread-crumbs crumbs">
@@ -52,6 +52,7 @@
 import { mutationTypes as appMT, getterTypes as appGT } from "@/store/app";
 import { getterTypes as cityListGT } from "@/store/cityList";
 import { mapGetters, mapMutations } from "vuex";
+import vClickOutside from "v-click-outside";
 import TheCrumbs from "@/components/TheCrumbs";
 import TheBid from "@/components/TheBid";
 import BaseBurger from "@/components/BaseBurger";
@@ -63,6 +64,9 @@ export default {
     id: {
       type: Number
     }
+  },
+  directives: {
+    vClickOutside
   },
   data() {
     return {
@@ -90,7 +94,10 @@ export default {
   methods: {
     ...mapMutations({
       toggleMenuVisibility: appMT.toggleMenuVisibility
-    })
+    }),
+    toggleAutocompleteVisibility() {
+      this.isLocationSelectorShow = !this.isLocationSelectorShow;
+    }
   }
 };
 </script>
